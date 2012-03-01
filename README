@@ -1,0 +1,24 @@
+Budoist - Android Todoist Client
+
+By Yaron Budowski (budowski@gmail.com)
+
+Main features:
+    * Offline support
+    * Filter by projects, labels and queries
+    * Sort items by due date
+    * View and edit notes (for premium users)
+    * Edit labels (for premium users)
+    * View completed items as well
+    * Backup and restore Todoist data frequently
+    * Many options for initial view (last used label/project, specific label/project, and many more)
+    * Todoist text formatting for projects/items/notes (e.g. "my %(b)bold% item!")
+    * Phone numbers, email and website addresses in items and notes are turned into clickable links
+
+
+License:
+For private use - use the code from this project freely.
+For other uses (e.g. using parts of it in an application you distribute) - Please talk to me beforehand (although if you don't plan to sell your app, it'll probably be no problem).
+
+Distributed under GPLv3:
+http://www.opensource.org/licenses/gpl-3.0.html
+

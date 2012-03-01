@@ -43,7 +43,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Query List View
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class QueryListView extends Activity implements OnItemClickListener {

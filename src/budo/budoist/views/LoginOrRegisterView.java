@@ -14,7 +14,7 @@ import android.widget.Button;
 
 /**
  * Displays an initial screen with two options - login or register
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class LoginOrRegisterView extends Activity {

@@ -19,7 +19,7 @@ import android.widget.Toast;
 
 /**
  * Displays the register screen
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class RegisterView extends Activity implements TextWatcher, OnClickListener {

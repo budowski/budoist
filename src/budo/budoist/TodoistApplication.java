@@ -7,7 +7,7 @@ import android.app.Application;
  * Extended Application instance - used for sharing global data accross different activities
  * (for example: the TodoistClient instance)
  * 
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistApplication extends Application {

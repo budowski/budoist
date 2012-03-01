@@ -36,7 +36,7 @@ import android.widget.EditText;
 
 /**
  * Note List View
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit, OnClickListener {

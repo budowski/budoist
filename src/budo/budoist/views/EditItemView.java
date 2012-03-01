@@ -38,7 +38,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 /**
  * Edit/Create item view
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class EditItemView extends Activity implements TextWatcher, OnItemSelectedListener {

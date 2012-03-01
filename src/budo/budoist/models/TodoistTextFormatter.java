@@ -12,7 +12,7 @@ import android.text.style.UnderlineSpan;
 
 /**
  * Used for formatting text of items/projects (e.g. %(b)my bold text%)
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistTextFormatter {

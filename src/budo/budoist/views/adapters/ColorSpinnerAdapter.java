@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 
 /**
  * ColorSpinner adapter which allows a user to select colors visually
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class ColorSpinnerAdapter extends ArrayAdapter<Integer> {

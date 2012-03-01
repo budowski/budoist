@@ -28,7 +28,7 @@ import android.os.Bundle;
  * 		* If never sync'd before - shows the login screen
  * 		* Otherwise, shows the initial view (as set in the preferences)
  *
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Bootloader extends Activity {

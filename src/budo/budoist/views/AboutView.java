@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 /**
  * Displays the about dialog
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class AboutView extends Activity {

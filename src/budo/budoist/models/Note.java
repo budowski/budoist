@@ -12,7 +12,7 @@ import android.util.Log;
 
 /**
  * Represents a Todoist Note (see {@link https://todoist.com/API/help#notes})
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Note  extends SynchronizedModel implements Comparable<Note>, Serializable, Cloneable {

@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 /**
  * Displays date format help
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class DateFormatHelpView extends Activity {

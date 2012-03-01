@@ -5,7 +5,7 @@ import java.util.Hashtable;
 
 /**
  * Represents a Todoist Label (see {@link https://todoist.com/API/help#labels})
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Label extends SynchronizedModel implements Comparable<Label>, Serializable, Cloneable {

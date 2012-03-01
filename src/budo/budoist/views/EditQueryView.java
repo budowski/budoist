@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 /**
  * Edit/Create Label view
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class EditQueryView extends Activity implements TextWatcher {

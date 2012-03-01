@@ -31,7 +31,7 @@ import android.util.Log;
 
 /**
  * Implements a Json server - for encoding / decoding JSON requests over a HTTP server
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class JsonServer {

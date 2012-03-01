@@ -50,7 +50,7 @@ import android.widget.AdapterView.OnItemClickListener;
 /**
  * Project List View
  * 
- * @author Yaron
+ * @author Yaron Budowski
  * 
  */
 public class ProjectListView extends Activity implements OnItemClickListener {

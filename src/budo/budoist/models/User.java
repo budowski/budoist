@@ -10,7 +10,7 @@ import android.util.Log;
 
 /**
  * Represents a Todoist User (see {@link https://todoist.com/API/help#users})
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class User {

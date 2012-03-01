@@ -58,7 +58,7 @@ import budo.budoist.services.TodoistOfflineStorage.ItemSortMode;
  * * Todoist text formatting for projects/items/notes (e.g. "my %(b)bold% item!")
  * * Phone numbers, email and website addresses in items and notes are turned into clickable links
  * 
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistClient {

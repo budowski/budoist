@@ -48,7 +48,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 /**
  * Label List View
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class LabelListView extends Activity implements OnItemClickListener, OnClickListener {

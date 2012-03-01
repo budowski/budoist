@@ -19,7 +19,7 @@ import android.util.Log;
 
 /**
  * Represents a Todoist Item (see {@link https://todoist.com/API/help#items})
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Item extends OrderedModel implements Comparable<Item>, Serializable, Cloneable {

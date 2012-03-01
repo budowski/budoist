@@ -5,7 +5,7 @@ import budo.budoist.services.TodoistServer.ErrorCode;
 
 /**
  * When the Todoist server returns an error (as specified in getErrorCode)
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistServerException extends Exception {

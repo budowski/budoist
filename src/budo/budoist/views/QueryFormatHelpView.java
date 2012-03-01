@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 /**
  * Displays query format help
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class QueryFormatHelpView extends Activity {

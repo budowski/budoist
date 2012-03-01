@@ -40,7 +40,7 @@ import budo.budoist.models.User.TimeFormat;
 /**
  * Holds all Todoist-related information for offline use (i.e. saves in phone storage)
  * 
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistOfflineStorage {

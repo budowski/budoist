@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Represents an ordered model (e.g. Item/Project) - has an itemOrder property
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public abstract class OrderedModel extends SynchronizedModel implements Serializable, Cloneable {

@@ -5,7 +5,7 @@ import java.util.Hashtable;
 
 /**
  * Represents a Todoist Project (see {@link https://todoist.com/API/help#projects})
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Project extends OrderedModel implements Comparable<Project>, Serializable, Cloneable  {

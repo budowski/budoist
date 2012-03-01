@@ -18,7 +18,7 @@ import android.widget.Spinner;
 
 /**
  * Edit/Create Label view
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class EditLabelView extends Activity implements TextWatcher {

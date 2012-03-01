@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Represents a model (e.g. Item/Project/Label/Note) that can be compared and synchronized
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public abstract class SynchronizedModel implements Serializable, Cloneable {

@@ -16,7 +16,7 @@ import budo.budoist.models.User;
 
 /**
  * Represents a Todoist server, with all of its functionalities
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class TodoistServer {

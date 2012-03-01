@@ -48,7 +48,7 @@ import android.widget.AdapterView.AdapterContextMenuInfo;
 
 /**
  * Label List View
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class ItemListView extends Activity implements IOnItemCompleted, IOnItemNotes {

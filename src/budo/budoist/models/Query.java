@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Represents a Todoist Query (used internally with budoist to filter items)
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class Query  extends SynchronizedModel implements Serializable, Cloneable {

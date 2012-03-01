@@ -40,7 +40,7 @@ import android.widget.Toast;
 
 /**
  * Displays the login screen
- * @author Yaron
+ * @author Yaron Budowski
  *
  */
 public class SettingsView extends PreferenceActivity {
