@@ -49,7 +49,7 @@ public class AboutView extends Activity {
         mContactEmail.setMovementMethod(LinkMovementMethod.getInstance());
         
         mSourceCode = (TextView)findViewById(R.id.about_source_code);
-        mSourceCode.setText(Html.fromHtml("Download <a href=\"http://www.google.com\">source code</a>"));
+        mSourceCode.setText(Html.fromHtml("Download <a href=\"http://github.com/budowski/budoist/\">source code</a>"));
         mSourceCode.setMovementMethod(LinkMovementMethod.getInstance());
        
         mTreeViewProject = (TextView)findViewById(R.id.about_tree_view);
