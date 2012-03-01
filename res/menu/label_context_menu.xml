@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:visible="false" android:id="@+id/context_menu_edit_label" android:title="Edit Label"
+        android:enabled="true" />
+    <item android:visible="false" android:id="@+id/context_menu_delete_label" android:title="Delete Label"
+        android:enabled="true" />
+</menu>

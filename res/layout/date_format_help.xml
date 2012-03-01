@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="#FFFFFF">
+  	<LinearLayout android:id="@+id/date_format_button_toolbar" android:layout_alignParentBottom="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="5dp">
+		<Button android:id="@+id/date_format_button_close" android:text="Close" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content" />
+	</LinearLayout>
+  
+  	<ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_above="@id/date_format_button_toolbar">
+	    <TableLayout android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent" android:stretchColumns="1">
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="#C0C0C0">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="You write" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="It will compute to" android:textStyle="bold" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="today" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="tomorrow" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="friday" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="next friday" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="tom @ 16:30" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="fri at 2pm" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_6" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10/5" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="10/5/2011 @ 2pm" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_9" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="+5" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="5 days from now: 15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every day" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_11" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every day" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every mon,fri" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every monday and friday" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every day @ 1pm" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every day at 1pm" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every 7" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every 7th day in a month" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every 7 may" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every may 7th" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="ev 3 days" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every 3 days" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every 13/5" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every may 13th" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every weekday" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every weekday (mon to fri)" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every last day" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/date_format_12" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="every last day of the month" android:textColor="#000000" />
+	        </TableRow>
+	    </TableLayout>
+    </ScrollView>
+</RelativeLayout>

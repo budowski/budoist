@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory
+		android:title="Sync">
+		
+		<Preference
+			android:title="Login Details"
+			android:summary="Change login details (email and password)"
+			android:key="login_details" />
+			
+		<Preference
+			android:title="Sync Now"
+			android:summary="Last sync: 5/10/2011 at 15:00"
+			android:key="sync_now" />
+			
+		<ListPreference
+			android:title="Sync Frequency"
+			android:key="sync_frequency"
+			android:entries="@array/preferences_sync_frequency"
+			android:entryValues="@array/preferences_sync_frequency_values"
+			/>
+			
+		<CheckBoxPreference
+			android:title="Sync on Startup"
+			android:key="sync_on_startup"
+		/>
+		
+		<CheckBoxPreference
+			android:title="Sync on Exit"
+			android:key="sync_on_exit"
+		/>
+
+	</PreferenceCategory>
+		
+	<PreferenceCategory
+		android:title="Display">
+		
+		<Preference
+			android:title="Default Project When Adding Items"
+			android:summary=""
+			android:key="default_project" />
+	
+		<ListPreference
+			android:title="Item Sort Mode"
+			android:key="item_sort_mode"
+			android:entries="@array/preferences_sort_mode"
+			android:entryValues="@array/preferences_sort_mode_values"
+			/>
+			
+		<ListPreference
+			android:title="Initial View"
+			android:key="initial_view"
+			android:entries="@array/preferences_initial_view"
+			android:entryValues="@array/preferences_initial_view_values"
+			/>
+			
+		<ListPreference
+			android:title="Text Size"
+			android:key="text_size"
+			android:entries="@array/preferences_text_size"
+			android:entryValues="@array/preferences_text_size_values"
+			/>
+			
+		<CheckBoxPreference
+			android:title="Show Completed Items"
+			android:key="show_completed_items"
+		/>
+		
+		<ListPreference
+			android:title="Date Format"
+			android:key="date_format"
+			android:entries="@array/preferences_date_format"
+			android:entryValues="@array/preferences_date_format_values"
+			/>
+			
+		<ListPreference
+			android:title="Time Format"
+			android:key="time_format"
+			android:entries="@array/preferences_time_format"
+			android:entryValues="@array/preferences_time_format_values"
+			/>
+
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+		android:title="Backup">
+		
+		<Preference
+			android:title="Backup Now"
+			android:summary="Last backup: 5/10/2011 at 15:00"
+			android:key="backup_now" />
+			
+		<Preference
+			android:title="Restore Backup"
+			android:summary=""
+			android:key="restore_backup" />
+		
+		<ListPreference
+			android:title="Backup Frequency"
+			android:key="backup_frequency"
+			android:entries="@array/preferences_backup_frequency"
+			android:entryValues="@array/preferences_backup_frequency_values"
+			/>
+			
+		<Preference
+			android:title="Set Backup Path"
+			android:summary=""
+			android:key="set_backup_path" />
+
+	</PreferenceCategory>
+	
+	<PreferenceCategory
+		android:title="Misc">
+		
+		<Preference
+			android:title="About"
+			android:key="about" />
+			
+	</PreferenceCategory>
+	
+</PreferenceScreen>

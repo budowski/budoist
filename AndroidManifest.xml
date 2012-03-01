@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest package="budo.budoist"
+      android:versionCode="1"
+      android:versionName="1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<uses-permission android:name="android.permission.WAKE_LOCK" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application android:name="TodoistApplication" android:icon="@drawable/budoist_icon" android:label="Budoist">
+        <activity android:name="Bootloader"
+                  android:noHistory="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.ProjectListView">
+        </activity>
+        <activity android:name=".views.EditProjectView">
+        </activity>
+        
+        <activity android:name=".views.LabelListView">
+        </activity>
+        <activity android:name=".views.EditLabelView">
+        </activity>
+
+        <activity android:name=".views.ItemListView">
+        </activity>
+        <activity android:name=".views.EditItemView">
+        </activity>
+        
+        <activity android:name=".views.NoteListView">
+        </activity>
+        
+        <activity android:name=".views.QueryListView">
+        </activity>
+        
+        <activity android:name=".views.EditQueryView">
+        </activity>
+        
+        <activity android:name=".views.QueryFormatHelpView">
+        </activity>
+        
+        <activity android:name=".views.DateFormatHelpView">
+        </activity>
+        
+        <activity android:name=".views.LoginView">
+        </activity>
+        
+        <activity android:name=".views.RegisterView">
+        </activity>
+        
+        <activity android:name=".views.LoginOrRegisterView">
+        </activity>
+        
+        <activity android:name=".views.SettingsView">
+        </activity>
+        
+        <activity android:name=".views.AboutView">
+               </activity>
+        
+        <activity android:name=".views.FileDialog">
+        </activity>
+        
+		<receiver android:name=".receivers.OnBootReceiver">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name=".receivers.OnAlarmReceiver"></receiver>
+		<service android:name=".receivers.AppService"></service> 
+		
+		
+    </application>
+</manifest>

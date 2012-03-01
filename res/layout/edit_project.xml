@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/project_name" android:text="" android:layout_marginRight="5dp"></EditText>
+    <TextView android:text="Color" android:id="@+id/textView1" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <Spinner android:layout_height="wrap_content" android:id="@+id/project_color_selector" android:layout_width="fill_parent"></Spinner>
+    <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:paddingTop="10dp" android:gravity="center">
+        <LinearLayout android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:gravity="center">
+            <TextView android:text="Order" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+            <Spinner android:id="@+id/project_order_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+        </LinearLayout>
+        <LinearLayout android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/linearLayout3" android:gravity="center">
+            <TextView android:text="Indent" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+            <Spinner android:id="@+id/project_indent_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:gravity="center" android:layout_marginTop="20dp">
+        <Button android:text="OK" android:id="@+id/project_ok_button" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+        <Button android:text="Cancel" android:id="@+id/project_cancel_button" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+</LinearLayout>

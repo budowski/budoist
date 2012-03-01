@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:visible="true" android:id="@+id/context_menu_edit_query" android:title="Edit Query"
+        android:enabled="true" />
+    <item android:visible="true" android:id="@+id/context_menu_delete_query" android:title="Delete Query"
+        android:enabled="true" />
+</menu>

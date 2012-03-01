@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+    <TextView android:text="Name" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/query_name" android:text="" android:layout_marginRight="5dp"></EditText>
+    
+	<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	    <TextView android:text="Query" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+	    <TextView android:text="Help" android:textColor="#0000FF" android:textStyle="bold" android:textSize="16dp" android:id="@+id/query_help" android:paddingTop="6dp" android:paddingLeft="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    </LinearLayout>
+ 
+    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/query_content" android:text="" android:layout_marginRight="5dp"></EditText>
+    
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:gravity="center" android:layout_marginTop="20dp">
+        <Button android:text="OK" android:id="@+id/query_ok_button" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+        <Button android:text="Cancel" android:id="@+id/query_cancel_button" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+</LinearLayout>

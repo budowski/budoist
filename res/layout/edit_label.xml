@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/label_name" android:text="" android:layout_marginRight="5dp"></EditText>
+    <TextView android:text="Color" android:id="@+id/textView1" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+    <Spinner android:layout_height="wrap_content" android:id="@+id/label_color_selector" android:layout_width="fill_parent"></Spinner>
+    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:gravity="center" android:layout_marginTop="20dp">
+        <Button android:text="OK" android:id="@+id/label_ok_button" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+        <Button android:text="Cancel" android:id="@+id/label_cancel_button" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    android:paddingTop="10dp"
+    >
+    
+    <LinearLayout
+    	android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:gravity="center_horizontal"
+	    >
+	    <ImageView android:src="@drawable/logo" android:layout_height="wrap_content" android:layout_width="wrap_content" />
+	    <TextView android:text="by Yaron Budowski" android:textColor="#000000" android:paddingLeft="3dp" android:paddingTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+	    <TextView android:id="@+id/about_version" android:text="Version 1.2.3" android:textColor="#000000" android:paddingLeft="3dp" android:paddingTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    </LinearLayout>
+    
+    <TextView android:id="@+id/about_contact" android:text="Contact: budowski@gmail.com" android:textColor="#000000" android:paddingLeft="6dp" android:paddingTop="70dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView android:visibility="invisible" android:id="@+id/about_source_code" android:text="Source Code: TBA" android:textColor="#000000" android:paddingLeft="6dp" android:paddingTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView android:id="@+id/about_tree_view" android:text="Uses tree-view-list-android" android:textColor="#000000" android:paddingLeft="6dp" android:paddingTop="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+</LinearLayout>

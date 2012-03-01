@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+    <TextView android:text="Email" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <EditText android:inputType="textEmailAddress" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/login_email" android:text="" android:layout_marginRight="5dp" />
+    
+    <TextView android:text="Password" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <EditText android:inputType="textPassword" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/login_password" android:text="" android:layout_marginRight="5dp" />
+    
+   <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center" android:layout_marginTop="20dp">
+        <Button android:text="Login" android:id="@+id/login_button" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+    </LinearLayout>
+</LinearLayout>

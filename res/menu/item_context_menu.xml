@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:visible="true" android:id="@+id/context_menu_edit_item" android:title="Edit Item"
+        android:enabled="true" />
+     <item android:visible="true" android:id="@+id/context_menu_edit_notes" android:title="Edit Notes"
+        android:enabled="true" />
+    <item android:visible="true" android:id="@+id/context_menu_delete_item" android:title="Delete Item"
+        android:enabled="true" />
+
+	<item android:visible="true" android:title="Expand All" android:enabled="true"
+		android:id="@+id/context_menu_expand_all_items" />
+	<item android:visible="true" android:id="@+id/context_menu_collapse_all_items" android:title="Collapse All"
+		android:enabled="true" />
+</menu>

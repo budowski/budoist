@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent"
+	android:layout_width="fill_parent"
+	android:orientation="vertical"
+	android:paddingLeft="7dp"
+	android:paddingRight="3dp">
+	
+	<RelativeLayout
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:gravity="center_vertical">
+		
+		<LinearLayout
+			android:id="@+id/item_list_item_right_layout"
+			android:layout_alignParentRight="true"
+			android:layout_height="wrap_content"
+			android:layout_width="wrap_content"
+			android:orientation="horizontal"
+			android:paddingBottom="5dp"
+			android:paddingRight="10dp"
+			android:paddingLeft="5dp"
+			android:gravity="center_vertical|right">
+					
+			<ImageView
+				android:id="@+id/item_list_item_notes"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/notes" />
+					
+			<TextView
+				android:id="@+id/item_list_item_note_count"
+				android:textColor="#000000"
+				android:textSize="13dp"
+				android:text="3"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginLeft="3dp"
+				android:layout_marginRight="3dp"
+				android:gravity="center_vertical"
+				/>
+				
+		
+			<CheckBox
+				android:id="@+id/item_list_item_checkbox"
+				android:layout_width="wrap_content"
+				android:layout_height="16dp"
+				android:text=""
+				android:button="@drawable/checkbox_selector_small"
+				android:checked="false"
+				android:focusable="false"
+				android:layout_gravity="center_horizontal"
+				android:gravity="center_horizontal"
+				android:soundEffectsEnabled="true"
+				android:focusableInTouchMode="false" />
+		</LinearLayout>
+	
+		
+		<LinearLayout
+			android:layout_toLeftOf="@id/item_list_item_right_layout"
+			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:orientation="vertical">
+			
+			<TextView
+				android:id="@+id/item_list_item_content"
+				android:textColor="#000000"
+				android:textSize="15dp"
+				android:text="My item with a long description spanning several lines over"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content" />
+			
+
+		</LinearLayout>
+		
+	</RelativeLayout>
+	
+	<RelativeLayout
+		android:paddingRight="8dp"
+		android:paddingBottom="5dp"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent">
+		
+		<LinearLayout
+			android:id="@+id/item_list_item_date_layout"
+			android:layout_alignParentRight="true"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:background="#FFFFCC"
+			android:paddingLeft="5dp"
+			android:paddingRight="5dp"
+			android:paddingTop="1dp"
+			android:paddingBottom="1dp"
+			android:layout_marginBottom="4dp">
+			
+			<ImageView
+				android:id="@+id/item_list_item_repeat"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:layout_marginRight="5dp"
+				android:src="@drawable/repeat_item" />
+			
+			<TextView
+				android:id="@+id/item_list_item_due_date"
+				android:textColor="#000000"
+				android:textSize="16dp"
+				android:text="Thursday"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				/>
+		</LinearLayout>
+	
+		<LinearLayout
+			android:id="@+id/item_list_item_label_container"
+			android:layout_toLeftOf="@id/item_list_item_date_layout"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:paddingBottom="5dp">
+			
+			
+			<TextView
+				android:id="@+id/item_list_item_labels"
+				android:textColor="#000000"
+				android:textSize="16dp"
+				android:text="Label1"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="3dp"
+				android:paddingLeft="3dp"
+				/>
+		</LinearLayout>	
+
+		<!-- Separator Line -->
+		<View
+			android:layout_width="fill_parent"
+			android:layout_height="1dp"
+			android:background="#FFC0C0C0"
+			android:layout_alignParentBottom="true"
+			android:paddingBottom="5dp"
+		/>
+
+	</RelativeLayout>
+			
+
+
+</LinearLayout>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:background="#FFFFFF">
+  	<LinearLayout android:id="@+id/query_format_button_toolbar" android:layout_alignParentBottom="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="5dp">
+		<Button android:id="@+id/query_format_button_close" android:text="Close" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content" />
+	</LinearLayout>
+  
+  	<ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_alignParentTop="true" android:layout_above="@id/query_format_button_toolbar">
+	  	<HorizontalScrollView android:layout_width="wrap_content" android:layout_height="wrap_content">
+	    <TableLayout android:id="@+id/tableLayout1" android:layout_height="wrap_content" android:layout_width="fill_parent" android:stretchColumns="1">
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content" android:background="#C0C0C0">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="You write" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="It will compute to" android:textStyle="bold" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="today" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="tomorrow" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="friday" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_3" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="next friday" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_4" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="15 Oct 2011" android:textColor="#000000" />
+	        </TableRow>
+	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="tod,tom,fri" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_5" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show agenda for today, tomorrow and friday" android:textColor="#000000" />
+	        </TableRow>
+ 	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="today, overdue @home" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_6" android:layout_column="2" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show items that are over due and due today and that are labeled with @home label" android:textColor="#000000" />
+	        </TableRow>
+  	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="4 days" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_7" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show agenda for the next 4 days" android:textColor="#000000" />
+	        </TableRow>
+   	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="overdue, od" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_8" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show items that are overdue" android:textColor="#000000" />
+	        </TableRow>
+   	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="priority 1, p1" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_9" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show all items with priority 1" android:textColor="#000000" />
+	        </TableRow>
+   	        <TableRow android:layout_marginBottom="5dp" android:layout_width="wrap_content" android:layout_height="wrap_content">
+	        	<TextView android:layout_marginLeft="3dp" android:layout_column="1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="viewall, va" android:textColor="#000000" android:textStyle="bold" />
+	        	<TextView android:id="@+id/query_format_10" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Show all items" android:textColor="#000000" />
+	        </TableRow>
+       
+	    </TableLayout>
+	    </HorizontalScrollView>
+    </ScrollView>
+</RelativeLayout>

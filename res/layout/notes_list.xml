@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:background="#FFFFFF"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	
+	<LinearLayout android:id="@+id/notes_list_button_toolbar" android:layout_alignParentBottom="true" android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center" android:layout_marginTop="5dp">
+		<Button android:id="@+id/notes_button_close" android:text="Close" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content" />
+	</LinearLayout>
+	
+	<RelativeLayout android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:layout_above="@id/notes_list_button_toolbar">
+		<pl.polidea.treeview.TreeViewList android:id="@+id/notes_tree_view" android:layout_width="fill_parent"
+			android:layout_height="fill_parent"
+			android:scrollbars="vertical" android:smoothScrollbar="true" />
+	</RelativeLayout>
+
+</RelativeLayout>

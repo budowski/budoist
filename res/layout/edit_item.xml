@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+	<ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:orientation="vertical"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    >
+		    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/item_content" android:text="" android:gravity="top" android:singleLine="false" android:lines="3" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_marginRight="5dp"></EditText>
+		    
+		    <Button android:id="@+id/item_select_labels" android:text="Select Labels..." android:layout_width="wrap_content" android:layout_height="wrap_content" />
+		    
+		    <TextView android:text="Project" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    <RelativeLayout android:layout_width="fill_parent" android:layout_height="wrap_content" android:gravity="center_vertical">
+		    	<ImageButton android:id="@+id/item_choose_project_button" android:src="@drawable/projects" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" android:layout_gravity="center_vertical" />
+			    <TextView android:text="&lt;None&gt;" android:id="@+id/item_project_name" android:textStyle="italic" android:layout_width="fill_parent" android:layout_height="wrap_content" android:layout_centerVertical="true" android:layout_toLeftOf="@id/item_choose_project_button" />
+		    </RelativeLayout>
+			
+			<LinearLayout android:orientation="horizontal" android:layout_width="wrap_content" android:layout_height="wrap_content">
+			    <TextView android:text="Due Date" android:id="@+id/textView1" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+			    <TextView android:text="Help" android:textColor="#0000FF" android:textStyle="bold" android:textSize="16dp" android:id="@+id/item_date_help" android:paddingTop="6dp" android:paddingLeft="10dp" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    </LinearLayout>
+		    <RelativeLayout android:orientation="horizontal" android:layout_width="fill_parent" android:layout_height="wrap_content">
+		    	<ImageButton android:id="@+id/item_choose_date_button" android:src="@drawable/calendar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_alignParentRight="true" />
+			    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/item_due_string" android:text="" android:layout_toLeftOf="@id/item_choose_date_button" />
+		    </RelativeLayout>
+		    
+		    <TextView android:text="Priority" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:orientation="horizontal" android:layout_gravity="center">
+				<CheckBox
+					android:id="@+id/item_priority_4"
+					android:layout_width="65dp"
+					android:layout_marginLeft="10dp"
+					android:layout_height="wrap_content"
+					android:button="@drawable/priority_4_cb" />
+				<CheckBox
+					android:id="@+id/item_priority_3"
+					android:layout_width="65dp"
+					android:layout_marginLeft="10dp"
+					android:layout_height="wrap_content"
+					android:button="@drawable/priority_3_cb" />
+				<CheckBox
+					android:id="@+id/item_priority_2"
+					android:layout_width="65dp"
+					android:layout_marginLeft="10dp"
+					android:layout_height="wrap_content"
+					android:button="@drawable/priority_2_cb" />
+				<CheckBox
+					android:id="@+id/item_priority_1"
+					android:layout_width="65dp"
+					android:layout_marginLeft="10dp"
+					android:layout_height="wrap_content"
+					android:button="@drawable/priority_1_cb" />
+			</LinearLayout>
+		    
+		    <LinearLayout android:orientation="horizontal" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:paddingTop="10dp" android:gravity="center">
+		        <LinearLayout android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/linearLayout2" android:gravity="center">
+		            <TextView android:text="Order" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		            <Spinner android:id="@+id/item_order_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+		        </LinearLayout>
+		        <LinearLayout android:orientation="vertical" android:layout_height="fill_parent" android:layout_width="wrap_content" android:id="@+id/linearLayout3" android:gravity="center">
+		            <TextView android:text="Indent" android:id="@+id/textView2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
+		            <Spinner android:id="@+id/item_indent_selector" android:layout_width="wrap_content" android:layout_height="wrap_content"></Spinner>
+		        </LinearLayout>
+		    </LinearLayout>
+		    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/linearLayout4" android:gravity="center" android:layout_marginTop="20dp">
+		        <Button android:text="OK" android:id="@+id/item_ok_button" android:textStyle="bold" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+		        <Button android:text="Cancel" android:id="@+id/item_cancel_button" android:layout_width="130dp" android:layout_height="wrap_content"></Button>
+		    </LinearLayout>
+	    </LinearLayout>
+	</ScrollView>
+</LinearLayout>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center_vertical"
+	android:paddingLeft="5dp"
+	android:paddingRight="2dp"
+	android:paddingTop="20dp">
+		
+	<LinearLayout
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:orientation="vertical">
+		
+		<TextView
+			android:id="@+id/query_list_item_name"
+			android:textColor="#000000"
+			android:textSize="15dp"
+			android:text="My query with a long description spanning several lines over"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+	
+	<!-- Separator Line -->
+	<View
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:background="#FFC0C0C0"
+		android:layout_alignParentBottom="true"
+		android:paddingBottom="5dp"
+	/>
+	
+
+</RelativeLayout>

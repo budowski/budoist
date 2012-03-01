@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+   <!-- Used for preferences screen -->
+
+   <string-array name="preferences_sync_frequency">
+    	<item>Every 5 minutes</item>
+    	<item>Every 10 minutes</item>
+    	<item>Every 30 minutes</item>
+    	<item>Every 1 hour</item>
+    	<item>Every 2 hours</item>
+    	<item>Every 4 hours</item>
+    	<item>Every 6 hours</item>
+    	<item>Every 12 hours</item>
+    	<item>Every 1 day</item>
+    	<item>Every 2 days</item>
+    	<item>Every 3 days</item>
+    	<item>Every 1 week</item>
+    	<item>Every 2 weeks</item>
+    	<item>Every 1 month</item>
+    </string-array>
+    
+    <string-array name="preferences_sync_frequency_values">
+    	<item>5</item>
+    	<item>10</item>
+    	<item>30</item>
+    	<item>60</item>
+    	<item>120</item>
+    	<item>240</item>
+    	<item>360</item>
+    	<item>720</item>
+    	<item>1440</item>
+    	<item>2880</item>
+    	<item>4320</item>
+    	<item>10080</item>
+    	<item>20160</item>
+    	<item>40320</item>
+    </string-array>
+    
+    <string-array name="preferences_sort_mode">
+    	<item>Remember last used sort mode</item>
+    	<item>Sort by due date</item>
+    	<item>Sort by original order</item>
+    </string-array>
+    
+    <string-array name="preferences_sort_mode_values">
+    	<item>LAST_USED_ORDER</item>
+    	<item>SORT_BY_DUE_DATE</item>
+    	<item>ORIGINAL_ORDER</item>
+    </string-array>
+   
+    <string-array name="preferences_initial_view">
+    	<item>Filter by projects</item>
+    	<item>Filter by labels</item>
+    	<item>Filter by queries</item>
+    	<item>Filter by projects, labels or queries (last used filter mode)</item>
+    	<item>Filter by specific project...</item>
+    	<item>Filter by specific label...</item>
+    	<item>Filter by specific query...</item>
+    	<item>Last viewed project</item>
+    	<item>Last viewed label</item>
+    	<item>Last viewed query</item>
+    </string-array>
+    
+    <string-array name="preferences_initial_view_values">
+    	<item>FILTER_BY_PROJECTS</item>
+    	<item>FILTER_BY_LABELS</item>
+    	<item>FILTER_BY_QUERIES</item>
+    	<item>FILTER_BY_PROJECTS_OR_LABELS_OR_QUERIES</item>
+    	<item>SPECIFIC_PROJECT</item>
+    	<item>SPECIFIC_LABEL</item>
+    	<item>SPECIFIC_QUERY</item>
+    	<item>LAST_VIEWED_PROJECT</item>
+    	<item>LAST_VIEWED_LABEL</item>
+    	<item>LAST_VIEWED_QUERY</item>
+    </string-array>
+ 
+    <string-array name="preferences_date_format">
+    	<item>31/12/1999</item>
+    	<item>12/31/1999</item>
+    </string-array>
+    
+    <string-array name="preferences_date_format_values">
+    	<item>DD_MM_YYYY</item>
+    	<item>MM_DD_YYYY</item>
+    </string-array>
+ 
+    <string-array name="preferences_time_format">
+    	<item>13:00</item>
+    	<item>1 PM</item>
+    </string-array>
+    
+    <string-array name="preferences_time_format_values">
+    	<item>HH_MM</item>
+    	<item>HH_PM_AM</item>
+    </string-array>
+ 
+    <string-array name="preferences_text_size">
+    	<item>Tiny</item>
+    	<item>Small</item>
+    	<item>Normal</item>
+    	<item>Big</item>
+    	<item>Huge</item>
+    </string-array>
+    
+    <string-array name="preferences_text_size_values">
+    	<item>10</item>
+    	<item>13</item>
+    	<item>17</item>
+    	<item>20</item>
+    	<item>25</item>
+    </string-array>
+ 
+    <string-array name="preferences_backup_frequency">
+    	<item>Never</item>
+     	<item>Every 5 minutes</item>
+    	<item>Every 10 minutes</item>
+    	<item>Every 30 minutes</item>
+    	<item>Every 1 hour</item>
+    	<item>Every 2 hours</item>
+    	<item>Every 4 hours</item>
+    	<item>Every 6 hours</item>
+    	<item>Every 12 hours</item>
+    	<item>Every 1 day</item>
+    	<item>Every 2 days</item>
+    	<item>Every 3 days</item>
+    	<item>Every 1 week</item>
+    	<item>Every 2 weeks</item>
+    	<item>Every 1 month</item>
+    </string-array>
+    
+    <string-array name="preferences_backup_frequency_values">
+    	<item>0</item>
+    	<item>5</item>
+    	<item>10</item>
+    	<item>30</item>
+    	<item>60</item>
+    	<item>120</item>
+    	<item>240</item>
+    	<item>360</item>
+    	<item>720</item>
+    	<item>1440</item>
+    	<item>2880</item>
+    	<item>4320</item>
+    	<item>10080</item>
+    	<item>20160</item>
+    	<item>40320</item>
+    </string-array>
+
+    <!-- Used for file dialog -->
+
+    <string name="app_name">File dialog</string>
+    <string name="location">Location</string>
+    <string name="cant_read_folder">Folder can\'t be read!</string>
+    <string name="nnew">New</string>
+    <string name="select">Select</string>
+    <string name="file_name">File name:</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Save</string>
+    <string name="no_data">No Data</string>
+	<color name="gray">#ffff0000</color>
+
+ 
+</resources>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center_vertical"
+	android:paddingLeft="5dp"
+	android:paddingRight="2dp"
+	android:paddingTop="7dp"
+	android:background="#FFFFFF">
+	
+		
+	<LinearLayout
+		android:id="@+id/note_list_item_right_layout"
+		android:layout_alignParentRight="true"
+		android:layout_height="fill_parent"
+		android:layout_width="wrap_content"
+		android:orientation="horizontal"
+		android:paddingBottom="5dp"
+		android:gravity="center_vertical|right">
+		
+		<ImageView
+			android:id="@+id/note_list_item_edit"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:src="@drawable/edit_note" />
+			
+		<ImageView
+			android:id="@+id/note_list_item_delete"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="8dp"
+			android:src="@drawable/delete" />
+				
+		<TextView
+			android:id="@+id/note_list_item_date"
+			android:textColor="#C0C0C0"
+			android:textSize="13dp"
+			android:text="3 Oct"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="8dp"
+			android:layout_marginRight="5dp"
+			android:gravity="center_vertical"
+			/>
+			
+	</LinearLayout>
+
+	
+	<LinearLayout
+		android:layout_toLeftOf="@id/note_list_item_right_layout"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:orientation="vertical">
+		
+		<TextView
+			android:id="@+id/note_list_item_content"
+			android:textColor="#000000"
+			android:textSize="15dp"
+			android:text="My note with a long description spanning several lines over"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content" />
+	</LinearLayout>
+	
+	<!-- Separator Line -->
+	<View
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:background="#FFC0C0C0"
+		android:layout_alignParentBottom="true"
+		android:paddingBottom="5dp"
+	/>
+	
+
+</RelativeLayout>
