@@ -21,8 +21,10 @@ import android.text.Html;
 import android.text.util.Linkify;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -254,6 +256,7 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 				itemCheckbox.setChecked(!itemCheckbox.isChecked());
 			}
 		});
+	    
 	    viewLayout.setLongClickable(true);
 	    
         viewLayout.setTag(item);

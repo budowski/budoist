@@ -271,6 +271,10 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     	}
     }
     
+    public TreeViewList getTreeViewList() {
+    	return mTreeView;
+    }
+    
     @SuppressWarnings("unchecked")
     @Override
     public void onCreate(final Bundle savedInstanceState) {
