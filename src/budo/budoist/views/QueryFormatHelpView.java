@@ -53,22 +53,22 @@ public class QueryFormatHelpView extends Activity {
         
         dateFormat = (TextView)findViewById(R.id.query_format_1);
         item.dateString = "today";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
         
         dateFormat = (TextView)findViewById(R.id.query_format_2);
         item.dateString = "tomorrow";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.query_format_3);
         item.dateString = "friday";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.query_format_4);
         item.dateString = "next friday";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
     
    }

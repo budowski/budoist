@@ -236,6 +236,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     	TreeBuilder<Item> treeBuilder = new TreeBuilder<Item>(mTreeManager);
    	
     	// Add items to tree sequently, adding more indent levels as needed
+    	int lastIndentLevel = 0;
     	for (int i = 0; i < items.size(); i++) {
 	   		int indent;
     		if ((mSortMode == ItemSortMode.SORT_BY_DUE_DATE) || (mViewMode == ItemViewMode.FILTER_BY_LABELS) || (mViewMode == ItemViewMode.FILTER_BY_QUERIES)) {
@@ -244,9 +245,17 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     		} else {
         		// Todoist indentLevel starts from 1 (and not zero as the tree view expects)
     			indent = items.get(i).indentLevel - 1;
+				
+				// Todoist website allows for neighboring items with indent levels difference greater than 1
+				if (indent > lastIndentLevel + 1) {
+					indent = lastIndentLevel + 1;
+				} else if (indent < lastIndentLevel - 1) {
+					indent = lastIndentLevel - 1;
+				}
     		}
 
     		treeBuilder.sequentiallyAddNextNode(items.get(i), indent);
+			lastIndentLevel = indent;
     	}
     }
     
@@ -709,13 +718,13 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 					public void run() {
 		    			if (item.id == 0) {
 		    				// Add item
-		    				item.calculateFirstDueDate(mUser.dateFormat);
+		    				item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
 		    				mClient.addItem(item);
 		    			} else {
 		    				// Update item
 		    				if (!mItemEdited.dateString.equals(item.dateString)) {
 		    					// Date string was modified - re-calculate the due date
-		    					item.calculateFirstDueDate(mUser.dateFormat);
+		    					item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
 		    				}
 
 		    				mClient.updateItem(item, mItemEdited);

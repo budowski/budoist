@@ -217,7 +217,9 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         	itemDateLayout.setVisibility(View.GONE);
         } else {
         	itemDateLayout.setVisibility(View.VISIBLE);
-        	itemDueDate.setText(item.getDueDateDescription(mClient.getUser().timeFormat));
+        	itemDueDate.setText(item.getDueDateDescription(
+        			mClient.getUser().timeFormat,
+        			mClient.getUser().timezoneOffsetMinutes));
         	itemDateLayout.setBackgroundColor((0xFF << 24) | item.getDueDateColor());
         }
         
@@ -225,22 +227,27 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 	    itemCheckbox.setOnCheckedChangeListener(null);
         itemCheckbox.setChecked(item.completed);
         
+        // Determine which checkbox to display according to text size
         int checkBoxDrawable;
         int checkBoxHeight;
         
         if (mTextSize <= 10) {
         	checkBoxDrawable = R.drawable.checkbox_selector_small;
-        	checkBoxHeight = 16;
+        	checkBoxHeight = 16; // DP - height and width are the same
         } else if (mTextSize <= 13) {
         	checkBoxDrawable = R.drawable.checkbox_selector_medium;
-        	checkBoxHeight = 24;
+        	checkBoxHeight = 24; // DP - height and width are the same
         } else {
         	checkBoxDrawable = R.drawable.checkbox_selector_large;
-        	checkBoxHeight = 32;
+        	checkBoxHeight = 32; // DP - height and width are the same
         }
         
+        // Convert from Device-Independent pixels to actual screen pixels
+        int dpHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, checkBoxHeight, mItemListView.getResources().getDisplayMetrics()); 
+        
+        // Set the checkbox image + dimensions to use
+        itemCheckbox.setLayoutParams(new LinearLayout.LayoutParams(dpHeight, dpHeight));
         itemCheckbox.setButtonDrawable(checkBoxDrawable);
-        itemCheckbox.setLayoutParams(new LinearLayout.LayoutParams(checkBoxHeight, checkBoxHeight));
         
         if (item.completed)
         	itemContent.setTextColor(Color.GRAY);
@@ -256,7 +263,6 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 				itemCheckbox.setChecked(!itemCheckbox.isChecked());
 			}
 		});
-	    
 	    viewLayout.setLongClickable(true);
 	    
         viewLayout.setTag(item);

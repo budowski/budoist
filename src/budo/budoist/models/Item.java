@@ -236,8 +236,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 * @see http://todoist.com/Help/timeInsert
 	 * 
 	 * @param dateFormat dd-mm-yyyy or mm-dd-yyyy?
+	 * @param timeZoneOffsetMinutes the number of minutes of the user's local time zone
+	 * 
 	 */
-	public void calculateFirstDueDate(DateFormat dateFormat) {
+	public void calculateFirstDueDate(DateFormat dateFormat, int timeZoneOffsetMinutes) {
 		String date = this.dateString.trim().toLowerCase();
 		
 		Pattern patternContextualDate = Pattern.compile(REGEX_CONTEXTUAL_DATE, Pattern.CASE_INSENSITIVE);
@@ -259,6 +261,20 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 						calculateRecurringDate(matcher, dateFormat);
 					}
 			}
+		}
+		
+		
+		// In case the calculated due date has a specific time of date set,
+		// we need to convert it from the local time zone to GMT (since the getDueDateDescription
+		// method assume this.dueDate is in GMT, not local time zone).
+		
+		Calendar dueDateCalendar = Calendar.getInstance(); dueDateCalendar.setTime(this.dueDate);
+		if ((dueDateCalendar.get(Calendar.HOUR_OF_DAY) != 23) || (dueDateCalendar.get(Calendar.MINUTE) != 59)) {
+			// It's a due date with a specific time of day - convert it from user's local time zone to GMT
+			this.dueDate = new Date(this.dueDate.getTime() - (timeZoneOffsetMinutes * 60 * 1000));
+		} else {
+			// It's a due date marked for a single day (no specific time of day) - no need to convert
+			// it to GMT (do nothing).
 		}
 
 	}
@@ -625,18 +641,31 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 * 		Otherwise --> "Aug 28 2013"
 	 *
 	 * @param timeFormat 22:00 or 10pm?
+	 * @param timeZoneOffsetMinutes the number of minutes of the user's local time zone
 	 * 
 	 * @return
 	 */
-	public String getDueDateDescription(TimeFormat timeFormat) {
+	public String getDueDateDescription(TimeFormat timeFormat, int timeZoneOffsetMinutes) {
 		if ((dueDate == null) || (dueDate.getTime() == 0)) {
 			return null;
+		}
+		
+		// Convert to user's time zone
+		Date localDate;
+		Calendar dueDateCalendar = Calendar.getInstance(); dueDateCalendar.setTime(this.dueDate);
+		if ((dueDateCalendar.get(Calendar.HOUR_OF_DAY) != 23) || (dueDateCalendar.get(Calendar.MINUTE) != 59)) {
+			// It's a due date with a specific time of day - convert it to user's local time zone for display
+			localDate = new Date(this.dueDate.getTime() + (timeZoneOffsetMinutes * 60 * 1000));
+		} else {
+			// It's a due date marked for a single day (no specific time of day) - no need to convert
+			// it to local time zone
+			localDate = this.dueDate;
 		}
 		
 		String date;
 		
 		Calendar currentTime = Calendar.getInstance(); currentTime.setTime(new Date());
-		Calendar dueTime = Calendar.getInstance(); dueTime.setTime(this.dueDate);
+		Calendar dueTime = Calendar.getInstance(); dueTime.setTime(localDate);
 		Calendar tomorrow = Calendar.getInstance();
 		tomorrow.add(Calendar.DAY_OF_MONTH, 1);
 		Calendar oneWeekAhead = Calendar.getInstance();
@@ -661,22 +690,22 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 			date = "Tomorrow";
 		} else if ((dueTime.before(oneWeekAhead)) && (dueTime.after(currentTime))) {
 			// Less than one week - Return the day of the week
-			date = (new SimpleDateFormat("EEEE", Locale.US)).format(this.dueDate);
+			date = (new SimpleDateFormat("EEEE", Locale.US)).format(localDate);
 			
 		} else if (currentTimeYear == dueTimeYear) {
 			// Same year
-			date = (new SimpleDateFormat("MMM d", Locale.US)).format(this.dueDate);
+			date = (new SimpleDateFormat("MMM d", Locale.US)).format(localDate);
 		} else {
-			date = (new SimpleDateFormat("MMM d yyyy", Locale.US)).format(this.dueDate);
+			date = (new SimpleDateFormat("MMM d yyyy", Locale.US)).format(localDate);
 		}
 	
 		// Add time if specified
 		
 		if ((dueTime.get(Calendar.HOUR_OF_DAY) != 23) || (dueTime.get(Calendar.MINUTE) != 59)) {
 			if (timeFormat == TimeFormat.HH_MM)
-				date += (new SimpleDateFormat(" @ HH:mm", Locale.US)).format(this.dueDate);
+				date += (new SimpleDateFormat(" @ HH:mm", Locale.US)).format(localDate);
 			else if (timeFormat == TimeFormat.HH_PM_AM)
-				date += (new SimpleDateFormat(" @ h:mm a", Locale.US)).format(this.dueDate);
+				date += (new SimpleDateFormat(" @ h:mm a", Locale.US)).format(localDate);
 		}
 		
 		return date;

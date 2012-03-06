@@ -53,52 +53,52 @@ public class DateFormatHelpView extends Activity {
         
         dateFormat = (TextView)findViewById(R.id.date_format_1);
         item.dateString = "today";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
         
         dateFormat = (TextView)findViewById(R.id.date_format_2);
         item.dateString = "tomorrow";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.date_format_3);
         item.dateString = "friday";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.date_format_4);
         item.dateString = "next friday";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.date_format_5);
         item.dateString = "tom @ 16:30";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate) + " at 4:30pm");
 
         dateFormat = (TextView)findViewById(R.id.date_format_6);
         item.dateString = "fri at 2pm";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate) + " at 2pm");
 
         dateFormat = (TextView)findViewById(R.id.date_format_7);
         item.dateString = "10";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.date_format_8);
         item.dateString = "10/5";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
 
         dateFormat = (TextView)findViewById(R.id.date_format_9);
         item.dateString = "10/5/2011 @ 2pm";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText((new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate) + " at 2pm");
 
         dateFormat = (TextView)findViewById(R.id.date_format_10);
         item.dateString = "+5";
-        item.calculateFirstDueDate(mUser.dateFormat);
+        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
         dateFormat.setText("5 days from now: " + (new SimpleDateFormat("d MMM yyyy", Locale.US)).format(item.dueDate));
      
    }
