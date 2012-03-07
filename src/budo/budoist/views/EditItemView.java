@@ -172,7 +172,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
         mOkButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mItem.setContent(mItemContent.getText().toString(), null);
+				mItem.setContent(mItemContent.getText().toString(), null, true);
 				mItem.itemOrder = mOrderSpinner.getSelectedItemPosition() + 1;
 				mItem.indentLevel = mIndentSpinner.getSelectedItemPosition() + 1;
 				mItem.dateString = mItemDueString.getText().toString().trim();
@@ -328,7 +328,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
 		});
         
         // Populate the form fields
-        mItemContent.setText(mItem.getContent());
+        mItemContent.setText((mItem.canBeCompleted() ? "" : "*") + mItem.getContent());
         mIndentSpinner.setSelection(mItem.indentLevel - 1);
         mItemDueString.setText(mItem.dateString);
         

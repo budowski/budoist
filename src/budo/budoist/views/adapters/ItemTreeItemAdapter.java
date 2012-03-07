@@ -121,7 +121,7 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
     @Override
     public View updateView(final View view,
             final TreeNodeInfo<Item> treeNodeInfo) {
-    	Item item = treeNodeInfo.getId();
+    	final Item item = treeNodeInfo.getId();
     	LinearLayout viewLayout = (LinearLayout) view;
 
         TextView itemContent = (TextView) viewLayout
@@ -257,10 +257,19 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         
 	    itemCheckbox.setOnCheckedChangeListener(onCheckedChange);
 	    
+	    if (!item.canBeCompleted()) {
+	    	// Some items can be marked as non-completeable
+	    	itemCheckbox.setVisibility(View.INVISIBLE);
+	    } else {
+	    	itemCheckbox.setVisibility(View.VISIBLE);
+	    }
+	    
 	    viewLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				itemCheckbox.setChecked(!itemCheckbox.isChecked());
+				if (item.canBeCompleted()) {
+					itemCheckbox.setChecked(!itemCheckbox.isChecked());
+				}
 			}
 		});
 	    viewLayout.setLongClickable(true);

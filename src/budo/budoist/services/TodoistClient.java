@@ -334,7 +334,7 @@ public class TodoistClient {
 			}
 		}
 		
-		item.setContent(item.getContent(), labels);
+		item.setContent(item.getContent(), labels, item.canBeCompleted());
 	}
 
 	

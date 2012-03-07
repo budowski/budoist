@@ -68,6 +68,14 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	public Object clone() {
 		return super.clone();
 	}
+	
+	/**
+	 * Returns whether or not the item can be completed (if its content starts with an asterisk)
+	 * @return
+	 */
+	public boolean canBeCompleted() {
+		return (!rawContent.startsWith("*"));
+	}
 
 	
 	/**
@@ -775,10 +783,16 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 */
 	public String getContent() {
 		// Remove all label references
-		if (rawContent != null)
-			return rawContent.replaceAll(LABEL_REG_EX, "");
-		else
+		if (rawContent != null) {
+			String content = rawContent.replaceAll(LABEL_REG_EX, "");
+			if (content.startsWith("*"))
+				return content.substring(1);
+			else
+				return content;
+		} else {
 			return null;
+		}
+		
 	}
 	
 	/**
@@ -801,9 +815,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 * Sets the project's name
 	 * @param name
 	 * @param isGroup
+	 * @param canBeCompleted
 	 * @return
 	 */
-	public void setContent(String content, ArrayList<String> labels) {
+	public void setContent(String content, ArrayList<String> labels, boolean canBeCompleted) {
 		StringBuilder newContent = new StringBuilder(content);
 		
 		if (labels != null) {
@@ -814,7 +829,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 			}
 		}
 		
-		rawContent = newContent.toString();
+		rawContent = (canBeCompleted == false ? "*" : "") + newContent.toString();
 	}
 	
 	

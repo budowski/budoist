@@ -781,9 +781,11 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         }
         
     	// Complete (update) current item
-		Item originalItem = (Item)item.clone();
-        item.completed = true;
-    	mClient.updateItem(item, originalItem);
+        if (item.canBeCompleted()) {
+			Item originalItem = (Item)item.clone();
+	        item.completed = true;
+	    	mClient.updateItem(item, originalItem);
+        }
     }
     
 	@Override
