@@ -170,6 +170,12 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 		        	int labelId = item.labelIds.get(i);
 		        	Label currentLabel = mIdToLabels.get(labelId);
 		        	
+		        	if (currentLabel == null) {
+		        		// Weird case when we have an ID but no matching label for it
+		        		// TODO: What should we do other than this?
+		        		continue;
+		        	}
+		        	
 		        	itemLabels.append(Html.fromHtml(String.format("<font color='#%X'><i>%s</i></font>",
 		        			currentLabel.getColor(), currentLabel.name)));
 		        	

@@ -74,7 +74,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 * @return
 	 */
 	public boolean canBeCompleted() {
-		return (!rawContent.startsWith("*"));
+		if (rawContent == null)
+			return true;
+		else
+			return (!rawContent.startsWith("*"));
 	}
 
 	
@@ -181,9 +184,11 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private final static String REGEX_12H_TIME = "(?:(?:(0?[1-9]|1(?=[012])\\d)(?:\\:([0-5]\\d))?)([ap]m)?)";
 	private final static String REGEX_TIME = "(?:" + REGEX_12H_TIME + "|" + REGEX_24H_TIME + ")";
 	
-	private final static String REGEX_DATE = "((?:3[01])|(?:[12]\\d)|(?:0?[1-9]))";
+	private final static String REGEX_DATE = "(3[01]|[12][0-9]|0?[1-9])";
 	private final static String REGEX_DATE_SEPARATOR = "[ \\-\\.\\/]";
-	private final static String REGEX_DATE_MONTH = "((?:0?[1-9])|(?:1[0-2])|" + REGEX_MONTHS + "|" + REGEX_MONTHS_SHORT + ")";
+	private final static String REGEX_DATE_MONTH_NUM = "(0?[1-9]|1[012])";
+	private final static String REGEX_DATE_MONTH_NAME = "(" + REGEX_MONTHS + "|" + REGEX_MONTHS_SHORT + ")";
+	private final static String REGEX_DATE_MONTH = "(?:" + REGEX_DATE_MONTH_NAME + "|" + REGEX_DATE_MONTH_NUM + ")";
 	private final static String REGEX_DATE_YEAR = "(\\d\\d\\d\\d)";
 	private final static String REGEX_DATE_FULL =
 		"(?:" +
@@ -194,9 +199,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				")?" +
 			")|" +
 			"(?:" +
-				"(" + REGEX_MONTHS + "|" + REGEX_MONTHS_SHORT + ") " +
+				REGEX_DATE_MONTH +
+				REGEX_DATE_SEPARATOR +
 				REGEX_DATE +
-				"(?: " + REGEX_DATE_YEAR + ")?" +
+				"(?:" + REGEX_DATE_SEPARATOR + REGEX_DATE_YEAR + ")?" +
 			")" +
 		")";
 	
@@ -276,13 +282,15 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		// we need to convert it from the local time zone to GMT (since the getDueDateDescription
 		// method assume this.dueDate is in GMT, not local time zone).
 		
-		Calendar dueDateCalendar = Calendar.getInstance(); dueDateCalendar.setTime(this.dueDate);
-		if ((dueDateCalendar.get(Calendar.HOUR_OF_DAY) != 23) || (dueDateCalendar.get(Calendar.MINUTE) != 59)) {
-			// It's a due date with a specific time of day - convert it from user's local time zone to GMT
-			this.dueDate = new Date(this.dueDate.getTime() - (timeZoneOffsetMinutes * 60 * 1000));
-		} else {
-			// It's a due date marked for a single day (no specific time of day) - no need to convert
-			// it to GMT (do nothing).
+		if (this.dueDate != null) {
+			Calendar dueDateCalendar = Calendar.getInstance(); dueDateCalendar.setTime(this.dueDate);
+			if ((dueDateCalendar.get(Calendar.HOUR_OF_DAY) != 23) || (dueDateCalendar.get(Calendar.MINUTE) != 59)) {
+				// It's a due date with a specific time of day - convert it from user's local time zone to GMT
+				this.dueDate = new Date(this.dueDate.getTime() - (timeZoneOffsetMinutes * 60 * 1000));
+			} else {
+				// It's a due date marked for a single day (no specific time of day) - no need to convert
+				// it to GMT (do nothing).
+			}
 		}
 
 	}
@@ -511,13 +519,14 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private void calculateRealDate(Matcher matcher, DateFormat dateFormat) {
 		Calendar c = Calendar.getInstance();
 		
-		int timeInDay = calculateTime(matcher, 8);
+		int timeInDay = calculateTime(matcher, 10);
 		
 		// Set to specific hour/minute in day
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, timeInDay);
+		c.set(Calendar.SECOND, 0);
 		
-		if ((matcher.group(1) != null) && (matcher.group(2) == null)) {
+		if ((matcher.group(1) != null) && (matcher.group(2) == null) && (matcher.group(3) == null)) {
 			// Day-of-month only
 			int dayOfMonth = Integer.valueOf(matcher.group(1));
 			
@@ -528,24 +537,40 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 			
 			c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
 			
-		} else if (((matcher.group(1) != null) && (matcher.group(2) != null) && (matcher.group(3) == null)) ||
-				((matcher.group(4) != null) && (matcher.group(5) != null) && (matcher.group(6) == null))) {
-			// Day-of-month and month only (either "23 sep" or "sep 23")
+		} else if (((matcher.group(1) != null) && ((matcher.group(2) != null) || (matcher.group(3) != null)) && (matcher.group(4) == null)) ||
+				(((matcher.group(5) != null) || (matcher.group(6) != null)) && (matcher.group(7) != null) && (matcher.group(8) == null))) {
+			// Day-of-month and month only ("23 sep", "sep 23", "23-9", "9-23")
 			
-			if (matcher.group(2) != null) {
-				// e.g. 23-09
+			if ((matcher.group(5) == null) && (matcher.group(6) == null)) {
+				// dd-mm
 				
-				if (dateFormat == DateFormat.DD_MM_YYYY) {
-					c.set(Calendar.MONTH, parseMonth(matcher.group(2)));
+				if (matcher.group(2) != null) {
+					// e.g. 23-sep
 					c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(1)));
-				} else if (dateFormat == DateFormat.MM_DD_YYYY) {
-					c.set(Calendar.MONTH, parseMonth(matcher.group(1)));
-					c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(2)));
+					c.set(Calendar.MONTH, parseMonth(matcher.group(2)));
+				} else {
+					// e.g. 23-9
+					if (dateFormat == DateFormat.DD_MM_YYYY) {
+						c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(1)));
+						c.set(Calendar.MONTH, Integer.valueOf(matcher.group(3)) - 1); // -1 since months in Calendar are zero-based
+					} else if (dateFormat == DateFormat.MM_DD_YYYY) {
+						c.set(Calendar.MONTH, Integer.valueOf(matcher.group(1)) - 1); // -1 since months in Calendar are zero-based
+						c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(3)));
+					}
 				}
+				
 			} else {
-				// e.g. sep 23
-				c.set(Calendar.MONTH, parseMonth(matcher.group(4)));
-				c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(5)));
+				// mm-dd
+				
+				if (matcher.group(5) != null) {
+					// e.g. sep 23
+					c.set(Calendar.MONTH, parseMonth(matcher.group(5)));
+					c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(7)));
+				} else {
+					// e.g. 9-23
+					c.set(Calendar.MONTH, Integer.valueOf(matcher.group(6)) - 1); // -1 since months in Calendar are zero-based
+					c.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(7)));
+				}
 			}
 			
 			if (c.before(Calendar.getInstance())) {
@@ -553,37 +578,60 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				c.add(Calendar.YEAR, 1);
 			}
 			
-		} else if (((matcher.group(1) != null) && (matcher.group(2) != null) && (matcher.group(3) != null)) ||
-				((matcher.group(4) != null) && (matcher.group(5) != null) && (matcher.group(6) != null))) {
+		} else if (((matcher.group(1) != null) && ((matcher.group(2) != null) || (matcher.group(3) != null)) && (matcher.group(4) != null)) ||
+				(((matcher.group(5) != null) || (matcher.group(6) != null)) && (matcher.group(7) != null) && (matcher.group(8) != null))) {
 			// All date fields provided
 			
-			if (matcher.group(3) != null) {
-				// e.g. 27-09-2009
-				if (dateFormat == DateFormat.DD_MM_YYYY) {
+			if (matcher.group(1) != null) {
+				// dd-mm-yyyy
+				
+				if (matcher.group(3) != null) {
+					// e.g. 27-09-2009
+					if (dateFormat == DateFormat.DD_MM_YYYY) {
+						c.set(
+								Integer.valueOf(matcher.group(4)), /* Year */
+								Integer.valueOf(matcher.group(3)) - 1, /* Month: -1 since months in Calendar are zero-based */
+								Integer.valueOf(matcher.group(1)) /* Day of month */
+							);
+					} else if (dateFormat == DateFormat.MM_DD_YYYY) {
+						c.set(
+								Integer.valueOf(matcher.group(4)), /* Year */
+								Integer.valueOf(matcher.group(1)) - 1, /* Month: -1 since months in Calendar are zero-based */
+								Integer.valueOf(matcher.group(3)) /* Day of month */
+							);
+					}
+				} else {
+					// e.g. 27-sep-2009
 					c.set(
-							Integer.valueOf(matcher.group(3)), /* Year */
+							Integer.valueOf(matcher.group(4)), /* Year */
 							parseMonth(matcher.group(2)), /* Month */
 							Integer.valueOf(matcher.group(1)) /* Day of month */
 						);
-				} else if (dateFormat == DateFormat.MM_DD_YYYY) {
-					c.set(
-							Integer.valueOf(matcher.group(3)), /* Year */
-							parseMonth(matcher.group(1)), /* Month */
-							Integer.valueOf(matcher.group(2)) /* Day of month */
-						);
 				}
+				
 			} else {
-				// e.g. sep 27 2009
-				c.set(
-					Integer.valueOf(matcher.group(6)), /* Year */
-					parseMonth(matcher.group(4)), /* Month */
-					Integer.valueOf(matcher.group(5)) /* Day of month */
-				);
+				// mm-dd-yyyy
+				
+				if (matcher.group(5) != null) {
+					// e.g. sep-27-2009
+					c.set(
+						Integer.valueOf(matcher.group(8)), /* Year */
+						parseMonth(matcher.group(5)), /* Month */
+						Integer.valueOf(matcher.group(7)) /* Day of month */
+					);
+				} else {
+					// e.g. 12-27-2009
+					c.set(
+						Integer.valueOf(matcher.group(8)), /* Year */
+						Integer.valueOf(matcher.group(6)) - 1, /* Month: -1 since months in Calendar are zero-based */
+						Integer.valueOf(matcher.group(7)) /* Day of month */
+					);
+				}
 			}
 			
-		} else if (matcher.group(7) != null) {
+		} else if (matcher.group(9) != null) {
 			// Relative day (e.g. +5)
-			c.add(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(7)));
+			c.add(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(9)));
 		}
 		
 		dueDate = c.getTime();

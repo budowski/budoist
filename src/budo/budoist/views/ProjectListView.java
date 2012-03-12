@@ -118,16 +118,27 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 
 		// Add projects to tree sequently, adding more indent levels as needed
 		int lastIndentLevel = 0;
+    	int lastRealIndentLevel = 0;
+    	
 		for (int i = 0; i < projects.size(); i++) {
 			// indentLevel starts from 1 (and not zero as the tree view expects)
 			int currentIndentLevel = projects.get(i).indentLevel - 1;
 			
-			// Todoist website allows for neighboring items with indent levels difference greater than 1
-			if (currentIndentLevel > lastIndentLevel + 1) {
-				currentIndentLevel = lastIndentLevel + 1;
-			} else if (currentIndentLevel < lastIndentLevel - 1) {
-				currentIndentLevel = lastIndentLevel - 1;
+			if (currentIndentLevel == lastRealIndentLevel) {
+				// Remain on the same indent level as the previous project - this is done in order to deal
+				// with cases in which there are several projects in the same indent level, but the indent
+				// level difference from their parent is greater than one.
+				currentIndentLevel = lastIndentLevel;
+			} else {
+				// Todoist website allows for neighboring items with indent levels difference greater than 1
+				if (currentIndentLevel > lastIndentLevel + 1) {
+					currentIndentLevel = lastIndentLevel + 1;
+				} else if (currentIndentLevel < lastIndentLevel - 1) {
+					currentIndentLevel = lastIndentLevel - 1;
+				}
 			}
+			
+			lastRealIndentLevel = projects.get(i).indentLevel - 1;
 			
 			treeBuilder.sequentiallyAddNextNode(projects.get(i), currentIndentLevel);
 			

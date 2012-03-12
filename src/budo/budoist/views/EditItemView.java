@@ -328,7 +328,12 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
 		});
         
         // Populate the form fields
-        mItemContent.setText((mItem.canBeCompleted() ? "" : "*") + mItem.getContent());
+        String itemContent = mItem.getContent();
+        if (itemContent == null) {
+        	mItemContent.setText("");
+        } else {
+        	mItemContent.setText((mItem.canBeCompleted() ? "" : "*") + itemContent);
+        }
         mIndentSpinner.setSelection(mItem.indentLevel - 1);
         mItemDueString.setText(mItem.dateString);
         

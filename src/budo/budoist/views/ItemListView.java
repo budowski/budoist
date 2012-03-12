@@ -32,6 +32,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MotionEvent;
@@ -234,9 +235,14 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     private void buildItemList(ArrayList<Item> items) {
     	mTreeManager.clear();
     	TreeBuilder<Item> treeBuilder = new TreeBuilder<Item>(mTreeManager);
+    	
+    	Log.d(TAG, "Items count: " + items.size());
+    	Log.d(TAG, "Items: " + items.toString());
    	
     	// Add items to tree sequently, adding more indent levels as needed
     	int lastIndentLevel = 0;
+    	int lastRealIndentLevel = 0;
+    	
     	for (int i = 0; i < items.size(); i++) {
 	   		int indent;
     		if ((mSortMode == ItemSortMode.SORT_BY_DUE_DATE) || (mViewMode == ItemViewMode.FILTER_BY_LABELS) || (mViewMode == ItemViewMode.FILTER_BY_QUERIES)) {
@@ -246,12 +252,21 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         		// Todoist indentLevel starts from 1 (and not zero as the tree view expects)
     			indent = items.get(i).indentLevel - 1;
 				
-				// Todoist website allows for neighboring items with indent levels difference greater than 1
-				if (indent > lastIndentLevel + 1) {
-					indent = lastIndentLevel + 1;
-				} else if (indent < lastIndentLevel - 1) {
-					indent = lastIndentLevel - 1;
-				}
+    			if (indent == lastRealIndentLevel) {
+    				// Remain on the same indent level as the previous item - this is done in order to deal
+    				// with cases in which there are several items in the same indent level, but the indent
+    				// level difference from their parent is greater than one.
+    				indent = lastIndentLevel;
+    			} else {
+					// Todoist website allows for neighboring items with indent levels difference greater than 1
+					if (indent > lastIndentLevel + 1) {
+						indent = lastIndentLevel + 1;
+					} else if (indent < lastIndentLevel - 1) {
+						indent = lastIndentLevel - 1;
+					}
+    			}
+				
+    			lastRealIndentLevel = items.get(i).indentLevel - 1;
     		}
 
     		treeBuilder.sequentiallyAddNextNode(items.get(i), indent);
@@ -674,6 +689,9 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 			}
 		} else if (requestCode == Bootloader.REQUEST_CODE__SETTINGS) {
 			if (resultCode == RESULT_OK) {
+				// Reload user settings (if it had date/time settings modified)
+				mUser = mStorage.loadUser();
+				
 				// Refresh items - happens when user changes text size, etc
     			mLoadingDialog = ProgressDialog.show(this, "", "Loading items...");
     			

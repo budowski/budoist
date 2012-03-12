@@ -1063,8 +1063,10 @@ public class TodoistClient {
 			
 			SyncResult syncResult = checkItemsForSync(localItem, remoteItem);
 			
+			/*
 			Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
 					syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
+					*/
 			
 			handleSyncResult(localItem, remoteItem, syncResult);
 			
@@ -1080,8 +1082,10 @@ public class TodoistClient {
 			SynchronizedModel localItem = e.nextElement();
 			SyncResult syncResult = checkItemsForSync(localItem, null /* No remote copy exists */);
 			
+			/*
 			Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: <null>;",
 					syncResult.toString(), localItem.toString()));
+					*/
 
 			
 			handleSyncResult(localItem, null, syncResult);
@@ -1389,7 +1393,7 @@ public class TodoistClient {
 				// has been modified (but not deleted).
 				// In this case, we choose to update local copy to remote copy
 				// TODO: Should this behavior be configurable by the user as an advanced setting?
-				return SyncResult.UPDATE_LOCAL_TO_REMOTE;
+				return SyncResult.ADD_LOCAL_TO_REMOTE;
 			}
 		}
 		
