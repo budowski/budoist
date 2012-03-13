@@ -2,86 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:treeView="http://schemas.android.com/apk/res/pl.polidea.treeview"
 	android:background="#FFFFFF" android:orientation="vertical" android:layout_width="fill_parent" android:layout_height="fill_parent">
 	
-	 <LinearLayout
-		android:id="@+id/top_toolbar"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:gravity="center_horizontal"
-		android:paddingBottom="5dp"
-		android:paddingTop="5dp">
-		
-		<LinearLayout
-			android:id="@+id/top_toolbar_projects"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:gravity="center_horizontal">
-			
-			<ImageView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/projects_black"
-				/>
-				
-			<TextView
-				android:id="@+id/top_toolbar_projects_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Projects"
-				android:textColor="#000000"
-			/>
-		</LinearLayout>
-		
-		<LinearLayout
-			android:id="@+id/top_toolbar_labels"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:gravity="center_horizontal"
-			android:paddingLeft="30dp">
-			
-			<ImageView
-				android:id="@+id/top_toolbar_labels_image"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/labels"
-				/>
-				
-			<TextView
-				android:id="@+id/top_toolbar_labels_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Labels"
-				android:textColor="#000000"
-			/>
-		</LinearLayout>
-		
-		<LinearLayout
-			android:id="@+id/top_toolbar_queries"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:orientation="vertical"
-			android:gravity="center_horizontal"
-			android:paddingLeft="30dp">
-			
-			<ImageView
-				android:id="@+id/top_toolbar_queries_image"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:src="@drawable/queries"
-				/>
-				
-			<TextView
-				android:id="@+id/top_toolbar_queries_text"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Queries"
-				android:textColor="#000000"
-			/>
-		</LinearLayout>
-		
-	</LinearLayout>
+	<include 
+        android:id="@+id/top_toolbar"
+        layout="@layout/top_toolbar"
+        />
 	
 	<!-- Separator Line -->
 	<View

@@ -175,7 +175,7 @@ public class JsonServer {
 			
 			resultData = readToEnd(streamContent);
 			
-			//Log.d(TAG, String.format("Result data: %s", resultData));
+			Log.d(TAG, String.format("Result data: %s", resultData));
 			
 			int status = response.getStatusLine().getStatusCode();
 			if (status != 200) {

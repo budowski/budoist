@@ -43,6 +43,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -57,9 +58,10 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	private static final String TAG = ProjectListView.class.getSimpleName();
 	private TreeViewList mTreeView;
 	
-	private LinearLayout mTopToolbar;
+	private RelativeLayout mTopToolbar;
 	private LinearLayout mProjectsToolbarButton, mLabelsToolbarButton, mQueriesToolbarButton;
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
+	private ImageView mAddItemToolbarButton;
 
 	private static final int LEVEL_NUMBER = 4;
 	private TreeStateManager<Project> mTreeManager = null;
@@ -133,8 +135,6 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 				// Todoist website allows for neighboring items with indent levels difference greater than 1
 				if (currentIndentLevel > lastIndentLevel + 1) {
 					currentIndentLevel = lastIndentLevel + 1;
-				} else if (currentIndentLevel < lastIndentLevel - 1) {
-					currentIndentLevel = lastIndentLevel - 1;
 				}
 			}
 			
@@ -148,7 +148,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	
 	private void loadTopToolbar() {
 		
- 		mTopToolbar = (LinearLayout)findViewById(R.id.top_toolbar);
+ 		mTopToolbar = (RelativeLayout)findViewById(R.id.top_toolbar);
 		
  		if (
  				(mViewMode == ProjectViewMode.MOVE_TO_PROJECT) ||
@@ -160,13 +160,27 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 		mProjectsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_projects);
 		mLabelsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_labels);
 		mQueriesToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_queries);
+		mAddItemToolbarButton = (ImageView)findViewById(R.id.top_toolbar_add_item);
 		
 		mProjectsToolbarText = (TextView)findViewById(R.id.top_toolbar_projects_text);
 		mLabelsToolbarText = (TextView)findViewById(R.id.top_toolbar_labels_text);
 		mQueriesToolbarText = (TextView)findViewById(R.id.top_toolbar_queries_text);
 		
 		mProjectsToolbarText.setTypeface(null, Typeface.BOLD);
+		ImageView img = (ImageView)findViewById(R.id.top_toolbar_projects_image);
+		img.setImageResource(R.drawable.projects_black);
 		
+		
+		mAddItemToolbarButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(getBaseContext(), EditProjectView.class);
+				intent.putExtra(EditProjectView.KEY__PROJECT, (Serializable) null);
+				startActivityForResult(intent,
+						Bootloader.REQUEST_CODE__EDIT_PROJECT);
+			}
+		});
+	
 		mLabelsToolbarButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -334,10 +348,6 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 
 	@Override
 	public boolean onPrepareOptionsMenu(final Menu menu) {
-		final MenuItem addProjectMenu = menu
-				.findItem(R.id.add_project_menu_item);
-		addProjectMenu.setVisible(true);
-
 		return super.onPrepareOptionsMenu(menu);
 	}
 
@@ -356,14 +366,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			LoginView.syncNow(ProjectListView.this, mClient, mUser.email, mUser.password, null);
 			
 			break;
-			
-		case R.id.add_project_menu_item:
-			intent = new Intent(getBaseContext(), EditProjectView.class);
-			intent.putExtra(EditProjectView.KEY__PROJECT, (Serializable) null);
-			startActivityForResult(intent,
-					Bootloader.REQUEST_CODE__EDIT_PROJECT);
 
-			break;
 		default:
 			return false;
 		}

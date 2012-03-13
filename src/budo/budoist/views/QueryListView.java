@@ -37,6 +37,7 @@ import android.view.View.OnTouchListener;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -60,9 +61,10 @@ public class QueryListView extends Activity implements OnItemClickListener {
 	private TodoistOfflineStorage mStorage;
 	private User mUser;
 	
-	private LinearLayout mTopToolbar;
+	private RelativeLayout mTopToolbar;
 	private LinearLayout mProjectsToolbarButton, mLabelsToolbarButton, mQueriesToolbarButton;
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
+	private ImageView mAddItemToolbarButton;
    
 	// What's the current view mode for the query list
 	public enum QueryViewMode {
@@ -80,7 +82,7 @@ public class QueryListView extends Activity implements OnItemClickListener {
     }
     
  	private void loadTopToolbar() {
- 		mTopToolbar = (LinearLayout)findViewById(R.id.top_toolbar);
+ 		mTopToolbar = (RelativeLayout)findViewById(R.id.top_toolbar);
  		
  		if (mViewMode == QueryViewMode.SELECT_INITIAL_QUERY) {
  			mTopToolbar.setVisibility(View.GONE);
@@ -89,12 +91,25 @@ public class QueryListView extends Activity implements OnItemClickListener {
 		mProjectsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_projects);
 		mLabelsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_labels);
 		mQueriesToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_queries);
+		mAddItemToolbarButton = (ImageView)findViewById(R.id.top_toolbar_add_item);
 		
 		mProjectsToolbarText = (TextView)findViewById(R.id.top_toolbar_projects_text);
 		mLabelsToolbarText = (TextView)findViewById(R.id.top_toolbar_labels_text);
 		mQueriesToolbarText = (TextView)findViewById(R.id.top_toolbar_queries_text);
 		
 		mQueriesToolbarText.setTypeface(null, Typeface.BOLD);
+		ImageView img = (ImageView)findViewById(R.id.top_toolbar_queries_image);
+		img.setImageResource(R.drawable.queries_black);
+		
+		mAddItemToolbarButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+	            Intent intent = new Intent(getBaseContext(), EditQueryView.class);
+	            intent.putExtra(EditQueryView.KEY__QUERY, (Serializable)null);
+	            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_QUERY);
+			}
+		});
+	
 		
 		mProjectsToolbarButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -257,9 +272,6 @@ public class QueryListView extends Activity implements OnItemClickListener {
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        MenuItem addQueryMenu = menu.findItem(R.id.add_query_menu_item);
-        addQueryMenu.setVisible(true);
-        
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -279,12 +291,6 @@ public class QueryListView extends Activity implements OnItemClickListener {
 			
 			break;
        	
-        case R.id.add_query_menu_item:
-            intent = new Intent(getBaseContext(), EditQueryView.class);
-            intent.putExtra(EditQueryView.KEY__QUERY, (Serializable)null);
-            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_QUERY);
-      	
-        	break;
         default:
             return false;
         }

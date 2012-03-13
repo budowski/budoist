@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-	<item android:title="Add Project" android:id="@+id/add_project_menu_item" android:icon="@drawable/add_project" android:visible="false" />
-	<item android:title="Add Label" android:id="@+id/add_label_menu_item" android:icon="@drawable/add_label" android:visible="false" />
-	<item android:title="Add Item" android:id="@+id/add_item_menu_item" android:icon="@drawable/add_item" android:visible="false" />
 	<item android:title="Add Note" android:id="@+id/add_note_menu_item" android:icon="@drawable/add_note" android:visible="false" />
-	<item android:title="Add Query" android:id="@+id/add_query_menu_item" android:icon="@drawable/add_query" android:visible="false" />
 	
 	<item android:title="Sort by Due Date" android:id="@+id/sort_items_due_date" android:icon="@drawable/sort_items_due_date" android:visible="false" />
 	<item android:title="Sort by Original Order" android:id="@+id/sort_items_original" android:icon="@drawable/sort_items_original" android:visible="false" />

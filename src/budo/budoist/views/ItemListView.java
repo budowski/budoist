@@ -56,8 +56,8 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     private static final String TAG = ItemListView.class.getSimpleName();
     private TreeViewList mTreeView;
     
-	private LinearLayout mTopToolbar;
 	private LinearLayout mProjectsToolbarButton, mLabelsToolbarButton, mQueriesToolbarButton;
+	private ImageView mAddItemToolbarButton;
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
 
     private static final int LEVEL_NUMBER = 4;
@@ -114,15 +114,27 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     
     
   	private void loadTopToolbar() {
- 		mTopToolbar = (LinearLayout)findViewById(R.id.top_toolbar);
- 		
 		mProjectsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_projects);
 		mLabelsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_labels);
 		mQueriesToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_queries);
+		mAddItemToolbarButton = (ImageView)findViewById(R.id.top_toolbar_add_item);
 		
 		mProjectsToolbarText = (TextView)findViewById(R.id.top_toolbar_projects_text);
 		mLabelsToolbarText = (TextView)findViewById(R.id.top_toolbar_labels_text);
 		mQueriesToolbarText = (TextView)findViewById(R.id.top_toolbar_queries_text);
+		
+		mAddItemToolbarButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+	            Intent intent = new Intent(getBaseContext(), EditItemView.class);
+	            intent.putExtra(EditItemView.KEY__ITEM, (Serializable)null);
+	            
+	            if (mViewMode == ItemViewMode.FILTER_BY_PROJECTS) {
+		            intent.putExtra(EditItemView.KEY__PROJECT, mFilterProject); // So we'll set the initial project for the new item
+	            }
+	            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_ITEM);
+			}
+		});
 		
 		mProjectsToolbarButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -236,9 +248,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     	mTreeManager.clear();
     	TreeBuilder<Item> treeBuilder = new TreeBuilder<Item>(mTreeManager);
     	
-    	Log.d(TAG, "Items count: " + items.size());
-    	Log.d(TAG, "Items: " + items.toString());
-   	
     	// Add items to tree sequently, adding more indent levels as needed
     	int lastIndentLevel = 0;
     	int lastRealIndentLevel = 0;
@@ -261,8 +270,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 					// Todoist website allows for neighboring items with indent levels difference greater than 1
 					if (indent > lastIndentLevel + 1) {
 						indent = lastIndentLevel + 1;
-					} else if (indent < lastIndentLevel - 1) {
-						indent = lastIndentLevel - 1;
 					}
     			}
 				
@@ -435,9 +442,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-    	
-        menu.findItem(R.id.add_item_menu_item).setVisible(true);
-        
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -505,16 +509,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 			
 	    	break;
     	
-	    case R.id.add_item_menu_item:
-            intent = new Intent(getBaseContext(), EditItemView.class);
-            intent.putExtra(EditItemView.KEY__ITEM, (Serializable)null);
-            
-            if (mViewMode == ItemViewMode.FILTER_BY_PROJECTS) {
-	            intent.putExtra(EditItemView.KEY__PROJECT, mFilterProject); // So we'll set the initial project for the new item
-            }
-            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_ITEM);
-            
-        	break;
  	    default:
             return false;
         }

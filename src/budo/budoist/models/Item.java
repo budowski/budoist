@@ -232,9 +232,12 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 			"(" + REGEX_RECURRING_DAY + "(?: *, *" + REGEX_RECURRING_DAY + ")*)" + "|" +
 			"(?:" + REGEX_DATE +
 				"(?:" +
-					"(?: (" + REGEX_MONTHS + "|" + REGEX_MONTHS_SHORT + "))?|" +
-					"(?:" + REGEX_DATE_SEPARATOR + REGEX_DATE_MONTH + ")?" +
+					REGEX_DATE_SEPARATOR + REGEX_DATE_MONTH +
 				")?" +
+			")|" +
+			"(?:" +
+					REGEX_DATE_MONTH + REGEX_DATE_SEPARATOR +
+					REGEX_DATE +
 			")|" +
 			"(?:(\\d+) (days|weeks|months|years))" +
 		")" +
@@ -401,9 +404,9 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private void calculateRecurringDate(Matcher matcher, DateFormat dateFormat) {
 		Calendar c = Calendar.getInstance();
 		
-		int timeInDay = calculateTime(matcher, 7);
+		int timeInDay = calculateTime(matcher, 10);
 		
-		if ((matcher.group(5) != null) && (matcher.group(6) != null)) {
+		if ((matcher.group(8) != null) && (matcher.group(9) != null)) {
 			// Every X days/weeks/...
 			// In this case, the first occurrence will always be today - use today's date
 			
@@ -470,25 +473,42 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				}
 			}
 			
-		} else if (matcher.group(2) != null) {
-			// "Every 7 may" or "Every 7/5"
+		} else if ((matcher.group(2) != null) || (matcher.group(7) != null)) {
+			// "Every 7 may" or "Every 7/5", ...
 			
 			int day = 0;
 			int month = 0;
 			
-			if (matcher.group(3) != null) {
-				// Every 7 may
-				day = Integer.valueOf(matcher.group(2));
-				month = parseMonth(matcher.group(3));
-			} else {
-				// Every 7/5
+			if (matcher.group(2) != null) {
+				// "Every 7 may" or "Every 30/5"
 				
-				if (dateFormat == DateFormat.DD_MM_YYYY) {
+				if (matcher.group(3) != null) {
+					// Every 7 may
 					day = Integer.valueOf(matcher.group(2));
-					month = Integer.valueOf(matcher.group(4)) - 1; // -1 since months in Calendar are zero-based
-				} else if (dateFormat == DateFormat.MM_DD_YYYY){
-					day = Integer.valueOf(matcher.group(4));
-					month = Integer.valueOf(matcher.group(2)) - 1; // -1 since months in Calendar are zero-based
+					month = parseMonth(matcher.group(3));
+				} else {
+					// Every 7/5
+					
+					if (dateFormat == DateFormat.DD_MM_YYYY) {
+						day = Integer.valueOf(matcher.group(2));
+						month = Integer.valueOf(matcher.group(4)) - 1; // -1 since months in Calendar are zero-based
+					} else if (dateFormat == DateFormat.MM_DD_YYYY){
+						day = Integer.valueOf(matcher.group(4));
+						month = Integer.valueOf(matcher.group(2)) - 1; // -1 since months in Calendar are zero-based
+					}
+				}
+				
+			} else {
+				// "Every May 7" or "Every 10/25"
+				
+				if (matcher.group(5) != null) {
+					// Every May 7
+					day = Integer.valueOf(matcher.group(7));
+					month = parseMonth(matcher.group(5));
+				} else {
+					// Every 5/31
+					day = Integer.valueOf(matcher.group(7));
+					month = Integer.valueOf(matcher.group(6)) - 1; // -1 since months in Calendar are zero-based
 				}
 			}
 			
@@ -505,6 +525,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		// Set to specific hour/minute in day
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, timeInDay);
+		c.set(Calendar.SECOND, 0);
 
 		dueDate = c.getTime();
 	}

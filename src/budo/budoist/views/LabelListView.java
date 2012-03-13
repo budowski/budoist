@@ -42,6 +42,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
@@ -58,9 +59,10 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
     private Button mCancelButton;
     private LinearLayout mButtonsToolbar;
     
-    private LinearLayout mTopToolbar;
+    private RelativeLayout mTopToolbar;
 	private LinearLayout mProjectsToolbarButton, mLabelsToolbarButton, mQueriesToolbarButton;
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
+	private ImageView mAddItemToolbarButton;
 
     private static final int LEVEL_NUMBER = 4;
     private TreeStateManager<Label> mTreeManager = null;
@@ -102,7 +104,7 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
     }
     
  	private void loadTopToolbar() {
- 		mTopToolbar = (LinearLayout)findViewById(R.id.top_toolbar);
+ 		mTopToolbar = (RelativeLayout)findViewById(R.id.top_toolbar);
  		
  		if ((mViewMode == LabelViewMode.SELECT_INITIAL_LABEL) || (mViewMode == LabelViewMode.SELECT_LABELS)) {
  			mTopToolbar.setVisibility(View.GONE);
@@ -111,12 +113,25 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
 		mProjectsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_projects);
 		mLabelsToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_labels);
 		mQueriesToolbarButton = (LinearLayout)findViewById(R.id.top_toolbar_queries);
+		mAddItemToolbarButton = (ImageView)findViewById(R.id.top_toolbar_add_item);
 		
 		mProjectsToolbarText = (TextView)findViewById(R.id.top_toolbar_projects_text);
 		mLabelsToolbarText = (TextView)findViewById(R.id.top_toolbar_labels_text);
 		mQueriesToolbarText = (TextView)findViewById(R.id.top_toolbar_queries_text);
 		
 		mLabelsToolbarText.setTypeface(null, Typeface.BOLD);
+		ImageView img = (ImageView)findViewById(R.id.top_toolbar_labels_image);
+		img.setImageResource(R.drawable.labels_black);
+		
+		mAddItemToolbarButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+	            Intent intent = new Intent(getBaseContext(), EditLabelView.class);
+	            intent.putExtra(EditLabelView.KEY__LABEL, (Serializable)null);
+	            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_LABEL);
+			}
+		});
+	
 		
 		mProjectsToolbarButton.setOnClickListener(new OnClickListener() {
 			@Override
@@ -311,10 +326,6 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
 
     @Override
     public boolean onPrepareOptionsMenu(final Menu menu) {
-        MenuItem addLabelMenu = menu
-    		.findItem(R.id.add_label_menu_item);
-        addLabelMenu.setVisible(true);
-        
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -334,12 +345,6 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
 			
 			break;
        	
-        case R.id.add_label_menu_item:
-            intent = new Intent(getBaseContext(), EditLabelView.class);
-            intent.putExtra(EditLabelView.KEY__LABEL, (Serializable)null);
-            startActivityForResult(intent, Bootloader.REQUEST_CODE__EDIT_LABEL);
-      	
-        	break;
         default:
             return false;
         }
