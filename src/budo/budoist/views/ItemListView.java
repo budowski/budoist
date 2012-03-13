@@ -371,9 +371,11 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 				runOnUiThread(new Runnable() {
 					public void run() {	
 				        if ((savedInstanceState == null) || (savedInstanceState.getSerializable("treeManager") == null)) {
+				        	Log.d(TAG, "Creating new tree manager");
 				            mTreeManager = new InMemoryTreeStateManager<Item>();
 				            buildItemList(items);
 				        } else {
+				        	Log.d(TAG, "Loading previous tree manager");
 				            mTreeManager = (TreeStateManager<Item>)savedInstanceState.getSerializable("treeManager");
 				        }
 				        

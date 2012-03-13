@@ -71,7 +71,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
     public static final String KEY__PROJECT = "Project";
     public static final String KEY__MAX_ORDER = "MaxOrder";
     
-    private static final Integer[] INDENT_LEVELS = {1, 2, 3, 4};
+    private static final Integer[] INDENT_LEVELS = {1, 2, 3, 4, 5};
     
     private Project mItemProject = null;
     

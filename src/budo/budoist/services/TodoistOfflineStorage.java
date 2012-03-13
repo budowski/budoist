@@ -879,9 +879,10 @@ public class TodoistOfflineStorage {
 					DBConsts.ITEMS_COMPLETED, DBConsts.ITEMS_PROJECT_ID, DBConsts.ITEMS_ORDER);
 			
 		} else /*if (sortMode == ItemSortMode.SORT_BY_DUE_DATE) */ {
-			// First, completed items at the end, after sort by dueDate
-			return String.format("%s ASC, %s ASC, %s ASC",
-					DBConsts.ITEMS_COMPLETED, DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PROJECT_ID);
+			// First, completed items at the end, afterwards sort by dueDate, then sort by priority, finally sort by project
+			return String.format("%s ASC, %s ASC, %s DESC, %s ASC",
+					DBConsts.ITEMS_COMPLETED, DBConsts.ITEMS_DUE_DATE,
+					DBConsts.ITEMS_PRIORITY, DBConsts.ITEMS_PROJECT_ID);
 		}
 		
 	}

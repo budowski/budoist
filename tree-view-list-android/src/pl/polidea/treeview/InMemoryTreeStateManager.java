@@ -25,7 +25,7 @@ public class InMemoryTreeStateManager<T> implements TreeStateManager<T> {
     private transient List<T> visibleListCache = null; // lasy initialised
     private transient List<T> unmodifiableVisibleList = null;
     private boolean visibleByDefault = true;
-    private final transient Set<DataSetObserver> observers = new HashSet<DataSetObserver>();
+    private final /*transient*/ Set<DataSetObserver> observers = new HashSet<DataSetObserver>();
 
     private synchronized void internalDataSetChanged() {
         visibleListCache = null;
