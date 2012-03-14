@@ -363,7 +363,13 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			break;
 		
 		case R.id.sync_now:
-			LoginView.syncNow(ProjectListView.this, mClient, mUser.email, mUser.password, null);
+			LoginView.syncNow(ProjectListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+				@Override
+				public void run() {
+					// Refresh visual projects list
+					buildProjectList(mClient.getProjects());
+				}
+			});
 			
 			break;
 

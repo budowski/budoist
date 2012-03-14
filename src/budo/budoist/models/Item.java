@@ -302,15 +302,16 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	 * Private utility function that calculates a time format (i.e. REGEX_TIME)
 	 * @param matcher
 	 * @param startIndex the group index in which the REGEX_TIME match results start
-	 * @return the number of minutes from 00:00 the input time represents
+	 * @return the number of seconds from 00:00:00 the input time represents
 	 */
 	private int calculateTime(Matcher matcher, int startIndex) {
-		int hour = 0, mins = 0;
+		int hour = 0, mins = 0, secs = 0;
 		
 		if ((matcher.group(startIndex) == null) && (matcher.group(startIndex + 3) == null)) {
 			// No hour provided (since it's optional) - In this case, Todoist defaults to 23:59:59
 			hour = 23;
 			mins = 59;
+			secs = 59;
 			
 		} else if (matcher.group(startIndex) != null) {
 			// 12-hour format
@@ -337,8 +338,8 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				mins = Integer.valueOf(matcher.group(startIndex + 4));
 		}
 		
-		// Return final time (in minutes since 00:00)
-		return ((hour * 60) + mins);
+		// Return final time (in seconds since 00:00:00)
+		return (((hour * 60) + mins) * 60) + secs;
 		
 	}
 	
@@ -524,8 +525,9 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	
 		// Set to specific hour/minute in day
 		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, timeInDay);
-		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.set(Calendar.SECOND, timeInDay);
 
 		dueDate = c.getTime();
 	}
@@ -541,11 +543,11 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		Calendar c = Calendar.getInstance();
 		
 		int timeInDay = calculateTime(matcher, 10);
-		
 		// Set to specific hour/minute in day
 		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, timeInDay);
-		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.set(Calendar.SECOND, timeInDay);
 		
 		if ((matcher.group(1) != null) && (matcher.group(2) == null) && (matcher.group(3) == null)) {
 			// Day-of-month only
@@ -673,7 +675,9 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		
 		// Set to specific hour/minute in day
 		c.set(Calendar.HOUR_OF_DAY, 0);
-		c.set(Calendar.MINUTE, timeInDay);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		c.set(Calendar.SECOND, timeInDay);
 		
 		if ((day.compareTo("today") == 0) || (day.compareTo("tod") == 0)) {
 			// Do nothing - use today's date

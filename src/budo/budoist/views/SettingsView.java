@@ -486,13 +486,13 @@ public class SettingsView extends PreferenceActivity {
     
     private void refreshBackupNowDate() {
 	    Item item = new Item(); item.dueDate = mStorage.getLastBackupTime();
-		String dateString = (item.dueDate.getTime() == 0 ? "Never": item.getDueDateDescription(mUser.timeFormat, mUser.timezoneOffsetMinutes));
+		String dateString = (item.dueDate.getTime() == 0 ? "Never": item.getDueDateDescription(mUser.timeFormat, 0 /* Since last backup time is stored as local time, not GMT */));
 	    mBackupNow.setSummary("Last Backup: " + dateString);
     }
     
     private void refreshSyncNowDate() {
  	    Item item = new Item(); item.dueDate = mStorage.getLastSyncTime();
-		String dateString = item.getDueDateDescription(mUser.timeFormat, mUser.timezoneOffsetMinutes);
+		String dateString = item.getDueDateDescription(mUser.timeFormat, 0 /* Since last sync time is stored as local time, not GMT */ );
 	    mSyncNow.setSummary("Last Sync: " + dateString);
     }
     

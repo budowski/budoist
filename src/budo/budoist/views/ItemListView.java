@@ -459,7 +459,14 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         	break;
         	
  		case R.id.sync_now:
-			LoginView.syncNow(ItemListView.this, mClient, mUser.email, mUser.password, null);
+			LoginView.syncNow(ItemListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+				@Override
+				public void run() {
+					// Refresh item list
+					ArrayList<Item> items = getItemList();
+					buildItemList(items);
+				}
+			});
 			
 			break;
 			

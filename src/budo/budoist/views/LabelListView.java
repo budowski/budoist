@@ -341,7 +341,13 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         	break;
         	
   		case R.id.sync_now:
-			LoginView.syncNow(LabelListView.this, mClient, mUser.email, mUser.password, null);
+			LoginView.syncNow(LabelListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+				@Override
+				public void run() {
+					// Refresh label list
+					buildLabelList(mClient.getLabels());
+				}
+			});
 			
 			break;
        	
