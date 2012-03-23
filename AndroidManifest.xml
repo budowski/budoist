@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="budo.budoist"
-      android:versionCode="8"
-      android:versionName="1.0.7" xmlns:android="http://schemas.android.com/apk/res/android">
+      android:versionCode="10"
+      android:versionName="1.0.9" xmlns:android="http://schemas.android.com/apk/res/android">
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -17,53 +17,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".views.ProjectListView">
-        </activity>
-        <activity android:name=".views.EditProjectView">
-        </activity>
+        <activity android:name=".views.ProjectListView" />
+        <activity android:name=".views.EditProjectView" />
         
-        <activity android:name=".views.LabelListView">
-        </activity>
-        <activity android:name=".views.EditLabelView">
-        </activity>
+        <activity android:name=".views.LabelListView" />
+        <activity android:name=".views.EditLabelView" />
 
-        <activity android:name=".views.ItemListView">
-        </activity>
-        <activity android:name=".views.EditItemView">
-        </activity>
+        <activity android:name=".views.ItemListView" />
+        <activity android:name=".views.EditItemView" />
         
-        <activity android:name=".views.NoteListView">
-        </activity>
+        <activity android:name=".views.NoteListView" />
         
-        <activity android:name=".views.QueryListView">
-        </activity>
+        <activity android:name=".views.QueryListView" />
+        <activity android:name=".views.EditQueryView" />
         
-        <activity android:name=".views.EditQueryView">
-        </activity>
+        <activity android:name=".views.QueryFormatHelpView" />
+        <activity android:name=".views.DateFormatHelpView" />
         
-        <activity android:name=".views.QueryFormatHelpView">
-        </activity>
+        <activity android:name=".views.LoginView" />
+        <activity android:name=".views.RegisterView" />
+        <activity android:name=".views.LoginOrRegisterView" />
         
-        <activity android:name=".views.DateFormatHelpView">
-        </activity>
+        <activity android:name=".views.SettingsView" />
         
-        <activity android:name=".views.LoginView">
-        </activity>
+        <activity android:name=".views.AboutView" />
         
-        <activity android:name=".views.RegisterView">
-        </activity>
-        
-        <activity android:name=".views.LoginOrRegisterView">
-        </activity>
-        
-        <activity android:name=".views.SettingsView">
-        </activity>
-        
-        <activity android:name=".views.AboutView">
-               </activity>
-        
-        <activity android:name=".views.FileDialog">
-        </activity>
+        <activity android:name=".views.FileDialog" />
         
 		<receiver android:name=".receivers.OnBootReceiver">
 			<intent-filter>
@@ -72,7 +51,6 @@
 		</receiver>
 		<receiver android:name=".receivers.OnAlarmReceiver"></receiver>
 		<service android:name=".receivers.AppService"></service> 
-		
 		
     </application>
 </manifest>

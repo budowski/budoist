@@ -306,7 +306,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
 			public void onClick(View v) {
 				// Let the user choose a due date
 				
-				if (mYear == 0) {
+				if ((mYear == 0) || (mDay == 0)) {
 					// Date has never been selected before - init the dialog with a default date
 					Calendar c = Calendar.getInstance();
 					

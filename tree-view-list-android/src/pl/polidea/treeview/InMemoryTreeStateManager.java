@@ -25,11 +25,16 @@ public class InMemoryTreeStateManager<T> implements TreeStateManager<T> {
     private transient List<T> visibleListCache = null; // lasy initialised
     private transient List<T> unmodifiableVisibleList = null;
     private boolean visibleByDefault = true;
-    private final /*transient*/ Set<DataSetObserver> observers = new HashSet<DataSetObserver>();
+    private transient Set<DataSetObserver> observers = new HashSet<DataSetObserver>();
 
     private synchronized void internalDataSetChanged() {
         visibleListCache = null;
         unmodifiableVisibleList = null;
+         
+        if (observers == null) {
+            observers = new HashSet<DataSetObserver>();
+        }
+        
         for (final DataSetObserver observer : observers) {
             observer.onChanged();
         }
@@ -306,12 +311,19 @@ public class InMemoryTreeStateManager<T> implements TreeStateManager<T> {
     @Override
     public synchronized void registerDataSetObserver(
             final DataSetObserver observer) {
+        if (observers == null) {
+            observers = new HashSet<DataSetObserver>();
+        }
         observers.add(observer);
     }
 
     @Override
     public synchronized void unregisterDataSetObserver(
             final DataSetObserver observer) {
+        if (observers == null) {
+            observers = new HashSet<DataSetObserver>();
+        }
+        
         observers.remove(observer);
     }
 

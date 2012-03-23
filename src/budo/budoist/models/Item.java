@@ -102,6 +102,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				(this.itemOrder == otherItem.itemOrder) &&
 				(this.priority == otherItem.priority) &&
 				(this.completed == otherItem.completed) &&
+				(this.noteCount == otherItem.noteCount) &&
 				(compareObjects(this.getContent(), otherItem.getContent())) &&
 				(compareArrays(this.labelIds, otherItem.labelIds))
 			) {

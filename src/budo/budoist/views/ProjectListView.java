@@ -11,6 +11,7 @@ import budo.budoist.TodoistApplication;
 import budo.budoist.models.Project;
 import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
+import budo.budoist.receivers.AppService;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
 import budo.budoist.services.TodoistServerException;
@@ -24,9 +25,11 @@ import pl.polidea.treeview.TreeViewList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -93,6 +96,22 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	private ProgressDialog mLoadingDialog;
 
 	private Context mContext;
+	
+	private class SyncReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			runOnUiThread(new Runnable() {
+				public void run() {
+					// Refresh visual projects list
+					buildProjectList(mClient.getProjects());
+				}
+			});
+
+		}
+	}
+	
+	private SyncReceiver mSyncReceiver = null;
+	private boolean mIsSyncReceiverRegistered = false;
 	
 	
 	public TodoistClient getClient() {
@@ -238,6 +257,11 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	@Override
 	protected void onPause() {
 		super.onPause();
+		
+		if (mIsSyncReceiverRegistered) {
+			unregisterReceiver(mSyncReceiver);
+			mIsSyncReceiverRegistered = false;
+		}
 
 		if ((mLoadingDialog != null) && (mLoadingDialog.isShowing()))
 			mLoadingDialog.dismiss();
@@ -246,6 +270,11 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		if (!mIsSyncReceiverRegistered) {
+			registerReceiver(mSyncReceiver, new IntentFilter(AppService.SYNC_COMPLETED_ACTION));
+			mIsSyncReceiverRegistered = true;
+		}
 		
 		if (mViewMode == ProjectViewMode.FILTER_BY_PROJECTS) {
 	        mStorage.setLastViewedFilter(InitialView.FILTER_BY_PROJECTS);
@@ -257,6 +286,8 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		boolean newCollapsible;
+		
+		mSyncReceiver = new SyncReceiver();
 
         overridePendingTransition(0, 0);
         
@@ -281,19 +312,12 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			this.setTitle("Select Default Project for New Items");
 		}
 
-		if (savedInstanceState == null) {
-			mTreeManager = new InMemoryTreeStateManager<Project>();
+		mTreeManager = new InMemoryTreeStateManager<Project>();
 
-			ArrayList<Project> projects = mClient.getProjects();
-			buildProjectList(projects);
+		ArrayList<Project> projects = mClient.getProjects();
+		buildProjectList(projects);
 
-			Log.d(TAG, mTreeManager.toString());
-			newCollapsible = true;
-		} else {
-			mTreeManager = (TreeStateManager<Project>) savedInstanceState
-					.getSerializable("treeManager");
-			newCollapsible = savedInstanceState.getBoolean("collapsible");
-		}
+		newCollapsible = true;
 
 		setContentView(R.layout.projects_list);
 		mTreeView = (TreeViewList) findViewById(R.id.projects_tree_view);

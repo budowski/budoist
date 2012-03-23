@@ -10,6 +10,7 @@ import budo.budoist.models.Item;
 import budo.budoist.models.Note;
 import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
+import budo.budoist.receivers.AppService;
 import budo.budoist.services.PremiumAccountException;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.views.adapters.NoteTreeItemAdapter;
@@ -21,9 +22,11 @@ import pl.polidea.treeview.TreeViewList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View.OnClickListener;
 import android.view.Display;
@@ -70,6 +73,25 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
 	private User mUser;
 	private Button mCloseButton;
 	
+	private class SyncReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			runOnUiThread(new Runnable() {
+				public void run() {
+					// Refresh visual note list
+		            buildNoteList();
+		            mNotesModified = true;
+				}
+			});
+
+		}
+	}
+	
+	private SyncReceiver mSyncReceiver = null;
+	private boolean mIsSyncReceiverRegistered = false;
+	
+
+	
     
     /**
      * Converts a note list into a tree note view (as set by post date of the notes)
@@ -97,20 +119,30 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
     
     @Override
     public void onBackPressed() {
- 		// Return the item (in case the note count was modified)
-		Intent intent = new Intent();
-		mItem.noteCount = mNoteCount;
-		intent.putExtra(KEY__ITEM, mItem);
-		intent.putExtra(KEY__NOTES_MODIFIED, new Boolean(mNotesModified));
-		
-		setResult(RESULT_OK, intent);
-   	
+    	setNoteResult();
+  	
     	super.onBackPressed();
     }
     
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		if (!mIsSyncReceiverRegistered) {
+			registerReceiver(mSyncReceiver, new IntentFilter(AppService.SYNC_COMPLETED_ACTION));
+			mIsSyncReceiverRegistered = true;
+		}
+	}
+
  	@Override
 	protected void onPause() {
 		super.onPause();
+		
+		if (mIsSyncReceiverRegistered) {
+			unregisterReceiver(mSyncReceiver);
+			mIsSyncReceiverRegistered = false;
+		}
+
 		
 		if ((mLoadingDialog != null) && (mLoadingDialog.isShowing()))
 			mLoadingDialog.dismiss();
@@ -123,6 +155,8 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+		mSyncReceiver = new SyncReceiver();
+		
         mContext = this;
         
         mNotesModified = false;
@@ -148,13 +182,8 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
-		        if (savedInstanceState == null) {
-		            mTreeManager = new InMemoryTreeStateManager<Note>();
-		            buildNoteList();
-		        } else {
-		            mTreeManager = (TreeStateManager<Note>) savedInstanceState
-		                    .getSerializable("treeManager");
-		        }
+	            mTreeManager = new InMemoryTreeStateManager<Note>();
+	            buildNoteList();
 		        
 		        mNoteAdapter = new NoteTreeItemAdapter(NoteListView.this, NoteListView.this, NoteListView.this, mTreeManager, LEVEL_NUMBER);
 		        
@@ -219,7 +248,13 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
         	break;
         
   		case R.id.sync_now:
-			LoginView.syncNow(NoteListView.this, mClient, mUser.email, mUser.password, null);
+			LoginView.syncNow(NoteListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+				@Override
+				public void run() {
+					// Refresh note list
+		            buildNoteList();
+				}
+			});
 			
 			break;
 			
@@ -389,12 +424,8 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
 		// When the close button was clicked
 		
 		// Return the item (in case the note count was modified)
-		Intent intent = new Intent();
-		mItem.noteCount = mNoteCount;
-		intent.putExtra(KEY__ITEM, mItem);
-		intent.putExtra(KEY__NOTES_MODIFIED, new Boolean(mNotesModified));
+		setNoteResult();
 		
-		setResult(RESULT_OK, intent);
 		finish();
 	}
 
@@ -420,6 +451,17 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
  			
 			}
 		}
+    }
+    
+    
+    private void setNoteResult() {
+    	// Return the item (in case the note count was modified)
+		Intent intent = new Intent();
+		mItem.noteCount = mNoteCount;
+		intent.putExtra(KEY__ITEM, mItem);
+		intent.putExtra(KEY__NOTES_MODIFIED, new Boolean(mNotesModified));
+		
+		setResult(RESULT_OK, intent);
     }
    
 }

@@ -12,6 +12,7 @@ import budo.budoist.models.Project;
 import budo.budoist.models.Query;
 import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
+import budo.budoist.receivers.AppService;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
 import budo.budoist.services.TodoistOfflineStorage.ItemSortMode;
@@ -27,9 +28,11 @@ import pl.polidea.treeview.TreeViewList;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
@@ -103,6 +106,24 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 	private Item mItemEdited; // Last item edited
 	private User mUser;
 	private Menu mMenu;
+	
+	private class SyncReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			runOnUiThread(new Runnable() {
+				public void run() {
+					// Refresh visual item list
+					buildItemList(getItemList());
+				}
+			});
+
+		}
+	}
+	
+	private SyncReceiver mSyncReceiver = null;
+	private boolean mIsSyncReceiverRegistered = false;
+
+	
     
     public ItemViewMode getViewMode() {
     	return mViewMode;
@@ -311,6 +332,8 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
+		mSyncReceiver = new SyncReceiver();
+		
         overridePendingTransition(0, 0);
         
         mContext = this;
@@ -370,14 +393,9 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 
 				runOnUiThread(new Runnable() {
 					public void run() {	
-				        if ((savedInstanceState == null) || (savedInstanceState.getSerializable("treeManager") == null)) {
-				        	Log.d(TAG, "Creating new tree manager");
-				            mTreeManager = new InMemoryTreeStateManager<Item>();
-				            buildItemList(items);
-				        } else {
-				        	Log.d(TAG, "Loading previous tree manager");
-				            mTreeManager = (TreeStateManager<Item>)savedInstanceState.getSerializable("treeManager");
-				        }
+			        	Log.d(TAG, "Creating new tree manager");
+			            mTreeManager = new InMemoryTreeStateManager<Item>();
+			            buildItemList(items);
 				        
 				        mItemAdapter = new ItemTreeItemAdapter(ItemListView.this, ItemListView.this, ItemListView.this, labels, mTreeManager, LEVEL_NUMBER);
 						
@@ -646,10 +664,26 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     	mClient.deleteItem(item, true);
     }
     
+ 	@Override
+	public void onResume() {
+		super.onResume();
+		
+		if (!mIsSyncReceiverRegistered) {
+			registerReceiver(mSyncReceiver, new IntentFilter(AppService.SYNC_COMPLETED_ACTION));
+			mIsSyncReceiverRegistered = true;
+		}
+		
+	}
+   
 	@Override
 	protected void onPause() {
 		super.onPause();
 		
+		if (mIsSyncReceiverRegistered) {
+			unregisterReceiver(mSyncReceiver);
+			mIsSyncReceiverRegistered = false;
+		}
+
 		if ((mLoadingDialog != null) && (mLoadingDialog.isShowing()))
 			mLoadingDialog.dismiss();
 	}

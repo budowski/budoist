@@ -11,6 +11,7 @@ import budo.budoist.models.Item;
 import budo.budoist.models.Label;
 import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
+import budo.budoist.receivers.AppService;
 import budo.budoist.services.PremiumAccountException;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
@@ -25,8 +26,11 @@ import pl.polidea.treeview.TreeStateManager;
 import pl.polidea.treeview.TreeViewList;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -94,6 +98,35 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
 	private Label mLabelEdited; // The current label being edited
 	
 	private static final int MAX_ITEM_NAME_IN_TITLE = 30;
+	
+	
+	private class SyncReceiver extends BroadcastReceiver {
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			runOnUiThread(new Runnable() {
+				public void run() {
+					// Refresh visual labels list
+					buildLabelList(mClient.getLabels());
+				}
+			});
+
+		}
+	}
+	
+	private SyncReceiver mSyncReceiver = null;
+	private boolean mIsSyncReceiverRegistered = false;
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		
+		if (mIsSyncReceiverRegistered) {
+			unregisterReceiver(mSyncReceiver);
+			mIsSyncReceiverRegistered = false;
+		}
+
+	}
+
     
     public LabelViewMode getViewMode() {
     	return mViewMode;
@@ -204,6 +237,11 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
     public void onResume() {
     	super.onResume();
     	
+    	if (!mIsSyncReceiverRegistered) {
+			registerReceiver(mSyncReceiver, new IntentFilter(AppService.SYNC_COMPLETED_ACTION));
+			mIsSyncReceiverRegistered = true;
+		}
+
 		if (mViewMode == LabelViewMode.FILTER_BY_LABELS) {
 	        mStorage.setLastViewedFilter(InitialView.FILTER_BY_LABELS);
 		}
@@ -215,6 +253,8 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         super.onCreate(savedInstanceState);
         boolean newCollapsible;
         
+		mSyncReceiver = new SyncReceiver();
+		
         overridePendingTransition(0, 0);
         
         Bundle extras = getIntent().getExtras();
@@ -228,18 +268,10 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         
         ArrayList<Label> labels = mClient.getLabels();
         
-        if (savedInstanceState == null) {
-            mTreeManager = new InMemoryTreeStateManager<Label>();
-
-            buildLabelList(labels);
-
-            newCollapsible = true;
-        } else {
-            mTreeManager = (TreeStateManager<Label>) savedInstanceState
-                    .getSerializable("treeManager");
-            newCollapsible = savedInstanceState.getBoolean("collapsible");
-        }
-        
+        mTreeManager = new InMemoryTreeStateManager<Label>();
+        buildLabelList(labels);
+        newCollapsible = true;
+    
         setContentView(R.layout.labels_list);
         mTreeView = (TreeViewList) findViewById(R.id.labels_tree_view);
         mTreeView.setItemsCanFocus(false);

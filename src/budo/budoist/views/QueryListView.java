@@ -217,16 +217,9 @@ public class QueryListView extends Activity implements OnItemClickListener {
         
         ArrayList<Query> queries = mClient.getQueries();
         
-        if (savedInstanceState == null) {
-            mTreeManager = new InMemoryTreeStateManager<Query>();
-
-            buildQueryList(queries);
-
-            newCollapsible = true;
-        } else {
-            mTreeManager = (TreeStateManager<Query>) savedInstanceState.getSerializable("treeManager");
-            newCollapsible = savedInstanceState.getBoolean("collapsible");
-        }
+        mTreeManager = new InMemoryTreeStateManager<Query>();
+        buildQueryList(queries);
+        newCollapsible = true;
         
         setContentView(R.layout.queries_list);
         mTreeView = (TreeViewList) findViewById(R.id.queries_tree_view);

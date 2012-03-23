@@ -1,6 +1,9 @@
 package budo.budoist.receivers;
 
+import android.app.ActivityManager;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.util.Log;
 import budo.budoist.TodoistApplication;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
@@ -8,9 +11,12 @@ import budo.budoist.services.TodoistServerException;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 
 public class AppService extends WakefulIntentService {
-    private TodoistApplication mApplication;
+    public static final String SYNC_COMPLETED_ACTION = "budo.budoist.action.SYNC_COMPLETED";
+    
+	private TodoistApplication mApplication;
     private TodoistClient mClient;
     private TodoistOfflineStorage mStorage;
     
@@ -44,6 +50,7 @@ public class AppService extends WakefulIntentService {
         	
         }
         
+      
         if ((!mClient.isCurrentlySyncing()) && (!mClient.hasNeverLoggedIn())) {
         	// Not currently syncing - see if we need to sync
         	
@@ -57,6 +64,11 @@ public class AppService extends WakefulIntentService {
         		try {
 					mClient.login();
 	        		mClient.syncAll(null); // if successful, syncAll will update last sync time
+	        		
+	        		// Tell any active views to refresh their project/label/note/item list
+	        		Intent syncCompleteIntent = new Intent(SYNC_COMPLETED_ACTION);
+	        		sendBroadcast(syncCompleteIntent);
+
 				} catch (TodoistServerException e) {
 					// Login/sync failed - will try again next time
 					e.printStackTrace();
