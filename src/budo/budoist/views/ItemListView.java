@@ -383,11 +383,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 				final ArrayList<Item> items;
 				final ArrayList<Label> labels;
 				
-		        if ((savedInstanceState == null) || (savedInstanceState.getSerializable("treeManager") == null)) {
-		        	items = getItemList();
-		        } else {
-		        	items = null;
-		        }
+	        	items = getItemList();
 		        
 		        labels = mClient.getLabels();
 
