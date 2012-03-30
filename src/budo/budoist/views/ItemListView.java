@@ -248,6 +248,8 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     	
     	mFinishedLoadingItems = false;
     	
+    	Log.d(TAG, "getItemList: " + mViewMode.toString());
+    	
          if (mViewMode == ItemViewMode.FILTER_BY_LABELS) {
         	items = mClient.getItemsByLabel(mFilterLabel, mSortMode);
         } else if (mViewMode == ItemViewMode.FILTER_BY_PROJECTS) {
@@ -282,11 +284,16 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         		// Todoist indentLevel starts from 1 (and not zero as the tree view expects)
     			indent = items.get(i).indentLevel - 1;
 				
-    			if (indent == lastRealIndentLevel) {
+    			if ((indent > 0) && (i == 0)) {
+    				// Root (first) item is not at indent level zero (Todoist website allows this).
+    				indent = 0;
+    				
+    			} else if (indent == lastRealIndentLevel) {
     				// Remain on the same indent level as the previous item - this is done in order to deal
     				// with cases in which there are several items in the same indent level, but the indent
     				// level difference from their parent is greater than one.
     				indent = lastIndentLevel;
+    				
     			} else {
 					// Todoist website allows for neighboring items with indent levels difference greater than 1
 					if (indent > lastIndentLevel + 1) {
@@ -384,12 +391,14 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 				final ArrayList<Label> labels;
 				
 	        	items = getItemList();
+	        	
+	        	Log.d(TAG, "Items: " + (items == null ? "<null>" : items.toString()));
 		        
 		        labels = mClient.getLabels();
 
 				runOnUiThread(new Runnable() {
 					public void run() {	
-			        	Log.d(TAG, "Creating new tree manager");
+			        	Log.d(TAG, "Creating new tree manager with items: "+ (items == null ? "<null>" : items.toString()));
 			            mTreeManager = new InMemoryTreeStateManager<Item>();
 			            buildItemList(items);
 				        

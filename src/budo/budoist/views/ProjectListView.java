@@ -145,7 +145,11 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			// indentLevel starts from 1 (and not zero as the tree view expects)
 			int currentIndentLevel = projects.get(i).indentLevel - 1;
 			
-			if (currentIndentLevel == lastRealIndentLevel) {
+			if ((currentIndentLevel > 0) && (i == 0)) {
+				// Root (first) project is not at indent level zero (Todoist website allows this).
+				currentIndentLevel = 0;
+				
+			} else if (currentIndentLevel == lastRealIndentLevel) {
 				// Remain on the same indent level as the previous project - this is done in order to deal
 				// with cases in which there are several projects in the same indent level, but the indent
 				// level difference from their parent is greater than one.

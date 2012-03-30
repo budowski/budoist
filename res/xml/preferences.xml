@@ -42,7 +42,7 @@
 			android:key="default_project" />
 	
 		<ListPreference
-			android:title="Item Sort Mode"
+			android:title="Default Item Sort Mode"
 			android:key="item_sort_mode"
 			android:entries="@array/preferences_sort_mode"
 			android:entryValues="@array/preferences_sort_mode_values"

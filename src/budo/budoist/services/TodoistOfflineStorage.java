@@ -838,9 +838,10 @@ public class TodoistOfflineStorage {
 	/**
 	 * Returns all of a user's items
 	 * @param getCompleted should completed items be shown as well?
+	 * @param sortMode the order in which to return items
 	 * @return
 	 */
-	public ArrayList<Item> getAllItems(boolean getCompleted) {
+	public ArrayList<Item> getAllItems(boolean getCompleted, ItemSortMode sortMode) {
 		SQLiteDatabase db;
 		Cursor c = null;
 		
@@ -849,11 +850,11 @@ public class TodoistOfflineStorage {
 		if (getCompleted) {
 			// Return all items
 			c = db.query(DBConsts.ITEMS_TABLE_NAME, null, null, 
-					null, null, null, null, null);
+					null, null, null, getOrderby(sortMode), null);
 		} else {
 			// Don't return completed items
 			c = db.query(DBConsts.ITEMS_TABLE_NAME, null, DBConsts.ITEMS_COMPLETED + "=0", 
-					null, null, null, null, null);
+					null, null, null, getOrderby(sortMode), null);
 		}
 		
 		return fillItemsFromCursor(db, c);
@@ -1326,7 +1327,7 @@ public class TodoistOfflineStorage {
 
 	
 	/**
-	 * Returns the start and end (in seconds since epoch) of a specific date, as set by c parameters
+	 * Returns the start and end (in seconds since epoch) of a specific date, as set by c parameter
 	 * @param c
 	 * @return an array of two items - start and end of the day
 	 */
@@ -1556,7 +1557,7 @@ public class TodoistOfflineStorage {
 		
 		if ((subQuery.equals("viewall")) || (subQuery.equals("va"))) {
 			// Return all items
-			return this.getAllItems(getCompleted);
+			return this.getAllItems(getCompleted, ItemSortMode.SORT_BY_DUE_DATE);
 		}
 		
 		matcher = patternLabel.matcher(subQuery);
@@ -1569,7 +1570,7 @@ public class TodoistOfflineStorage {
 				Label label = this.getLabelByName(labelName);
 				if (label != null) {
 					int labelId = label.id;
-					return this.getItemsByLabel(labelId, ItemSortMode.ORIGINAL_ORDER, getCompleted);
+					return this.getItemsByLabel(labelId, ItemSortMode.SORT_BY_DUE_DATE, getCompleted);
 				} else {
 					// Filter by label where label name doesn't exist - return an empty list
 					return new ArrayList<Item>();
@@ -1589,10 +1590,10 @@ public class TodoistOfflineStorage {
 			c = Calendar.getInstance(); c.add(Calendar.DAY_OF_MONTH, dayCount);
 			long[] scheduleEnd = getDayStartAndEnd(c);
 			
-			// Sort by due date
-			filterQuery = String.format("%s BETWEEN %d AND %d ORDER BY %s ASC",
+			// Sort by due date, then by priority
+			filterQuery = String.format("%s BETWEEN %d AND %d ORDER BY %s ASC, %s DESC",
 					DBConsts.ITEMS_DUE_DATE, scheduleStart[0], scheduleEnd[1],
-					DBConsts.ITEMS_DUE_DATE);
+					DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
 			
 		}
 
@@ -1601,17 +1602,20 @@ public class TodoistOfflineStorage {
 			// A date query - "today", "tomorrow", "10/5", "next friday", ...
 			long[] day = getDayStartAndEnd(getDateFromQuery(matcher));
 			
-			filterQuery = String.format("%s BETWEEN %d AND %d",
-					DBConsts.ITEMS_DUE_DATE, day[0], day[1]);
+			// Sort by due date, then by priority
+			filterQuery = String.format("%s BETWEEN %d AND %d ORDER BY %s ASC, %s DESC",
+					DBConsts.ITEMS_DUE_DATE, day[0], day[1],
+					DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
 			
 		} else if ((subQuery.equals("overdue")) || (subQuery.equals("od"))) {
 			// Overdue items
 			Calendar c = Calendar.getInstance();
 			long[] day = getDayStartAndEnd(c);
 			
-			// Any items with a due date before today
-			filterQuery = String.format("%s < %d",
-					DBConsts.ITEMS_DUE_DATE, day[0]);
+			// Any items with a due date before today (sort by due date, then by priority)
+			filterQuery = String.format("%s < %d ORDER BY %s ASC, %s DESC",
+					DBConsts.ITEMS_DUE_DATE, day[0],
+					DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
 		}
 		
 		matcher = patternPriority.matcher(subQuery);
@@ -1619,8 +1623,10 @@ public class TodoistOfflineStorage {
 			// Filter by priority
 			int priority = 5 - Integer.valueOf(matcher.group(1)); // -5 since Todoist servers (and our DB) save it backwards
 			
-			filterQuery = String.format("%s = %d",
-					DBConsts.ITEMS_PRIORITY, priority);
+			// Sort by due date (after filtering by a specific priority)
+			filterQuery = String.format("%s = %d ORDER BY %s ASC",
+					DBConsts.ITEMS_PRIORITY, priority,
+					DBConsts.ITEMS_DUE_DATE);
 		}
 		
 		if (filterQuery == null) {

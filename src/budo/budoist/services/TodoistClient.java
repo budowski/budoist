@@ -528,10 +528,11 @@ public class TodoistClient {
 	/**
 	 * Returns a list of all items (from cache/storage)
 	 * 
+	 * @param sortMode the order in which to return items
 	 * @return
 	 */
-	public ArrayList<Item> getAllItems() {
-		return mStorage.getAllItems(mStorage.getShowCompletedItems());
+	public ArrayList<Item> getAllItems(ItemSortMode sortMode) {
+		return mStorage.getAllItems(mStorage.getShowCompletedItems(), sortMode);
 	}
 
 	
@@ -930,7 +931,7 @@ public class TodoistClient {
 	 * @throws TodoistServerException 
 	 */
 	private void syncItems(ISyncProgress callback) throws TodoistServerException {
-		ArrayList<SynchronizedModel> offlineItems = convertListToSyncModel(mStorage.getAllItems(true));
+		ArrayList<SynchronizedModel> offlineItems = convertListToSyncModel(mStorage.getAllItems(true, ItemSortMode.ORIGINAL_ORDER));
 		ArrayList<SynchronizedModel> onlineItems = new ArrayList<SynchronizedModel>();
 		
 		if (callback != null) {
