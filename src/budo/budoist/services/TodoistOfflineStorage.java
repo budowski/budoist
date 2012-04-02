@@ -838,24 +838,39 @@ public class TodoistOfflineStorage {
 	/**
 	 * Returns all of a user's items
 	 * @param getCompleted should completed items be shown as well?
+	 * @param getDeleted should locally-deleted items be returned?
 	 * @param sortMode the order in which to return items
 	 * @return
 	 */
-	public ArrayList<Item> getAllItems(boolean getCompleted, ItemSortMode sortMode) {
+	public ArrayList<Item> getAllItems(boolean getCompleted, boolean getDeleted, ItemSortMode sortMode) {
 		SQLiteDatabase db;
 		Cursor c = null;
 		
 		db = mDbHelper.getWritableDatabase();
 		
-		if (getCompleted) {
-			// Return all items
-			c = db.query(DBConsts.ITEMS_TABLE_NAME, null, null, 
-					null, null, null, getOrderby(sortMode), null);
-		} else {
-			// Don't return completed items
-			c = db.query(DBConsts.ITEMS_TABLE_NAME, null, DBConsts.ITEMS_COMPLETED + "=0", 
-					null, null, null, getOrderby(sortMode), null);
+		String query = String.format("SELECT * FROM %s", DBConsts.ITEMS_TABLE_NAME);
+		
+		if ((!getCompleted) || (!getDeleted)) {
+			query += " WHERE ";
 		}
+		
+		if (!getCompleted) {
+			// Return only non-completed items
+			query += String.format("%s = 0", DBConsts.ITEMS_COMPLETED);
+		}
+		
+		if (!getDeleted) {
+			if (!getCompleted) {
+				query += " AND ";
+			}
+			// Return only non-deleted items
+			query += String.format("%s <> '%s'", DBConsts.ITEMS_DIRTY_STATE, DirtyState.DELETED.toString());
+		}
+		
+		// Add the item order
+		query += String.format(" ORDER BY %s", getOrderby(sortMode));
+		
+		c = db.rawQuery(query, new String[] {});
 		
 		return fillItemsFromCursor(db, c);
 	}
@@ -1335,10 +1350,11 @@ public class TodoistOfflineStorage {
 		c.set(Calendar.HOUR_OF_DAY, 0);
 		c.set(Calendar.MINUTE, 0);
 		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
 		long start = c.getTime().getTime();
 		
 		c.add(Calendar.DAY_OF_MONTH, 1);
-		c.add(Calendar.SECOND, -1);
+		c.add(Calendar.MILLISECOND, -1);
 		long end = c.getTime().getTime();
 		
 		return new long[]{ start, end };
@@ -1556,8 +1572,8 @@ public class TodoistOfflineStorage {
 		Pattern patternDaysSchedule = Pattern.compile(REGEX_DAYS_SCHEDULE, Pattern.CASE_INSENSITIVE);
 		
 		if ((subQuery.equals("viewall")) || (subQuery.equals("va"))) {
-			// Return all items
-			return this.getAllItems(getCompleted, ItemSortMode.SORT_BY_DUE_DATE);
+			// Return all items (excluding deleted items)
+			return this.getAllItems(getCompleted, false, ItemSortMode.SORT_BY_DUE_DATE);
 		}
 		
 		matcher = patternLabel.matcher(subQuery);
@@ -1638,6 +1654,11 @@ public class TodoistOfflineStorage {
 			// Don't return completed items
 			filterQuery = String.format("%s = 0 AND %s", DBConsts.ITEMS_COMPLETED, filterQuery);
 		}
+		
+		// Don't return deleted items
+		filterQuery = String.format("%s <> '%s' AND %s",
+				DBConsts.ITEMS_DIRTY_STATE, DirtyState.DELETED.toString(),
+				filterQuery);
 		
 		
 		SQLiteDatabase db;

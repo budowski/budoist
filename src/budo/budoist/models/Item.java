@@ -136,8 +136,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 
 	
 	public String toString() {
-		return String.format("<Item: %d (owner user: %d; project: %d); content: '%s'; completed: %b; indent: %d; itemOrder: %d; priority: %d; label ids: %s; due date: %s; date string: %s; dirtyState: %s>",
-				id, userId, projectId, rawContent, completed, indentLevel, itemOrder, priority, (labelIds != null ? labelIds.toString(): "[]"), (dueDate == null ? "<null>" : dueDate.toString()), dateString, dirtyState.toString());
+		return String.format("<Item: %d (owner user: %d; project: %d); content: '%s'; completed: %b; indent: %d; itemOrder: %d; priority: %d; label ids: %s; due date: %s (%d); date string: %s; dirtyState: %s>",
+				id, userId, projectId, rawContent, completed, indentLevel, itemOrder, priority, (labelIds != null ? labelIds.toString(): "[]"), (dueDate == null ? "<null>" : dueDate.toString()),
+				(dueDate == null ? 0 : dueDate.getTime()),
+				dateString, dirtyState.toString());
 	}
 	
 	

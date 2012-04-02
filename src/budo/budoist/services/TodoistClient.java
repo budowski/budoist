@@ -532,7 +532,10 @@ public class TodoistClient {
 	 * @return
 	 */
 	public ArrayList<Item> getAllItems(ItemSortMode sortMode) {
-		return mStorage.getAllItems(mStorage.getShowCompletedItems(), sortMode);
+		return mStorage.getAllItems(
+				mStorage.getShowCompletedItems(),
+				false, // Don't return deleted items
+				sortMode);
 	}
 
 	
@@ -931,7 +934,7 @@ public class TodoistClient {
 	 * @throws TodoistServerException 
 	 */
 	private void syncItems(ISyncProgress callback) throws TodoistServerException {
-		ArrayList<SynchronizedModel> offlineItems = convertListToSyncModel(mStorage.getAllItems(true, ItemSortMode.ORIGINAL_ORDER));
+		ArrayList<SynchronizedModel> offlineItems = convertListToSyncModel(mStorage.getAllItems(true, true, ItemSortMode.ORIGINAL_ORDER));
 		ArrayList<SynchronizedModel> onlineItems = new ArrayList<SynchronizedModel>();
 		
 		if (callback != null) {
@@ -1064,10 +1067,8 @@ public class TodoistClient {
 			
 			SyncResult syncResult = checkItemsForSync(localItem, remoteItem);
 			
-			/*
-			Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
-					syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
-					*/
+			//Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
+			//		syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
 			
 			handleSyncResult(localItem, remoteItem, syncResult);
 			
@@ -1083,10 +1084,8 @@ public class TodoistClient {
 			SynchronizedModel localItem = e.nextElement();
 			SyncResult syncResult = checkItemsForSync(localItem, null /* No remote copy exists */);
 			
-			/*
-			Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: <null>;",
-					syncResult.toString(), localItem.toString()));
-					*/
+			//Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: <null>;",
+			//		syncResult.toString(), localItem.toString()));
 
 			
 			handleSyncResult(localItem, null, syncResult);

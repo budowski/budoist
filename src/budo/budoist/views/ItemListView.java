@@ -666,6 +666,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         }
         
     	// Delete current item
+        Log.e(TAG, "Deleting " + item.toString());
     	mClient.deleteItem(item, true);
     }
     
