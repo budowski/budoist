@@ -13,6 +13,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import com.bugsense.trace.BugSenseHandler;
+
 public class AppService extends WakefulIntentService {
     public static final String SYNC_COMPLETED_ACTION = "budo.budoist.action.SYNC_COMPLETED";
     

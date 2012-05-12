@@ -1067,8 +1067,10 @@ public class TodoistClient {
 			
 			SyncResult syncResult = checkItemsForSync(localItem, remoteItem);
 			
-			//Log.d(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
-			//		syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
+			if (syncResult == SyncResult.ADD_REMOTE_TO_LOCAL) {
+				Log.e(TAG, String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
+						syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
+			}
 			
 			handleSyncResult(localItem, remoteItem, syncResult);
 			

@@ -12,7 +12,7 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    >
-		    <EditText android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/item_content" android:text="" android:gravity="top" android:singleLine="false" android:lines="3" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_marginRight="5dp"></EditText>
+		    <EditText android:inputType="textCapSentences|textMultiLine" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/item_content" android:text="" android:gravity="top" android:singleLine="false" android:lines="3" android:paddingLeft="10dp" android:paddingRight="10dp" android:layout_marginRight="5dp" />
 		    
 		    <Button android:id="@+id/item_select_labels" android:text="Select Labels..." android:layout_width="wrap_content" android:layout_height="wrap_content" />
 		    

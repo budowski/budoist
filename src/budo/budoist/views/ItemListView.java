@@ -764,6 +764,8 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     			// a single item
     			final Item item = (Item)data.getExtras().get(EditItemView.KEY__ITEM);
     			
+    			Log.e(TAG, "Edit Item: " + item.toString());
+    			
 		  		// Don't let the user switch between screen orientations (causes the adding/updating process to restart)
 				setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_NOSENSOR);
 				

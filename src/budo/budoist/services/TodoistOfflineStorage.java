@@ -1623,6 +1623,8 @@ public class TodoistOfflineStorage {
 					DBConsts.ITEMS_DUE_DATE, day[0], day[1],
 					DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
 			
+			Log.e(TAG, String.format("Query: %s", filterQuery));
+			
 		} else if ((subQuery.equals("overdue")) || (subQuery.equals("od"))) {
 			// Overdue items
 			Calendar c = Calendar.getInstance();

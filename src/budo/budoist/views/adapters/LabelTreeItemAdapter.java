@@ -109,7 +109,7 @@ public class LabelTreeItemAdapter extends AbstractTreeViewAdapter<Label> {
         itemCount.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize);
         
         int alphaColor = 0xFF;
-        if (label.count == 0)
+        if ((label.count == 0) && (mLabelViewMode == LabelViewMode.FILTER_BY_LABELS))
         	alphaColor = 0x50; // In case the label contains no items - make it a little blurred
         
         labelName.setText(Html.fromHtml("<u>" + label.name + "</u>"));

@@ -3,6 +3,8 @@ package budo.budoist;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import com.bugsense.trace.BugSenseHandler;
+
 import budo.budoist.models.Label;
 import budo.budoist.models.Project;
 import budo.budoist.models.Query;
@@ -55,6 +57,8 @@ public class Bootloader extends Activity {
 	@Override
     public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        BugSenseHandler.setup(this, "7ffbae8a");
         
         mApplication = (TodoistApplication)getApplication();
         mClient = mApplication.getClient();
