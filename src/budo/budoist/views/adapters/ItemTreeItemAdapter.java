@@ -94,7 +94,6 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
     public ItemTreeItemAdapter(final ItemListView itemListView,
     		final IOnItemCompleted onItemCompleted,
     		final IOnItemNotes onItemNotes,
-    		final ArrayList<Label> labels,
             final TreeStateManager<Item> treeStateManager,
             final int numberOfLevels) {
         super(itemListView, treeStateManager, numberOfLevels);
@@ -107,8 +106,6 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         
         mItemListView = itemListView;
         mItemViewMode = mItemListView.getViewMode();
-
-        setLabels(labels);
     }
 
     @Override

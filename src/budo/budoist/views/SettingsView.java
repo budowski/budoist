@@ -172,7 +172,12 @@ public class SettingsView extends PreferenceActivity {
 			}
 		}
 		
-	    mDefaultProject.setSummary(TodoistTextFormatter.formatText(project.getName()));
+		if (project == null) {
+			// No projects defined at all
+			mDefaultProject.setSummary("<None>");
+		} else {
+			mDefaultProject.setSummary(TodoistTextFormatter.formatText(project.getName()));
+		}
 	    mDefaultProject.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {

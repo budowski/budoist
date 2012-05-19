@@ -63,7 +63,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 	private ImageView mAddItemToolbarButton;
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
 
-    private static final int LEVEL_NUMBER = 4;
+    private static final int LEVEL_NUMBER = 5;
     private TreeStateManager<Item> mTreeManager = null;
     private ItemTreeItemAdapter mItemAdapter;
     private boolean mCollapsible;
@@ -383,26 +383,30 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         
 		mLoadingDialog = ProgressDialog.show(mContext, "", "Loading items...");
 		
+		
+		ArrayList<Label> labels;
+		labels = mClient.getLabels();
+
+		// Initialize these in the main onCreate thread, since this ensures the manager and adapter are ready
+		// when other events (such as the onActivityResult) start running.
+		mTreeManager = new InMemoryTreeStateManager<Item>();
+		mItemAdapter = new ItemTreeItemAdapter(ItemListView.this, ItemListView.this, ItemListView.this, mTreeManager, LEVEL_NUMBER);
+		mItemAdapter.setLabels(labels);
+		
 		// Run this logic on a separate thread in order for the loading dialog to actually show
 		(new Thread(new Runnable() {
 			@Override
 			public void run() {
 				final ArrayList<Item> items;
-				final ArrayList<Label> labels;
 				
 	        	items = getItemList();
 	        	
 	        	Log.d(TAG, "Items: " + (items == null ? "<null>" : items.toString()));
 		        
-		        labels = mClient.getLabels();
-
 				runOnUiThread(new Runnable() {
 					public void run() {	
 			        	Log.d(TAG, "Creating new tree manager with items: "+ (items == null ? "<null>" : items.toString()));
-			            mTreeManager = new InMemoryTreeStateManager<Item>();
 			            buildItemList(items);
-				        
-				        mItemAdapter = new ItemTreeItemAdapter(ItemListView.this, ItemListView.this, ItemListView.this, labels, mTreeManager, LEVEL_NUMBER);
 						
 				        setContentView(R.layout.items_list);
 				        
@@ -431,23 +435,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         */
     }
     
-    
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-		try {
-			// In case the activity was paused in the middle of refreshing/loading items - we need
-			// time for the getItemList function to complete
-			while (!mFinishedLoadingItems) {
-					Thread.sleep(50);
-			}
-		} catch (InterruptedException e) {
-		}
-
-        outState.putSerializable("treeManager", mTreeManager);
-        outState.putBoolean("collapsible", this.mCollapsible);
-        super.onSaveInstanceState(outState);
-    }
-
     protected final void setCollapsible(boolean newCollapsible) {
         this.mCollapsible = newCollapsible;
         mTreeView.setCollapsible(this.mCollapsible);

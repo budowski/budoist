@@ -102,7 +102,6 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				(this.itemOrder == otherItem.itemOrder) &&
 				(this.priority == otherItem.priority) &&
 				(this.completed == otherItem.completed) &&
-				(this.noteCount == otherItem.noteCount) &&
 				(compareObjects(this.getContent(), otherItem.getContent())) &&
 				(compareArrays(this.labelIds, otherItem.labelIds))
 			) {
@@ -136,10 +135,10 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 
 	
 	public String toString() {
-		return String.format("<Item: %d (owner user: %d; project: %d); content: '%s'; completed: %b; indent: %d; itemOrder: %d; priority: %d; label ids: %s; due date: %s (%d); date string: %s; dirtyState: %s>",
+		return String.format("<Item: %d (owner user: %d; project: %d); content: '%s'; completed: %b; indent: %d; itemOrder: %d; priority: %d; label ids: %s; due date: %s (%d); date string: %s; note count: %d; dirtyState: %s>",
 				id, userId, projectId, rawContent, completed, indentLevel, itemOrder, priority, (labelIds != null ? labelIds.toString(): "[]"), (dueDate == null ? "<null>" : dueDate.toString()),
 				(dueDate == null ? 0 : dueDate.getTime()),
-				dateString, dirtyState.toString());
+				dateString, noteCount, dirtyState.toString());
 	}
 	
 	
@@ -492,8 +491,27 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 					month = parseMonth(matcher.group(3));
 				} else {
 					// Every 7/5
-					
-					if (dateFormat == DateFormat.DD_MM_YYYY) {
+				    
+				    if (matcher.group(4) == null) {
+				        // Every 7 - assume it's every 7th of the month
+				        // Need to determine whether it's this month or the next
+				        
+				        Calendar dayInMonth = Calendar.getInstance();
+
+				        // Get to start of next month
+				        dayInMonth.set(Calendar.DAY_OF_MONTH, Integer.valueOf(matcher.group(2)));
+
+				        if (dayInMonth.after(c)) {
+				            // It's in the current month
+				        } else {
+				            // We're passed that day - it's in the next month
+				            dayInMonth.add(Calendar.MONTH, 1);
+				        }
+				        
+						day = Integer.valueOf(matcher.group(2));
+						month = dayInMonth.get(Calendar.MONTH);
+				        
+				    } else if (dateFormat == DateFormat.DD_MM_YYYY) {
 						day = Integer.valueOf(matcher.group(2));
 						month = Integer.valueOf(matcher.group(4)) - 1; // -1 since months in Calendar are zero-based
 					} else if (dateFormat == DateFormat.MM_DD_YYYY){

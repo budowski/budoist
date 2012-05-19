@@ -66,7 +66,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	private TextView mProjectsToolbarText, mLabelsToolbarText, mQueriesToolbarText;
 	private ImageView mAddItemToolbarButton;
 
-	private static final int LEVEL_NUMBER = 4;
+	private static final int LEVEL_NUMBER = 5;
 	private TreeStateManager<Project> mTreeManager = null;
 	private ProjectTreeItemAdapter mProjectAdapter;
 	private boolean mCollapsible;
@@ -352,13 +352,6 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			// Selecting a project action was canceled
 			setResult(RESULT_CANCELED);
 		}
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		outState.putSerializable("treeManager", mTreeManager);
-		outState.putBoolean("collapsible", this.mCollapsible);
-		super.onSaveInstanceState(outState);
 	}
 
 	protected final void setCollapsible(boolean newCollapsible) {
