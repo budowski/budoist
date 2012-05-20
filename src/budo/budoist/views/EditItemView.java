@@ -335,7 +335,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
         	mItemContent.setText((mItem.canBeCompleted() ? "" : "*") + itemContent);
         }
         mIndentSpinner.setSelection(mItem.indentLevel - 1);
-        mItemDueString.setText(mItem.dateString);
+        mItemDueString.setText(mItem.hasDueDateString() ? mItem.dateString : "");
         
         if (mItem.priority == Item.PRIORITY_1_HIGHEST)
         	mPriority1.setChecked(true);

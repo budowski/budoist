@@ -396,7 +396,7 @@ public class TodoistClient {
 			item.dirtyState = DirtyState.MODIFIED;
 		}
 		
-		if ((item.dateString != null) && (item.dateString.length() > 0) &&
+		if ((item.hasDueDateString()) &&
 		        ((item.dueDate == null) || (item.dueDate.getTime() == 0))) {
 		    // The date string isn't empty, but the due date is empty -
 		    // Try and recalculate the date
@@ -489,7 +489,7 @@ public class TodoistClient {
 		// Need a temp ID until the item is sync'd online and given a "real" ID by the Todoist server
 		item.id = generateRandomId(item);
 		
-		if ((item.dateString != null) && (item.dateString.length() > 0) &&
+		if ((item.hasDueDateString()) &&
 		        ((item.dueDate == null) || (item.dueDate.getTime() == 0))) {
 		    // The date string isn't empty, but the due date is empty -
 		    // Try and recalculate the date
@@ -902,9 +902,17 @@ public class TodoistClient {
 				onlineNotes.addAll(convertListToSyncModel(new ArrayList<Note>()));
 				
 			} else if (item.completed) {
-				// Item is already completed - no need to sync its notes (simply add the local notes
-				// to the remote note list - so nothing will be changed)
-				onlineNotes.addAll(convertListToSyncModel(mStorage.getNotesByItem(item)));
+				// Item is already completed
+			    ArrayList<Note> itemNotes = mStorage.getNotesByItem(item);
+			    
+			    if (itemNotes.size() == item.noteCount) {
+			        // No need to sync its notes (simply add the local notes
+			        // to the remote note list - so nothing will be changed)
+			        onlineNotes.addAll(convertListToSyncModel(itemNotes));
+			    } else {
+			        // The noteCount received from the server is not the same as we have
+			        onlineNotes.addAll(convertListToSyncModel(TodoistServer.getNotes(mUser, item)));
+			    }
 				
 			} else {
 				onlineNotes.addAll(convertListToSyncModel(TodoistServer.getNotes(mUser, item)));
@@ -1083,8 +1091,8 @@ public class TodoistClient {
 			
 			SyncResult syncResult = checkItemsForSync(localItem, remoteItem);
 			
-			//Log.e("Budoist", String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
-			//		syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
+			Log.e("Budoist", String.format("SyncResult: %s; Local item: %s; Remote item: %s;",
+					syncResult.toString(), (localItem != null ? localItem.toString() : "<null>"), remoteItem.toString()));
 			
 			handleSyncResult(localItem, remoteItem, syncResult);
 			
@@ -1151,7 +1159,7 @@ public class TodoistClient {
 			
 		} else if (remoteItem instanceof Item) {
 		    Item item = (Item)remoteItem;
-		    if ((item.dateString != null) && (item.dateString.length() > 0) &&
+		    if ((item.hasDueDateString()) &&
 		            ((item.dueDate == null) || (item.dueDate.getTime() == 0))) {
 		        // The date string isn't empty, but the due date is empty -
 		        // Try and recalculate the date
@@ -1350,7 +1358,7 @@ public class TodoistClient {
 			
 		} else if (remoteItem instanceof Item) {
 		    Item item = (Item)remoteItem;
-		    if ((item.dateString != null) && (item.dateString.length() > 0) &&
+		    if ((item.hasDueDateString()) &&
 		            ((item.dueDate == null) || (item.dueDate.getTime() == 0))) {
 		        // The date string isn't empty, but the due date is empty -
 		        // Try and recalculate the date

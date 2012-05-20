@@ -681,7 +681,7 @@ public class TodoistOfflineStorage {
 		
 		// In case the item has no due date, it is saved in the DB as a MAX_LONG value (used when
 		// sorting by due date, in order for it to appear last)
-		values.put(DBConsts.ITEMS_DUE_DATE, (((newItem.dueDate != null) && (newItem.dueDate.getTime() != 0)) ? newItem.dueDate.getTime() : Long.MAX_VALUE));
+		values.put(DBConsts.ITEMS_DUE_DATE, (((newItem.dueDate != null) && (newItem.dueDate.getTime() > 0)) ? newItem.dueDate.getTime() : Long.MAX_VALUE));
 		
 		values.put(DBConsts.ITEMS_INDENT, newItem.indentLevel);
 		values.put(DBConsts.ITEMS_NOTE_COUNT, newItem.noteCount);
@@ -935,7 +935,7 @@ public class TodoistOfflineStorage {
 		// In case the item has no due date, it is saved in the DB as a MAX_LONG value (used when
 		// sorting by due date, in order for it to appear last)
 		long dateNum = c.getLong(c.getColumnIndex(DBConsts.ITEMS_DUE_DATE));
-		item.dueDate = new Date((dateNum == Long.MAX_VALUE ? 0 : dateNum));
+		item.dueDate = new Date(((dateNum == Long.MAX_VALUE) || (dateNum < 0) ? 0 : dateNum));
 		
 		item.indentLevel = c.getInt(c.getColumnIndex(DBConsts.ITEMS_INDENT));
 		item.noteCount = c.getInt(c.getColumnIndex(DBConsts.ITEMS_NOTE_COUNT));

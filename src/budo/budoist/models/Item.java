@@ -102,6 +102,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				(this.itemOrder == otherItem.itemOrder) &&
 				(this.priority == otherItem.priority) &&
 				(this.completed == otherItem.completed) &&
+				(this.noteCount == otherItem.noteCount) &&
 				(compareObjects(this.getContent(), otherItem.getContent())) &&
 				(compareArrays(this.labelIds, otherItem.labelIds))
 			) {
@@ -139,6 +140,15 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 				id, userId, projectId, rawContent, completed, indentLevel, itemOrder, priority, (labelIds != null ? labelIds.toString(): "[]"), (dueDate == null ? "<null>" : dueDate.toString()),
 				(dueDate == null ? 0 : dueDate.getTime()),
 				dateString, noteCount, dirtyState.toString());
+	}
+	
+	
+	/**
+	 * Returns whether or not the item has a due date string
+	 * @return
+	 */
+	public boolean hasDueDateString() {
+	    return ((dateString != null) && (dateString.length() > 0) && (!dateString.equalsIgnoreCase(NO_DUE_DATE)));
 	}
 	
 	
