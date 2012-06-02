@@ -71,7 +71,7 @@ public class AppService extends WakefulIntentService {
 	        		Intent syncCompleteIntent = new Intent(SYNC_COMPLETED_ACTION);
 	        		sendBroadcast(syncCompleteIntent);
 
-				} catch (TodoistServerException e) {
+				} catch (Exception e) {
 					// Login/sync failed - will try again next time
 					e.printStackTrace();
 				}

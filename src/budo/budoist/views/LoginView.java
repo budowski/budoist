@@ -2,7 +2,10 @@ package budo.budoist.views;
 
 import budo.budoist.R;
 import budo.budoist.TodoistApplication;
+import budo.budoist.models.Item;
+import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
+import budo.budoist.services.InvalidDateStringException;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistServerException;
 import budo.budoist.services.TodoistClient.ISyncProgress;
@@ -17,6 +20,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.Editable;
@@ -50,6 +54,9 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
     private EditText mPassword;
     
 	private final static String SYNC_INITIAL_MESSAGE = "Syncing for the first time. This might take a while...";
+	
+	private static final int MAX_ITEM_NAME_IN_SYNC_ERROR = 20;
+	private static final int SYNCING_FAILED_DUE_DATE_ERROR_DURATION = 7000;
 	
     @Override
     public void onCreate(final Bundle savedInstanceState) {
@@ -286,6 +293,40 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 							});
 						}
 					});
+				} catch (final InvalidDateStringException exc) {
+					if (wakeLock.isHeld())
+						wakeLock.release();
+					
+					Log.e("Budoist", String.format("Sync Exception: Invalid date: %s", exc.getItem().toString()));
+					
+					activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
+					activity.runOnUiThread(new Runnable() {
+					    public void run() {	
+					        if (syncDialog.isShowing())
+					            syncDialog.hide();
+
+					        Item item = exc.getItem();
+					        String shortContent = TodoistTextFormatter.formatText(item.getContent()).toString();
+					        if (shortContent.length() > MAX_ITEM_NAME_IN_SYNC_ERROR) shortContent = shortContent.subSequence(0, MAX_ITEM_NAME_IN_SYNC_ERROR) + "...";
+					        
+					        final Toast toast = Toast.makeText(activity,
+					                String.format(
+					                        "Syncing failed - The item '%s' has an invalid due date string: '%s'",
+					                        shortContent, item.dateString
+					                        ),
+					                        Toast.LENGTH_LONG
+				                        );
+					        toast.show();
+					        
+					        // A hack to show the toast for a longer period
+					        new CountDownTimer(SYNCING_FAILED_DUE_DATE_ERROR_DURATION, 1000) {
+					            public void onTick(long millisUntilFinished) { toast.show(); }
+					            public void onFinish() { toast.show(); }
+					        }.start(); 
+					    }
+					});
+
+					
 				} catch (TodoistServerException e) {
 					if (wakeLock.isHeld())
 						wakeLock.release();

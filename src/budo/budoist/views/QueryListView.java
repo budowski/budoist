@@ -432,7 +432,7 @@ public class QueryListView extends Activity implements OnItemClickListener {
 	         		try {
 						mClient.login();
 		        		mClient.syncAll(null);
-					} catch (TodoistServerException e) {
+					} catch (Exception e) {
 						// Login/sync failed
 						e.printStackTrace();
 					}

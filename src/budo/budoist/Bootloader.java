@@ -83,7 +83,7 @@ public class Bootloader extends Activity {
 		         		try {
 							mClient.login();
 			        		mClient.syncAll(null);
-						} catch (TodoistServerException e) {
+						} catch (Exception e) {
 							// Login/sync failed
 							e.printStackTrace();
 						}

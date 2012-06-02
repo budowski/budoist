@@ -25,6 +25,7 @@ import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.models.User;
 import budo.budoist.models.SynchronizedModel.DirtyState;
 import budo.budoist.services.TodoistOfflineStorage.ItemSortMode;
+import budo.budoist.services.TodoistServer.ErrorCode;
 
 /**
  * Represents a Todoist client, which reads account information from the online Todoist
@@ -827,9 +828,11 @@ public class TodoistClient {
 	 * NOTE: This method assumes we have logged-in (using the login() method) prior to calling it.
 	 * 
 	 * @param callback optional callback called during sync (with progress updates)
+	 * 
 	 * @throws TodoistServerException
+	 * @throws InvalidDateStringException 
 	 */
-	public void syncAll(ISyncProgress callback) throws TodoistServerException {
+	public void syncAll(ISyncProgress callback) throws TodoistServerException, InvalidDateStringException {
 		if (mIsCurrentlySyncing) {
 			// Syncing is already in progress
 			return;
@@ -875,9 +878,10 @@ public class TodoistClient {
 	 * relies on the local (cached) list of items for retrieving notes (per item).
 	 * 
 	 * @param callback optional callback called during sync (with progress updates)
-	 * @throws TodoistServerException, PremiumAccountException
+	 * 
+	 * @throws TodoistServerException, PremiumAccountException, InvalidDateStringException 
 	 */
-	private void syncNotes(ISyncProgress callback) throws TodoistServerException, PremiumAccountException {
+	private void syncNotes(ISyncProgress callback) throws TodoistServerException, PremiumAccountException, InvalidDateStringException {
 		if (!isPremium()) {
 			// Only premium users can use notes
 			throw new PremiumAccountException();
@@ -938,9 +942,11 @@ public class TodoistClient {
 	 * Synchronizes labels (offline vs. online)
 	 * 
 	 * @param callback optional callback called during sync (with progress updates)
+	 * 
 	 * @throws TodoistServerException 
+	 * @throws InvalidDateStringException 
 	 */
-	private void syncLabels(ISyncProgress callback) throws TodoistServerException {
+	private void syncLabels(ISyncProgress callback) throws TodoistServerException, InvalidDateStringException {
 		if (callback != null) {
 			callback.onSyncProgress("Syncing labels", 20);
 		}
@@ -962,9 +968,11 @@ public class TodoistClient {
 	 * relies on the local (cached) list of projects for retrieving items (per project).
 	 * 
 	 * @param callback optional callback called during sync (with progress updates)
+	 * 
 	 * @throws TodoistServerException 
+	 * @throws InvalidDateStringException 
 	 */
-	private void syncItems(ISyncProgress callback) throws TodoistServerException {
+	private void syncItems(ISyncProgress callback) throws TodoistServerException, InvalidDateStringException {
 		ArrayList<SynchronizedModel> offlineItems = convertListToSyncModel(mStorage.getAllItems(true, true, ItemSortMode.ORIGINAL_ORDER));
 		ArrayList<SynchronizedModel> onlineItems = new ArrayList<SynchronizedModel>();
 		
@@ -1020,9 +1028,11 @@ public class TodoistClient {
 	 * Synchronizes projects (offline vs. online)
 	 * 
 	 * @param callback optional callback called during sync (with progress updates)
+	 * 
 	 * @throws TodoistServerException
+	 * @throws InvalidDateStringException 
 	 */
-	private void syncProjects(ISyncProgress callback) throws TodoistServerException {
+	private void syncProjects(ISyncProgress callback) throws TodoistServerException, InvalidDateStringException {
 		ArrayList<Project> projects = this.getProjects();
 		
 		if (callback != null) {
@@ -1079,9 +1089,11 @@ public class TodoistClient {
 	
 	/**
 	 * Syncs a list of items (local and remote)
+	 * 
 	 * @throws TodoistServerException 
+	 * @throws InvalidDateStringException 
 	 */
-	private void syncLists(ArrayList<SynchronizedModel> localItems, ArrayList<SynchronizedModel> remoteItems) throws TodoistServerException {
+	private void syncLists(ArrayList<SynchronizedModel> localItems, ArrayList<SynchronizedModel> remoteItems) throws TodoistServerException, InvalidDateStringException {
 		// First, create a mapping of local item IDs (so we could quickly find items later on)
 		Hashtable<Integer, SynchronizedModel> idsToItems = new Hashtable<Integer, SynchronizedModel>();
 
@@ -1130,25 +1142,40 @@ public class TodoistClient {
 	 * @param localItem
 	 * @param remoteItem
 	 * @param syncResult
-	 * @throws TodoistServerException
+	 * 
+	 * @throws TodoistServerException in case of a connection error
+	 * @throws InvalidDateStringException in case of an invalid date string for a new/updated item
 	 */
-	private void handleSyncResult(SynchronizedModel localItem, SynchronizedModel remoteItem, SyncResult syncResult) throws TodoistServerException {
-
-		if (syncResult == SyncResult.ADD_LOCAL_TO_REMOTE) {
-			syncAddLocalToRemote(localItem, remoteItem);
-		} else if (syncResult == SyncResult.ADD_REMOTE_TO_LOCAL) {
-			syncAddRemoteToLocal(localItem, remoteItem);
-		} else if (syncResult == SyncResult.DELETE_LOCAL) {
-			syncDeleteLocal(localItem, remoteItem);
-		} else if (syncResult == SyncResult.DELETE_REMOTE) {
-			syncDeleteRemote(localItem, remoteItem);
-		} else if (syncResult == SyncResult.UPDATE_LOCAL_TO_REMOTE) {
-			syncUpdateLocalToRemote(localItem, remoteItem);
-		} else if (syncResult == SyncResult.UPDATE_REMOTE_TO_LOCAL) {
-			syncUpdateRemoteToLocal(localItem, remoteItem);
-		} else {
-			// Do nothing
-		}
+	private void handleSyncResult(SynchronizedModel localItem, SynchronizedModel remoteItem, SyncResult syncResult) throws TodoistServerException, InvalidDateStringException {
+	    
+	    try {
+    		if (syncResult == SyncResult.ADD_LOCAL_TO_REMOTE) {
+    			syncAddLocalToRemote(localItem, remoteItem);
+    		} else if (syncResult == SyncResult.ADD_REMOTE_TO_LOCAL) {
+    			syncAddRemoteToLocal(localItem, remoteItem);
+    		} else if (syncResult == SyncResult.DELETE_LOCAL) {
+    			syncDeleteLocal(localItem, remoteItem);
+    		} else if (syncResult == SyncResult.DELETE_REMOTE) {
+    			syncDeleteRemote(localItem, remoteItem);
+    		} else if (syncResult == SyncResult.UPDATE_LOCAL_TO_REMOTE) {
+    			syncUpdateLocalToRemote(localItem, remoteItem);
+    		} else if (syncResult == SyncResult.UPDATE_REMOTE_TO_LOCAL) {
+    			syncUpdateRemoteToLocal(localItem, remoteItem);
+    		} else {
+    			// Do nothing
+    		}
+    		
+	    } catch (TodoistServerException exception) {
+	        if ((exception.getErrorCode() == ErrorCode.ERROR_WRONG_DATE_SYNTAX) &&
+	                (localItem instanceof Item)
+	                ){
+	            // The item to be added/updated has an invalid date string format
+	            throw new InvalidDateStringException((Item)localItem);
+	        } else {
+	            // Probably a connection error - Throw the exception as-is
+	            throw exception;
+	        }
+	    }
 	}
 	
 	
