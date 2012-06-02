@@ -329,8 +329,11 @@ public class TodoistClient {
 
 		if (item.labelIds != null) {
 			for (int i = 0; i < item.labelIds.size(); i++) {
-				// Note: We assume item.labelIds contains only valid (existing) label IDs
-				labels.add(mStorage.getLabel(item.labelIds.get(i)).name);
+			    Label currentLabel = mStorage.getLabel(item.labelIds.get(i));
+			    
+			    if (currentLabel != null) {
+    				labels.add(currentLabel.name);
+			    }
 			}
 		}
 		
@@ -401,6 +404,7 @@ public class TodoistClient {
 		    // The date string isn't empty, but the due date is empty -
 		    // Try and recalculate the date
 		    item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+		    Log.e("Budoist", String.format("updateItem: Calculating due date: %s", item.toString()));
 		}
 		
 		mStorage.addOrUpdateItem(item, existingItem);
@@ -506,8 +510,11 @@ public class TodoistClient {
 				}
 				
 				Project project = mStorage.getProject(item.projectId);
-				project.itemCount++;
-				mStorage.addOrUpdateProject(project, null);
+				
+				if (project != null) {
+    				project.itemCount++;
+    				mStorage.addOrUpdateProject(project, null);
+				}
 			}
 		})).start();
 			
@@ -1164,6 +1171,7 @@ public class TodoistClient {
 		        // The date string isn't empty, but the due date is empty -
 		        // Try and recalculate the date
 		        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+		        Log.e("Budoist", String.format("syncUpdateRemoteToLocal: Calculating due date: %s", item.toString()));
 		    }
 		    
 			mStorage.addOrUpdateItem((Item)remoteItem, (Item)localItem);
@@ -1236,6 +1244,7 @@ public class TodoistClient {
 				    // The date string isn't empty, but the due date is empty -
 				    // Try and recalculate the date
 				    onlineItem.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+				    Log.e("Budoist", String.format("syncUpdateLocalToRemote: Calculating due date: %s", onlineItem.toString()));
 				}
 				
 				mStorage.addOrUpdateItem(onlineItem, (Item)localItem);
@@ -1363,6 +1372,7 @@ public class TodoistClient {
 		        // The date string isn't empty, but the due date is empty -
 		        // Try and recalculate the date
 		        item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+		        Log.e("Budoist", String.format("syncAddRemoteToLocal: Calculating due date: %s", item.toString()));
 		    }
 		    
 			mStorage.addOrUpdateItem((Item)remoteItem, null);
@@ -1401,6 +1411,7 @@ public class TodoistClient {
 			    // The date string isn't empty, but the due date is empty -
 			    // Try and recalculate the date
 			    onlineItem.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+		        Log.e("Budoist", String.format("syncAddLocalToRemote: Calculating due date: %s", onlineItem.toString()));
 			}
 			
 			// Update item (which includes a new ID assigned by online Todoist server)

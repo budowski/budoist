@@ -336,13 +336,6 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
 		}
     }
 
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        outState.putSerializable("treeManager", mTreeManager);
-        outState.putBoolean("collapsible", this.mCollapsible);
-        super.onSaveInstanceState(outState);
-    }
-
     protected final void setCollapsible(boolean newCollapsible) {
         this.mCollapsible = newCollapsible;
         mTreeView.setCollapsible(this.mCollapsible);

@@ -21,6 +21,7 @@ import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -157,8 +158,15 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 					activity.runOnUiThread(new Runnable() {
 						public void run() {	
 							activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
-							if (loginDialog.isShowing())
-								loginDialog.dismiss();
+							try {
+    							if (loginDialog.isShowing())
+    								loginDialog.dismiss();
+							} catch (Exception exc) {
+							    // Sometimes an IllegalArgumentException occurrs (View not attached to window manager).
+							    // This could happens sometimes when the activity finishes before the dialog successfully
+							    // dismisses - so there's nothing to do here.
+							    // See: http://stackoverflow.com/a/5102572/1233767
+							}
 							
 							if (e.getErrorCode() == ErrorCode.LOGIN_ERROR) {
 								 Toast.makeText(activity, "Login failed - invalid email or password", Toast.LENGTH_SHORT).show();
@@ -281,13 +289,26 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 				} catch (TodoistServerException e) {
 					if (wakeLock.isHeld())
 						wakeLock.release();
+					
+					Log.e("Budoist", String.format("Sync Exception: %s", e.toString()));
+					Log.e("Budoist", String.format("Sync Exception: %s", e.getMessage()));
+					
+					StackTraceElement[] trace = e.getStackTrace();
+					for (int i = 0; i < trace.length; i++) {
+					    Log.e("Budoist", String.format("%s: %s: %d",
+					            trace[i].getClassName(),
+					            trace[i].getMethodName(),
+					            trace[i].getLineNumber()
+					            ));
+					            
+					}
 					activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 					activity.runOnUiThread(new Runnable() {
 						public void run() {	
 							if (syncDialog.isShowing())
 								syncDialog.hide();
 							
-							Toast.makeText(activity, "Syncing failed - probably a connection error. Try logging in again.", Toast.LENGTH_LONG).show();
+							Toast.makeText(activity, "Syncing failed - probably a connection error. Try syncing again later.", Toast.LENGTH_LONG).show();
 						}
 					});
 				}

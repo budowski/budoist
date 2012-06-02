@@ -146,6 +146,16 @@
     	<item>20160</item>
     	<item>40320</item>
     </string-array>
+    
+	<string-array name="preferences_item_view_in_query_mode">
+    	<item>Labels</item>
+    	<item>Projects</item>
+    </string-array>
+    
+ 	<string-array name="preferences_item_view_in_query_mode_values">
+    	<item>LABELS</item>
+    	<item>PROJECTS</item>
+    </string-array>
 
     <!-- Used for file dialog -->
 

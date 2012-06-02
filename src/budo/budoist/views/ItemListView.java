@@ -16,6 +16,7 @@ import budo.budoist.receivers.AppService;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
 import budo.budoist.services.TodoistOfflineStorage.ItemSortMode;
+import budo.budoist.services.TodoistOfflineStorage.ItemViewInQueryMode;
 import budo.budoist.views.LabelListView.LabelViewMode;
 import budo.budoist.views.ProjectListView.ProjectViewMode;
 import budo.budoist.views.QueryListView.QueryViewMode;
@@ -102,6 +103,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     
     private ItemViewMode mViewMode = ItemViewMode.FILTER_BY_PROJECTS;
     private ItemSortMode mSortMode = ItemSortMode.ORIGINAL_ORDER;
+    private ItemViewInQueryMode mItemViewInQueryMode = ItemViewInQueryMode.LABELS;
     
 	private Item mItemEdited; // Last item edited
 	private User mUser;
@@ -131,6 +133,10 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
     
     public ItemSortMode getSortMode() {
     	return mSortMode;
+    }
+    
+    public ItemViewInQueryMode getItemViewInQueryMode() {
+    	return mItemViewInQueryMode;
     }
     
     
@@ -303,6 +309,15 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 				
     			lastRealIndentLevel = items.get(i).indentLevel - 1;
     		}
+    		
+    		// For some strange reason, in some rare cases, the indent level returned is zero (not one-based) -
+    		// thus, we'll substract 1 from it and cause it to be -1 (which the tree view control doesn't like).
+    		if (indent < 0) {
+    		    indent = 0;
+    		}
+    		if (lastRealIndentLevel < 0) {
+    		    lastRealIndentLevel = 0;
+    		}
 
     		treeBuilder.sequentiallyAddNextNode(items.get(i), indent);
 			lastIndentLevel = indent;
@@ -353,6 +368,8 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         mUser = mClient.getUser();
         
         mViewMode = ItemViewMode.valueOf(extras.getString(KEY__VIEW_MODE));
+        
+        mItemViewInQueryMode = mStorage.getItemViewInQueryMode();
         
         ItemSortMode initialSortMode = mStorage.getInitialItemsSortMode();
         ItemSortMode currentSortMode = ItemSortMode.ORIGINAL_ORDER;
@@ -722,6 +739,9 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 				// Reload user settings (if it had date/time settings modified)
 				mUser = mStorage.loadUser();
 				
+				// This might have changed
+				mItemViewInQueryMode = mStorage.getItemViewInQueryMode();
+				
 				// Refresh items - happens when user changes text size, etc
     			mLoadingDialog = ProgressDialog.show(this, "", "Loading items...");
     			
@@ -745,6 +765,10 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
  			
 			}
 		} else if (requestCode == Bootloader.REQUEST_CODE__EDIT_ITEM) {
+		    if (mItemEdited != null) {
+		        Log.e("Budoist", "Return from Edit Item: " + mItemEdited.toString());
+		    }
+    			
     		if (resultCode == RESULT_OK) {
     			// TODO: Refresh item's note count
     			// Problem: this is time-consuming and there can't seem to be a way to refresh
@@ -772,7 +796,7 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 		    				mClient.addItem(item);
 		    			} else {
 		    				// Update item
-		    				if (!mItemEdited.dateString.equals(item.dateString)) {
+		    				if ((mItemEdited.dateString != null) && (!mItemEdited.dateString.equals(item.dateString))) {
 		    					// Date string was modified - re-calculate the due date
 		    					item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
 		    				}

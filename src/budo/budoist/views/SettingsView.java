@@ -18,6 +18,7 @@ import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
 import budo.budoist.services.TodoistOfflineStorage.InitialView;
 import budo.budoist.services.TodoistOfflineStorage.ItemSortMode;
+import budo.budoist.services.TodoistOfflineStorage.ItemViewInQueryMode;
 import budo.budoist.views.LabelListView.LabelViewMode;
 import budo.budoist.views.ProjectListView.ProjectViewMode;
 import budo.budoist.views.QueryListView.QueryViewMode;
@@ -60,6 +61,7 @@ public class SettingsView extends PreferenceActivity {
     private Preference mDefaultProject;
     private ListPreference mSortMode;
     private ListPreference mInitialView;
+    private ListPreference mItemViewInQueryMode;
     private ListPreference mTextSize;
     private CheckBoxPreference mShowCompletedItems;
     private ListPreference mDateFormat;
@@ -250,6 +252,29 @@ public class SettingsView extends PreferenceActivity {
 				}
 			}
 		});
+	    
+	    mItemViewInQueryMode = (ListPreference)findPreference("item_view_in_query_mode");
+	    ItemViewInQueryMode itemViewInQueryMode = mStorage.getItemViewInQueryMode();
+	    mItemViewInQueryMode.setValue(itemViewInQueryMode.toString());
+	    mItemViewInQueryMode.setSummary(mItemViewInQueryMode.getEntry());
+	    
+	    mItemViewInQueryMode.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				ItemViewInQueryMode viewInQueryMode = ItemViewInQueryMode.valueOf((String)newValue);
+				
+				int valueIndex = Arrays.asList(mItemViewInQueryMode.getEntryValues()).indexOf(newValue);
+				String entry = (String) mItemViewInQueryMode.getEntries()[valueIndex];
+				preference.setSummary(entry);
+
+				mStorage.setItemViewInQueryMode(viewInQueryMode);
+				
+				mIsUIModified = true;
+				
+				return true;
+			}
+		});
+
        
 	    mTextSize = (ListPreference)findPreference("text_size");
 	    mTextSize.setValue(String.valueOf(mStorage.getTextSize()));

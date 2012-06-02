@@ -306,7 +306,7 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
 			public void onClick(View v) {
 				// Let the user choose a due date
 				
-				if ((mYear == 0) || (mDay == 0)) {
+				if ((mYear == 0) || (mMonth == 0) || (mDay == 0)) {
 					// Date has never been selected before - init the dialog with a default date
 					Calendar c = Calendar.getInstance();
 					
@@ -377,10 +377,29 @@ public class EditItemView extends Activity implements TextWatcher, OnItemSelecte
 	protected Dialog onCreateDialog(int id) {
 		switch (id) {
 		case DATE_DIALOG_ID:
-			return new DatePickerDialog(this,
-					mDateSetListener,
-					mYear, mMonth, mDay);
-			}
+		    DatePickerDialog dateDialog;
+		    
+		    try {
+		        // Initialize a date picker dialog with the last remembered date
+    		    dateDialog = new DatePickerDialog(this,
+    					mDateSetListener,
+    					mYear, mMonth, mDay);
+		    } catch (Exception exc) {
+		        // Invalid date - default back to current date
+		        
+		        Calendar c = Calendar.getInstance();
+		        mYear = c.get(Calendar.YEAR);
+		        mMonth = c.get(Calendar.MONTH);
+		        mDay = c.get(Calendar.DAY_OF_MONTH);
+		        
+		        dateDialog = new DatePickerDialog(this,
+		                mDateSetListener,
+		                mYear, mMonth, mDay);
+		    }
+		    
+		    return dateDialog;
+		}
+		    
 		return null;
 	}	
 	

@@ -54,7 +54,14 @@
 			android:entries="@array/preferences_initial_view"
 			android:entryValues="@array/preferences_initial_view_values"
 			/>
-			
+		
+		<ListPreference
+			android:title="Show Labels/Projects for Items in Query Mode"
+			android:key="item_view_in_query_mode"
+			android:entries="@array/preferences_item_view_in_query_mode"
+			android:entryValues="@array/preferences_item_view_in_query_mode_values"
+			/>
+		
 		<ListPreference
 			android:title="Text Size"
 			android:key="text_size"

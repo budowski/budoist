@@ -80,6 +80,7 @@ public class TodoistOfflineStorage {
 	private final static String PREFERENCES_DISPLAY_LAST_USED_ITEM_SORT = "display.last_used_item_sort";
 	private final static String PREFERENCES_DISPLAY_INITIAL_ITEM_SORT = "display.initial_item_sort";
 	private final static String PREFERENCES_DISPLAY_INITIAL_VIEW = "display.initial_view";
+	private final static String PREFERENCES_DISPLAY_ITEM_VIEW_IN_QUERY_MODE = "display.item_view_in_query_mode";
 	private final static String PREFERENCES_DISPLAY_LAST_VIEWED_FILTER = "display.last_viewed_filter";
 	private final static String PREFERENCES_DISPLAY_LAST_VIEWED_PROJECT = "display.last_viewed_project";
 	private final static String PREFERENCES_DISPLAY_LAST_VIEWED_LABEL = "display.last_viewed_label";
@@ -151,6 +152,14 @@ public class TodoistOfflineStorage {
     }
     
 	private final static InitialView DEFAULT_INITIAL_VIEW = InitialView.FILTER_BY_PROJECTS;
+    
+    // What to show for items when in query mode
+    public enum ItemViewInQueryMode {
+        PROJECTS,
+        LABELS
+    }
+    
+	private final static ItemViewInQueryMode DEFAULT_ITEM_VIEW_IN_QUERY_MODE = ItemViewInQueryMode.LABELS;
 
 	private static final int DEFAULT_TEXT_SIZE = 17; // In DP
   
@@ -1552,8 +1561,6 @@ public class TodoistOfflineStorage {
 	/**
 	 * Internal method used for parsing and finding items of a single sub-query (e.g.
 	 * "today, tomorrow, p1, p2" is split into 4 sub-queries).
-	 * Makes sure we don't return items that were found in previous sub-queries (using
-	 * the currentResults parameter)
 	 * 
 	 * @param subQuery
 	 * @param getCompleted should completed items be shown as well?
@@ -1593,6 +1600,45 @@ public class TodoistOfflineStorage {
 				}
 			}
 		}
+		
+		
+		if (subQuery.startsWith("q:")) {
+		    // A free text search
+		    
+		    // First, split the search string into words
+		    String[] words = subQuery.substring(2).split(" ");
+		    
+		    // Next, return all items with content containing ALL words (doesn't matter in which order)
+		    
+		    StringBuilder wordsFilter = new StringBuilder();
+		    for (int i = 0; i < words.length; i++) {
+		        String currentWord = words[i].trim();
+		        if (currentWord.length() == 0) {
+		            continue;
+		        }
+		        
+		        if (wordsFilter.length() > 0) {
+		            wordsFilter.append(" AND ");
+		        }
+		        
+		        wordsFilter.append(String.format("%s LIKE '%%%s%%'",
+		                DBConsts.ITEMS_CONTENT, currentWord));
+		        
+		    }
+		    
+		    if (wordsFilter.length() == 0) {
+		        // No words specified
+		        return new ArrayList<Item>();
+		    }
+		    
+
+		   
+		    // Sort by due date, then by priority
+			filterQuery = String.format("%s ORDER BY %s ASC, %s DESC",
+					wordsFilter.toString(), DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
+
+		}
+
 		
 		matcher = patternDaysSchedule.matcher(subQuery);
 		if (matcher.matches()) {
@@ -2141,6 +2187,33 @@ public class TodoistOfflineStorage {
 		
 		return InitialView.valueOf(preferences.getString(PREFERENCES_DISPLAY_INITIAL_VIEW, DEFAULT_INITIAL_VIEW.toString()));
 	}
+	
+	
+	/**
+	 * Sets what to show for items when in query mode (projects/labels)
+	 * 
+	 * @param newView
+	 */
+	public void setItemViewInQueryMode(ItemViewInQueryMode newView) {
+		SharedPreferences preferences = mContext.getSharedPreferences(PREFERENCES_DISPLAY, Activity.MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		
+		editor.putString(PREFERENCES_DISPLAY_ITEM_VIEW_IN_QUERY_MODE, newView.toString());
+
+		editor.commit();
+	}
+	
+	/**
+	 * Returns what to show for items when in query mode (projects/labels)
+	 * 
+	 * @return
+	 */
+	public ItemViewInQueryMode getItemViewInQueryMode() {
+		SharedPreferences preferences = mContext.getSharedPreferences(PREFERENCES_DISPLAY, Activity.MODE_PRIVATE);
+		
+		return ItemViewInQueryMode.valueOf(preferences.getString(PREFERENCES_DISPLAY_ITEM_VIEW_IN_QUERY_MODE, DEFAULT_ITEM_VIEW_IN_QUERY_MODE.toString()));
+	}
+
 
 	/**
 	 * Sets the last viewed filter (filter by projects/labels)

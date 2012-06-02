@@ -10,6 +10,7 @@ import budo.budoist.models.Project;
 import budo.budoist.models.TodoistTextFormatter;
 import budo.budoist.services.TodoistClient;
 import budo.budoist.services.TodoistOfflineStorage;
+import budo.budoist.services.TodoistOfflineStorage.ItemViewInQueryMode;
 import budo.budoist.views.ItemListView;
 import budo.budoist.views.ItemListView.ItemViewMode;
 import pl.polidea.treeview.TreeNodeInfo;
@@ -41,6 +42,7 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 
 	private ItemListView mItemListView;
 	private ItemViewMode mItemViewMode;
+	private ItemViewInQueryMode mItemViewInQueryMode;
 	
 	private TodoistClient mClient;
 	private TodoistOfflineStorage mStorage;
@@ -106,6 +108,7 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         
         mItemListView = itemListView;
         mItemViewMode = mItemListView.getViewMode();
+        mItemViewInQueryMode = mItemListView.getItemViewInQueryMode();
     }
 
     @Override
@@ -139,6 +142,7 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         	.findViewById(R.id.item_list_item_checkbox);
         
         mTextSize = mStorage.getTextSize();
+        mItemViewInQueryMode = mItemListView.getItemViewInQueryMode();
         
         // Display the formatted text (highlighting, etc)
         itemContent.setText(TodoistTextFormatter.formatText(item.getContent()));
@@ -150,8 +154,14 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
         
         itemLabels.setTextSize(TypedValue.COMPLEX_UNIT_DIP, mTextSize - 4);
         
-        if (mItemViewMode == ItemViewMode.FILTER_BY_LABELS) {
-        	// Show item's project
+        if (
+                (mItemViewMode == ItemViewMode.FILTER_BY_LABELS) ||
+                (
+                    (mItemViewMode == ItemViewMode.FILTER_BY_QUERIES) && 
+                    (mItemViewInQueryMode == ItemViewInQueryMode.PROJECTS)
+                )
+            ) {
+        	// Show item's projects
         	Project project = mClient.getProjectById(item.projectId);
         	itemLabels.setText(project.getName());
         	itemLabels.setBackgroundColor((0xFF << 24) | project.getColor());
