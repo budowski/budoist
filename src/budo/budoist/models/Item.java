@@ -197,7 +197,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private final static String REGEX_TIME = "(?:" + REGEX_12H_TIME + "|" + REGEX_24H_TIME + ")";
 	
 	private final static String REGEX_DATE = "(3[01]|[12][0-9]|0?[1-9])";
-	private final static String REGEX_DATE_SEPARATOR = "[ \\-\\.\\/]";
+	private final static String REGEX_DATE_SEPARATOR = "[ \\-\\.\\/]+";
 	private final static String REGEX_DATE_MONTH_NUM = "(0?[1-9]|1[012])";
 	private final static String REGEX_DATE_MONTH_NAME = "(" + REGEX_MONTHS + "|" + REGEX_MONTHS_SHORT + ")";
 	private final static String REGEX_DATE_MONTH = "(?:" + REGEX_DATE_MONTH_NAME + "|" + REGEX_DATE_MONTH_NUM + ")";
