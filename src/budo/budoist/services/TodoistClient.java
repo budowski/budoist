@@ -866,6 +866,9 @@ public class TodoistClient {
 		} catch (TodoistServerException exc) {
 			mIsCurrentlySyncing = false;
 			throw exc;
+		} catch (InvalidDateStringException exc) {
+			mIsCurrentlySyncing = false;
+			throw exc;
 		}
 
 	}

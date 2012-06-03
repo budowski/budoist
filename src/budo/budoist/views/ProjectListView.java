@@ -284,7 +284,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 	        mStorage.setLastViewedFilter(InitialView.FILTER_BY_PROJECTS);
 		}
 	}
-
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
@@ -317,6 +317,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 		}
 
 		mTreeManager = new InMemoryTreeStateManager<Project>();
+	
 
 		ArrayList<Project> projects = mClient.getProjects();
 		buildProjectList(projects);
