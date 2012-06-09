@@ -316,11 +316,18 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			this.setTitle("Select Default Project for New Items");
 		}
 
-		mTreeManager = new InMemoryTreeStateManager<Project>();
-	
-
-		ArrayList<Project> projects = mClient.getProjects();
-		buildProjectList(projects);
+		// Try restoring project tree view state from memory
+		mTreeManager = mApplication.getProjectTreeState();
+		
+		if (mTreeManager == null) {
+		    // New project view state
+		    mTreeManager = new InMemoryTreeStateManager<Project>();
+		    mApplication.setProjectTreeState(mTreeManager);
+		    
+		    // Refresh the project list only when it's a new project state
+		    ArrayList<Project> projects = mClient.getProjects();
+		    buildProjectList(projects);
+		}
 
 		newCollapsible = true;
 

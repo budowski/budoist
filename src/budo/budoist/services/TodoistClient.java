@@ -444,11 +444,14 @@ public class TodoistClient {
 					Project oldProject = mStorage.getProject(existingItem.projectId);
 					Project newProject = mStorage.getProject(item.projectId);
 					
-					oldProject.itemCount--;
-					newProject.itemCount++;
-					
-					mStorage.addOrUpdateProject(oldProject, null);
-					mStorage.addOrUpdateProject(newProject, null);
+					if (oldProject != null) {
+					    oldProject.itemCount--;
+					    mStorage.addOrUpdateProject(oldProject, null);
+					}
+					if (newProject != null) {
+					    newProject.itemCount++;
+					    mStorage.addOrUpdateProject(newProject, null);
+					}
 					
 					// Set the item as moved (from existingItem.projectId to item.projectId)
 					mStorage.setItemMoved(existingItem, item.projectId);
