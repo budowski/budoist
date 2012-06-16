@@ -277,6 +277,11 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		
 		Matcher matcher;
 		
+		if (date.length() == 0) {
+		    // No due date - clear the due date
+		    this.dueDate = null;
+		}
+		
 		matcher = patternContextualDate.matcher(date);
 		if (matcher.matches()) {
 			calculateContextualDate(matcher);
