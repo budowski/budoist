@@ -639,7 +639,7 @@ public class TodoistClient {
 	 * @param existingProject
 	 */
 	public void updateProject(Project project, Project existingProject) {
-		if (existingProject.dirtyState != DirtyState.ADDED) {
+		if ((existingProject != null) && (existingProject.dirtyState != DirtyState.ADDED)) {
 			// If the project has been added and not yet synchronized online, there's no
 			// need to change its dirty state to MODIFIED.
 			project.dirtyState = DirtyState.MODIFIED;
@@ -647,7 +647,7 @@ public class TodoistClient {
 		
 		mStorage.addOrUpdateProject(project, null);
 		
-		if (project.itemOrder != existingProject.itemOrder) {
+		if ((existingProject != null) && (project.itemOrder != existingProject.itemOrder)) {
 			// In case the updated project had its order changed to the middle of the projects list, we'll need to update the itemOrder of some projects
 			reorderItems(project, existingProject.itemOrder);
 		}

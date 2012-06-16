@@ -1638,6 +1638,15 @@ public class TodoistOfflineStorage {
 					wordsFilter.toString(), DBConsts.ITEMS_DUE_DATE, DBConsts.ITEMS_PRIORITY);
 
 		}
+		
+		if (subQuery.startsWith("no date")) {
+		    // A "no date" query - show all items with no due date defined
+		    filterQuery = String.format("%s = %d", DBConsts.ITEMS_DUE_DATE, Long.MAX_VALUE);
+		    
+		    // Sort by priority
+			filterQuery = String.format("%s ORDER BY %s DESC",
+					filterQuery, DBConsts.ITEMS_PRIORITY);
+		}
 
 		
 		matcher = patternDaysSchedule.matcher(subQuery);
