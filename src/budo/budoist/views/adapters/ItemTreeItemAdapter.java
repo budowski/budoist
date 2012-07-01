@@ -163,8 +163,15 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
             ) {
         	// Show item's projects
         	Project project = mClient.getProjectById(item.projectId);
-        	itemLabels.setText(project.getName());
-        	itemLabels.setBackgroundColor((0xFF << 24) | project.getColor());
+        	
+        	if (project != null) {
+            	itemLabels.setText(project.getName());
+            	itemLabels.setBackgroundColor((0xFF << 24) | project.getColor());
+        	} else {
+        	    // Rare case that shouldn't happen - item is pointing to an old project that no longer exists
+        	    itemLabels.setText("");
+        	    itemLabels.setBackgroundColor((0xFF << 24) | Color.WHITE);
+        	}
         	
         } else {
 	        itemLabels.setText("");
