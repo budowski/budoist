@@ -170,7 +170,7 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
     								loginDialog.dismiss();
 							} catch (Exception exc) {
 							    // Sometimes an IllegalArgumentException occurrs (View not attached to window manager).
-							    // This could happens sometimes when the activity finishes before the dialog successfully
+							    // This could happen sometimes when the activity finishes before the dialog successfully
 							    // dismisses - so there's nothing to do here.
 							    // See: http://stackoverflow.com/a/5102572/1233767
 							}

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest package="budo.budoist"
-      android:versionCode="25"
-      android:versionName="1.2.4" xmlns:android="http://schemas.android.com/apk/res/android">
+      android:versionCode="26"
+      android:versionName="1.2.5" xmlns:android="http://schemas.android.com/apk/res/android">
 	<uses-permission android:name="android.permission.INTERNET"/>
 	<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	<uses-permission android:name="android.permission.WAKE_LOCK" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	
-    <uses-sdk android:minSdkVersion="8" />
+    <uses-sdk android:minSdkVersion="7" />
 
     <application android:name="TodoistApplication" android:icon="@drawable/budoist_icon" android:label="Budoist">
         <activity android:name="Bootloader"

@@ -117,9 +117,16 @@ public class RegisterView extends Activity implements TextWatcher, OnClickListen
 					// Registration failed
 					runOnUiThread(new Runnable() {
 						public void run() {	
-							if (mRegisterDialog.isShowing())
-								mRegisterDialog.dismiss();
-							
+						    try {
+						        if (mRegisterDialog.isShowing())
+						            mRegisterDialog.dismiss();
+						    } catch (Exception exc) {
+						        // Sometimes an IllegalArgumentException occurrs (View not attached to window manager).
+						        // This could happen sometimes when the activity finishes before the dialog successfully
+						        // dismisses - so there's nothing to do here.
+						        // See: http://stackoverflow.com/a/5102572/1233767
+						    }
+
 							String errorText;
 							switch (e.getErrorCode()) {
 							case ERROR_PASSWORD_TOO_SHORT:
@@ -143,8 +150,16 @@ public class RegisterView extends Activity implements TextWatcher, OnClickListen
 
 				runOnUiThread(new Runnable() {
 					public void run() {	
-						if (mRegisterDialog.isShowing())
-							mRegisterDialog.dismiss();
+						try {
+						    if (mRegisterDialog.isShowing())
+						        mRegisterDialog.dismiss();
+						} catch (Exception exc) {
+						    // Sometimes an IllegalArgumentException occurrs (View not attached to window manager).
+						    // This could happen sometimes when the activity finishes before the dialog successfully
+						    // dismisses - so there's nothing to do here.
+						    // See: http://stackoverflow.com/a/5102572/1233767
+						}
+
 					}
 				});
 				
