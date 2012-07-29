@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -985,6 +986,16 @@ public class TodoistOfflineStorage {
 			ContentValues itemValues = new ContentValues();
 			itemValues.put(DBConsts.ITEMS_PROJECT_ID, newProject.id);
 			db.update(DBConsts.ITEMS_TABLE_NAME, itemValues, DBConsts.ITEMS_PROJECT_ID + "=?", new String []{ String.valueOf(oldProject.id) });
+			
+			// Update any items that were moved to that project (since they're marked under the old project ID)
+			List<Item> movedItems = getItemsMoved(oldProject.id);
+			
+			if (movedItems.size() > 0) {
+			    // Move items to new project
+			    setItemsMoved(movedItems, newProject.id);
+			    // Delete old project moved items entry
+			    deleteItemsMoved(oldProject.id);
+			}
 		}
 		
 		values.put(DBConsts.PROJECTS_ID, newProject.id);
@@ -1971,10 +1982,34 @@ public class TodoistOfflineStorage {
 		Editor editor = preferences.edit();
 		
 		// The key is the item ID and the value is the project ID
-		editor.putInt(String.valueOf(item.id), item.projectId);
+		editor.putInt(String.valueOf(item.id), newProjectId);
 
 		editor.commit();
 	}
+	
+	/**
+	 * Sets whether or not a list of items have been moved to a new project
+	 * 
+	 * @param items
+	 * @param newProjectId
+	 */
+	public void setItemsMoved(List<Item> items, int newProjectId) {
+		// The is formatted as: newProjectId: itemId: currentProjectId, itemId: currentProjectId, ...
+		String keyName = PREFERENCES_TODOIST_DATA_ITEMS_MOVED + "." + newProjectId;
+		SharedPreferences preferences = mContext.getSharedPreferences(keyName, Activity.MODE_PRIVATE);
+		Editor editor = preferences.edit();
+		
+		Iterator<Item> iter = items.iterator();
+		while (iter.hasNext()) {
+		    Item item = iter.next();
+		    
+		    // The key is the item ID and the value is the project ID
+		    editor.putInt(String.valueOf(item.id), newProjectId);
+		}
+
+		editor.commit();
+	}
+
 	
 	/**
 	 * Returns whether or not an item has been moved to a new project
@@ -1984,6 +2019,7 @@ public class TodoistOfflineStorage {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList<Item> getItemsMoved(int destProjectId) {
+		// The key is the project ID
 		SharedPreferences preferences = mContext.getSharedPreferences(PREFERENCES_TODOIST_DATA_ITEMS_MOVED + "." + destProjectId, Activity.MODE_PRIVATE);
 		ArrayList<Item> items = new ArrayList<Item>();
 		
@@ -2001,7 +2037,6 @@ public class TodoistOfflineStorage {
 			items.add(newItem);
 		}
 		
-		// The key is the project ID
 		return items;
 	}
 	

@@ -369,8 +369,11 @@ public class TodoistClient {
 			public void run() {
 				if (updateProjectItemCount) {
 					Project project = mStorage.getProject(item.projectId);
-					project.itemCount--;
-					mStorage.addOrUpdateProject(project, null);
+					
+					if (project != null) {
+					    project.itemCount--;
+					    mStorage.addOrUpdateProject(project, null);
+					}
 				}
 				
 				if (item.labelIds != null) {
@@ -987,8 +990,20 @@ public class TodoistClient {
 		}
 		
 		// Get a list of all items in all projects
-		
 		ArrayList<Project> projects = this.getProjects();
+		
+		
+		// First, see if any items need to be moved to this particular project
+		for (int i = 0; i < projects.size(); i++) {
+			Project project = projects.get(i);
+			
+		    ArrayList<Item> itemsToBeMoved = mStorage.getItemsMoved(project.id);
+		    if (itemsToBeMoved.size() > 0) {
+		        TodoistServer.moveItems(mUser, itemsToBeMoved, project);
+		        mStorage.deleteItemsMoved(project.id);
+		    }
+		}
+
 		
 		for (int i = 0; i < projects.size(); i++) {
 			Project project = projects.get(i);
@@ -1002,14 +1017,6 @@ public class TodoistClient {
 						(int)(30 + ((40 * (1. / projects.size())) * i)));
 			}
 			
-			
-			// First, see if any items need to be moved to this particular project
-			ArrayList<Item> itemsToBeMoved = mStorage.getItemsMoved(project.id);
-			if (itemsToBeMoved.size() > 0) {
-				TodoistServer.moveItems(mUser, itemsToBeMoved, project);
-				mStorage.deleteItemsMoved(project.id);
-			}
-
 			// Next, see if the items under this project need to be re-ordered
 			if (mStorage.getItemsReordered(project.id)) {
 				// Need to update remote item list order for this project
