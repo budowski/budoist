@@ -31,7 +31,7 @@ public class Note  extends SynchronizedModel implements Comparable<Note>, Serial
 	private static final String KEY__CONTENT = "content";
 	private static final String KEY__POST_DATE = "posted";
 	
-	private static final String POST_DATE_FORMAT = "EEE MMM dd HH:mm:ss yyyy";
+	private static final String POST_DATE_FORMAT = "EEE dd MMM yyyy HH:mm:ss";
 
 	public Object clone() {
 		try {

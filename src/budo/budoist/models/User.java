@@ -52,7 +52,7 @@ public class User {
 	private static final String KEY__DATE_FORMAT = "date_format";
 	private static final String KEY__PREMIUM_UNTIL = "premium_until";
 	
-	private static final String PREMIUM_UNTIL_DATE_FORMAT = "EEE MMM dd HH:mm:ss yyyy";
+	private static final String PREMIUM_UNTIL_DATE_FORMAT = "EEE dd MMM yyyy HH:mm:ss";
 	
 	public String toString() {
 		return String.format("<User: %d; api token: %s; full name: %s; email: %s; password: %s; premium until: %s>",

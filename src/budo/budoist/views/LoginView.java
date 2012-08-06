@@ -254,7 +254,13 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 						if (syncDialog.isShowing())
 							syncDialog.hide();
 						
-						syncDialog.show();
+						try {
+						    syncDialog.show();
+						} catch (Exception exc) {
+						    // This *sometimes* happens - and the only known way to handle it
+						    // is to simply catch the exception:
+						    // See http://stackoverflow.com/a/5102572/1233767
+						}
 					}
 				});
 				

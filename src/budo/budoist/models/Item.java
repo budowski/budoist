@@ -52,7 +52,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private static final String KEY__NOTE_COUNT = "note_count";
 	private static final String KEY__CHECKED = "checked";
 	
-	private static final String DUE_DATE_FORMAT = "EEE MMM dd HH:mm:ss yyyy";
+	private static final String DUE_DATE_FORMAT = "EEE dd MMM yyyy HH:mm:ss";
 	
 	private final static String LABEL_REG_EX = "(^| )\\@[a-zA-Z0-9_-]+";
 	
