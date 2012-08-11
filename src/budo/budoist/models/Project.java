@@ -31,7 +31,17 @@ public class Project extends OrderedModel implements Comparable<Project>, Serial
 		0xfc603c,
 		0xffcc00,
 		0x74e8d4,
-		0x3cd6fc
+		0x3cd6fc,
+		0xdc4fad,
+		0xac193d,
+		0xd24726,
+		0x82ba00,
+		0x03b3b2,
+		0x008299,
+		0x5db2ff,
+		0x0072c6,
+		0x111111,
+		0x999999
 	};
 	
 	public Object clone() {

@@ -35,7 +35,12 @@ public class Label extends SynchronizedModel implements Comparable<Label>, Seria
 		0x9902E7,
 		0x1D02E7,
 		0x0082C5,
-		0x555555
+		0x555555,
+		0x008299,
+		0x03B3B2,
+		0xAC193D,
+		0x82BA00,
+		0x000111
 	};
 	
 	
