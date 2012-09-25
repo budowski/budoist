@@ -1144,7 +1144,6 @@ public class TodoistOfflineStorage {
 		int itemCount = c.getInt(0);
 		c.close();
 		
-		
 		if (itemCount != currentProject.itemCount) {
 			// Only update the project if its itemCount has been changed
 			currentProject.itemCount = itemCount;

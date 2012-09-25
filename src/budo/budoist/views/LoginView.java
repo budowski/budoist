@@ -235,7 +235,8 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 								@Override
 								public void onCancel(DialogInterface dialog) {
 									// User has hidden the sync dialog
-									wakeLock.release();
+								    if (wakeLock.isHeld())
+								        wakeLock.release();
 									activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
 								}
 							};

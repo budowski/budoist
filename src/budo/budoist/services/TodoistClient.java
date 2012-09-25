@@ -1184,6 +1184,12 @@ public class TodoistClient {
 	                ){
 	            // The item to be added/updated has an invalid date string format
 	            throw new InvalidDateStringException((Item)localItem);
+	        } else if ((exception.getErrorCode() == ErrorCode.ERROR_PROJECT_NOT_FOUND) &&
+	                (localItem instanceof Item)) {
+	            // Trying to add/update an item that is currently found in a non-existant project - delete the item locally
+	            // and continue normally (since we won't be able to see this item anyhow - its project does not exist)
+	            // TODO: Better way of handling this situation?
+	            mStorage.deleteItem((Item)localItem);
 	        } else {
 	            // Probably a connection error - Throw the exception as-is
 	            throw exception;

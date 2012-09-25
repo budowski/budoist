@@ -638,6 +638,10 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 							}
 		    			})).start();
 		    			
+		    			
+		    			// Forces the project list view to refresh (since we need it to update the item list for the project)
+            		    mApplication.setProjectTreeState(null);
+		    			
         	            break;
 
         	        case DialogInterface.BUTTON_NEGATIVE:
@@ -670,7 +674,6 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
         }
         
     	// Delete current item
-        Log.e(TAG, "Deleting " + item.toString());
     	mClient.deleteItem(item, true);
     }
     
@@ -796,13 +799,18 @@ public class ItemListView extends Activity implements IOnItemCompleted, IOnItemN
 		    				mClient.addItem(item);
 		    			} else {
 		    				// Update item
-		    				if ((mItemEdited.dateString != null) && (!mItemEdited.dateString.equals(item.dateString))) {
-		    					// Date string was modified - re-calculate the due date
-		    					item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
-		    				}
-
-		    				mClient.updateItem(item, mItemEdited);
+		    			    if (mItemEdited != null) {
+    		    				if ((mItemEdited.dateString != null) && (!mItemEdited.dateString.equals(item.dateString))) {
+    		    					// Date string was modified - re-calculate the due date
+    		    					item.calculateFirstDueDate(mUser.dateFormat, mUser.timezoneOffsetMinutes);
+    		    				}
+    
+    		    				mClient.updateItem(item, mItemEdited);
+		    			    }
 		    			}
+		    			
+		    			// Forces the project list view to refresh (since we need it to update the item list for the project)
+            		    mApplication.setProjectTreeState(null);
 		    			
 		    			// Refresh the labels in case the user modified them (e.g. added a new label,
 		    			// changed label color, renamed it, etc)
