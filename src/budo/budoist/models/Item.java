@@ -122,7 +122,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 		
 		ret.put(KEY__CONTENT, rawContent);
 		
-		if ((dateString != null) && (dateString.length() > 0) && (dateString.compareToIgnoreCase(NO_DUE_DATE) != 0))
+		if ((dateString != null) && (dateString.compareToIgnoreCase(NO_DUE_DATE) != 0))
 			ret.put(KEY__DATE_STRING, dateString);
 		
 		if (priority != 0)
