@@ -440,12 +440,9 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         final TreeNodeInfo<Label> info = mTreeManager.getNodeInfo(label);
         final MenuInflater menuInflater = getMenuInflater();
         
-        if (mClient.isPremium()) {
-        	// Only premium users can edit and delete labels
-        	menuInflater.inflate(R.menu.label_context_menu, menu);
-        	menu.findItem(R.id.context_menu_edit_label).setVisible(true);
-        	menu.findItem(R.id.context_menu_delete_label).setVisible(true);
-        }
+    	menuInflater.inflate(R.menu.label_context_menu, menu);
+    	menu.findItem(R.id.context_menu_edit_label).setVisible(true);
+    	menu.findItem(R.id.context_menu_delete_label).setVisible(true);
         
         super.onCreateContextMenu(menu, v, menuInfo);
     }
@@ -459,6 +456,16 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         
         switch (item.getItemId()) {
         case R.id.context_menu_edit_label:
+            if (!mClient.isPremium()) {
+            	// Only premium users can edit and delete labels
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Sorry, only Todoist premium users can edit labels...");
+                builder.setPositiveButton("OK", null);
+                builder.show();
+
+                return true;
+            }
+            
             Intent intent = new Intent(getBaseContext(), EditLabelView.class);
             intent.putExtra(EditLabelView.KEY__LABEL, label);
             mLabelEdited = label;
@@ -467,6 +474,15 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         	return true;
         	
         case R.id.context_menu_delete_label:
+             if (!mClient.isPremium()) {
+            	// Only premium users can edit and delete labels
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Sorry, only Todoist premium users can delete labels...");
+                builder.setPositiveButton("OK", null);
+                builder.show();
+
+                return true;
+            }
         	
         	// User chose to delete a label - Prepare a yes/no dialog
         	
