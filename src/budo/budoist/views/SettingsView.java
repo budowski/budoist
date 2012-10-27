@@ -66,6 +66,7 @@ public class SettingsView extends PreferenceActivity {
     private CheckBoxPreference mShowCompletedItems;
     private ListPreference mDateFormat;
     private ListPreference mTimeFormat;
+    private ListPreference mTimezone;
     
     private Preference mBackupNow;
     private Preference mRestoreBackup;
@@ -348,6 +349,27 @@ public class SettingsView extends PreferenceActivity {
 				return true;
 			}
 		});    
+	    
+	    mTimezone = (ListPreference)findPreference("timezone");
+	    mTimezone.setValue(String.valueOf(mUser.timezone));
+	    mTimezone.setSummary(mTimezone.getEntry());
+
+	    mTimezone.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+			@Override
+			public boolean onPreferenceChange(Preference preference, Object newValue) {
+				int valueIndex = Arrays.asList(mTimezone.getEntryValues()).indexOf(newValue);
+				String entry = (String) mTimezone.getEntries()[valueIndex];
+				preference.setSummary(entry);
+				
+				mUser.timezone = (String)newValue;
+				mClient.updateUser(mUser);
+				
+				mIsUIModified = true;
+				
+				return true;
+			}
+		});
+
 	    
 	    mBackupNow = (Preference)findPreference("backup_now");
 	    // Use Item's date formatting capabilities for displaying last backup time

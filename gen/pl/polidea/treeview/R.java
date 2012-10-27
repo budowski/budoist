@@ -27,6 +27,8 @@ public final class R {
         public static final int preferences_text_size_values=0x7f09000b;
         public static final int preferences_time_format=0x7f090008;
         public static final int preferences_time_format_values=0x7f090009;
+        public static final int preferences_timezones=0x7f090010;
+        public static final int preferences_timezones_values=0x7f090011;
     }
     public static final class attr {
         /** <p>Must be a boolean value, either "<code>true</code>" or "<code>false</code>".

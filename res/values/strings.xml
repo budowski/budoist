@@ -170,5 +170,307 @@
     <string name="no_data">No Data</string>
 	<color name="gray">#ffff0000</color>
 
+	
+    <string-array name="preferences_timezones">
+        <item>(GMT-1000) Hawaii</item>
+        <item>(GMT-0800) Alaska</item>
+        <item>(GMT-0700) Pacific Time (US &amp; Canada)</item>
+        <item>(GMT-0700) Arizona</item>
+        <item>(GMT-0600) Mountain Time (US &amp; Canada)</item>
+        <item>(GMT-0500) Central Time (US &amp; Canada)</item>
+        <item>(GMT-0400) Eastern Time (US &amp; Canada)</item>
+        <item>(GMT-0400) Indiana (East)</item>
+        <item>(GMT-1100) International Date Line West</item>
+        <item>(GMT-1100) Midway Island</item>
+        <item>(GMT-1100) Samoa</item>
+        <item>(GMT-1000) Hawaii</item>
+        <item>(GMT-0800) Alaska</item>
+        <item>(GMT-0700) Pacific Time (US &amp; Canada)</item>
+        <item>(GMT-0700) Tijuana</item>
+        <item>(GMT-0700) Arizona</item>
+        <item>(GMT-0600) Chihuahua</item>
+        <item>(GMT-0600) Mazatlan</item>
+        <item>(GMT-0600) Mountain Time (US &amp; Canada)</item>
+        <item>(GMT-0600) Saskatchewan</item>
+        <item>(GMT-0500) Central America</item>
+        <item>(GMT-0500) Central Time (US &amp; Canada)</item>
+        <item>(GMT-0500) Guadalajara</item>
+        <item>(GMT-0500) Mexico City</item>
+        <item>(GMT-0500) Monterrey</item>
+        <item>(GMT-0500) Bogota</item>
+        <item>(GMT-0500) Lima</item>
+        <item>(GMT-0400) Eastern Time (US &amp; Canada)</item>
+        <item>(GMT-0400) Indiana (East)</item>
+        <item>(GMT-0400) Georgetown</item>
+        <item>(GMT-0430) Caracas</item>
+        <item>(GMT-0300) Atlantic Time (Canada)</item>
+        <item>(GMT-0300) Santiago</item>
+        <item>(GMT-0300) Buenos Aires</item>
+        <item>(GMT-0200) Brasilia</item>
+        <item>(GMT-0200) Greenland</item>
+        <item>(GMT-0230) Newfoundland</item>
+        <item>(GMT-0100) Cape Verde Is. </item>
+        <item>(GMT+0100) Dublin</item>
+        <item>(GMT+0400) La Paz</item>
+        <item>(GMT+0500) Quito</item>
+        <item>(GMT+0000) Azores</item>
+        <item>(GMT+0000) Casablanca</item>
+        <item>(GMT+0100) Edinburgh</item>
+        <item>(GMT+0100) Lisbon</item>
+        <item>(GMT+0100) London</item>
+        <item>(GMT+0000) Monrovia</item>
+        <item>(GMT+0000) UTC</item>
+        <item>(GMT+0200) Amsterdam</item>
+        <item>(GMT+0200) Belgrade</item>
+        <item>(GMT+0200) Berlin</item>
+        <item>(GMT+0200) Bern</item>
+        <item>(GMT+0200) Bratislava</item>
+        <item>(GMT+0200) Brussels</item>
+        <item>(GMT+0200) Budapest</item>
+        <item>(GMT+0200) Copenhagen</item>
+        <item>(GMT+0200) Ljubljana</item>
+        <item>(GMT+0200) Madrid</item>
+        <item>(GMT+0200) Paris</item>
+        <item>(GMT+0200) Prague</item>
+        <item>(GMT+0200) Rome</item>
+        <item>(GMT+0200) Sarajevo</item>
+        <item>(GMT+0200) Skopje</item>
+        <item>(GMT+0200) Stockholm</item>
+        <item>(GMT+0200) Vienna</item>
+        <item>(GMT+0200) Warsaw</item>
+        <item>(GMT+0200) West Central Africa</item>
+        <item>(GMT+0200) Zagreb</item>
+        <item>(GMT+0200) Cairo</item>
+        <item>(GMT+0200) Harare</item>
+        <item>(GMT+0200) Jerusalem</item>
+        <item>(GMT+0200) Pretoria</item>
+        <item>(GMT+0300) Athens</item>
+        <item>(GMT+0300) Bucharest</item>
+        <item>(GMT+0300) Helsinki</item>
+        <item>(GMT+0300) Istanbul</item>
+        <item>(GMT+0300) Kyev</item>
+        <item>(GMT+0300) Minsk</item>
+        <item>(GMT+0300) Riga</item>
+        <item>(GMT+0300) Sofia</item>
+        <item>(GMT+0300) Tallinn</item>
+        <item>(GMT+0300) Vilnius</item>
+        <item>(GMT+0300) Baghdad</item>
+        <item>(GMT+0300) Kuwait</item>
+        <item>(GMT+0300) Nairobi</item>
+        <item>(GMT+0300) Riyadh</item>
+        <item>(GMT+0330) Tehran</item>
+        <item>(GMT+0400) Moscow</item>
+        <item>(GMT+0400) St. Petersburg</item>
+        <item>(GMT+0400) Volgograd</item>
+        <item>(GMT+0400) Abu Dhabi</item>
+        <item>(GMT+0400) Muscat</item>
+        <item>(GMT+0400) Tbilisi</item>
+        <item>(GMT+0400) Yerevan</item>
+        <item>(GMT+0430) Kabul</item>
+        <item>(GMT+0500) Baku</item>
+        <item>(GMT+0500) Islamabad</item>
+        <item>(GMT+0500) Karachi</item>
+        <item>(GMT+0500) Tashkent</item>
+        <item>(GMT+0530) Chennai</item>
+        <item>(GMT+0530) Kolkata</item>
+        <item>(GMT+0530) Mumbai</item>
+        <item>(GMT+0530) New Delhi</item>
+        <item>(GMT+0530) Sri Jayawardenepura</item>
+        <item>(GMT+0545) Kathmandu</item>
+        <item>(GMT+0600) Almaty</item>
+        <item>(GMT+0600) Astana</item>
+        <item>(GMT+0600) Dhaka</item>
+        <item>(GMT+0630) Rangoon</item>
+        <item>(GMT+0700) Novosibirsk</item>
+        <item>(GMT+0700) Bangkok</item>
+        <item>(GMT+0700) Hanoi</item>
+        <item>(GMT+0700) Jakarta</item>
+        <item>(GMT+0800) Krasnoyarsk</item>
+        <item>(GMT+0800) Beijing</item>
+        <item>(GMT+0800) Chongqing</item>
+        <item>(GMT+0800) Hong Kong</item>
+        <item>(GMT+0800) Kuala Lumpur</item>
+        <item>(GMT+0800) Perth</item>
+        <item>(GMT+0800) Singapore</item>
+        <item>(GMT+0800) Taipei</item>
+        <item>(GMT+0800) Ulaan Bataar</item>
+        <item>(GMT+0800) Urumqi</item>
+        <item>(GMT+0900) Irkutsk</item>
+        <item>(GMT+0900) Osaka</item>
+        <item>(GMT+0900) Sapporo</item>
+        <item>(GMT+0900) Seoul</item>
+        <item>(GMT+0900) Tokyo</item>
+        <item>(GMT+0930) Darwin</item>
+        <item>(GMT+1000) Yakutsk</item>
+        <item>(GMT+1000) Brisbane</item>
+        <item>(GMT+1000) Guam</item>
+        <item>(GMT+1000) Port Moresby</item>
+        <item>(GMT+1030) Adelaide</item>
+        <item>(GMT+1100) Canberra</item>
+        <item>(GMT+1100) Hobart</item>
+        <item>(GMT+1100) Melbourne</item>
+        <item>(GMT+1100) Sydney</item>
+        <item>(GMT+1100) Vladivostok</item>
+        <item>(GMT+1100) New Caledonia</item>
+        <item>(GMT+1100) Solomon Is. </item>
+        <item>(GMT+1200) Magadan</item>
+        <item>(GMT+1200) Fiji</item>
+        <item>(GMT+1200) Kamchatka</item>
+        <item>(GMT+1200) Marshall Is. </item>
+        <item>(GMT+1300) Auckland</item>
+        <item>(GMT+1300) Wellington</item>
+        <item>(GMT+1300) Nukualofa</item> 
+    </string-array>
+    
+    <string-array name="preferences_timezones_values">
+        <item>US/Hawaii</item>
+        <item>US/Alaska</item>
+        <item>US/Pacific</item>
+        <item>US/Arizona</item>
+        <item>US/Mountain</item>
+        <item>US/Central</item>
+        <item>US/Eastern</item>
+        <item>US/East-Indiana</item>
+        <item>Pacific/Midway</item>
+        <item>Pacific/Midway</item>
+        <item>Pacific/Samoa</item>
+        <item>US/Hawaii</item>
+        <item>US/Alaska</item>
+        <item>US/Pacific</item>
+        <item>America/Tijuana</item>
+        <item>US/Arizona</item>
+        <item>America/Chihuahua</item>
+        <item>America/Mazatlan</item>
+        <item>US/Mountain</item>
+        <item>Canada/Saskatchewan</item>
+        <item>Canada/Central</item>
+        <item>Canada/Central</item>
+        <item>Mexico/General</item>
+        <item>Mexico/General</item>
+        <item>America/Monterrey</item>
+        <item>America/Bogota</item>
+        <item>America/Lima</item>
+        <item>US/Eastern</item>
+        <item>US/East-Indiana</item>
+        <item>America/Guyana</item>
+        <item>America/Caracas</item>
+        <item>Canada/Atlantic</item>
+        <item>America/Santiago</item>
+        <item>America/Argentina/Buenos_Aires</item>
+        <item>Brazil/East</item>
+        <item>America/Godthab</item>
+        <item>Canada/Newfoundland</item>
+        <item>Atlantic/Cape_Verde</item>
+        <item>Europe/Dublin</item>
+        <item>Etc/GMT-4</item>
+        <item>Etc/GMT-5</item>
+        <item>Atlantic/Azores</item>
+        <item>Africa/Casablanca</item>
+        <item>Europe/London</item>
+        <item>Europe/Lisbon</item>
+        <item>Europe/London</item>
+        <item>Africa/Monrovia</item>
+        <item>UTC</item>
+        <item>Europe/Amsterdam</item>
+        <item>Europe/Belgrade</item>
+        <item>Europe/Berlin</item>
+        <item>Europe/Zurich</item>
+        <item>Europe/Bratislava</item>
+        <item>Europe/Brussels</item>
+        <item>Europe/Budapest</item>
+        <item>Europe/Copenhagen</item>
+        <item>Europe/Ljubljana</item>
+        <item>Europe/Madrid</item>
+        <item>Europe/Paris</item>
+        <item>Europe/Prague</item>
+        <item>Europe/Rome</item>
+        <item>Europe/Sarajevo</item>
+        <item>Europe/Skopje</item>
+        <item>Europe/Stockholm</item>
+        <item>Europe/Vienna</item>
+        <item>Europe/Warsaw</item>
+        <item>Europe/Copenhagen</item>
+        <item>Europe/Zagreb</item>
+        <item>Africa/Cairo</item>
+        <item>Africa/Harare</item>
+        <item>Asia/Jerusalem</item>
+        <item>Africa/Johannesburg</item>
+        <item>Europe/Athens</item>
+        <item>Europe/Bucharest</item>
+        <item>Europe/Helsinki</item>
+        <item>Europe/Istanbul</item>
+        <item>Europe/Kiev</item>
+        <item>Europe/Minsk</item>
+        <item>Europe/Riga</item>
+        <item>Europe/Sofia</item>
+        <item>Europe/Tallinn</item>
+        <item>Europe/Vilnius</item>
+        <item>Asia/Baghdad</item>
+        <item>Asia/Kuwait</item>
+        <item>Africa/Nairobi</item>
+        <item>Asia/Riyadh</item>
+        <item>Asia/Tehran</item>
+        <item>Europe/Moscow</item>
+        <item>Europe/Moscow</item>
+        <item>Europe/Volgograd</item>
+        <item>Asia/Dubai</item>
+        <item>Asia/Muscat</item>
+        <item>Asia/Tbilisi</item>
+        <item>Asia/Yerevan</item>
+        <item>Asia/Kabul</item>
+        <item>Asia/Baku</item>
+        <item>Asia/Karachi</item>
+        <item>Asia/Karachi</item>
+        <item>Asia/Tashkent</item>
+        <item>Asia/Calcutta</item>
+        <item>Asia/Calcutta</item>
+        <item>Asia/Calcutta</item>
+        <item>Asia/Calcutta</item>
+        <item>Asia/Calcutta</item>
+        <item>Asia/Kathmandu</item>
+        <item>Asia/Almaty</item>
+        <item>Asia/Qyzylorda</item>
+        <item>Asia/Dhaka</item>
+        <item>Asia/Rangoon</item>
+        <item>Asia/Novosibirsk</item>
+        <item>Asia/Bangkok</item>
+        <item>Asia/Saigon</item>
+        <item>Asia/Jakarta</item>
+        <item>Asia/Krasnoyarsk</item>
+        <item>Asia/Harbin</item>
+        <item>Asia/Chongqing</item>
+        <item>Asia/Hong_Kong</item>
+        <item>Asia/Kuala_Lumpur</item>
+        <item>Australia/Perth</item>
+        <item>Singapore</item>
+        <item>Asia/Taipei</item>
+        <item>Asia/Taipei</item>
+        <item>Asia/Taipei</item>
+        <item>Asia/Irkutsk</item>
+        <item>Japan</item>
+        <item>Japan</item>
+        <item>Japan</item>
+        <item>Japan</item>
+        <item>Australia/Darwin</item>
+        <item>Asia/Yakutsk</item>
+        <item>Australia/Brisbane</item>
+        <item>Pacific/Guam</item>
+        <item>Pacific/Port_Moresby</item>
+        <item>Australia/Adelaide</item>
+        <item>Australia/Canberra</item>
+        <item>Australia/Hobart</item>
+        <item>Australia/Melbourne</item>
+        <item>Australia/Sydney</item>
+        <item>Asia/Vladivostok</item>
+        <item>Pacific/Noumea</item>
+        <item>Pacific/Guadalcanal</item>
+        <item>Asia/Magadan</item>
+        <item>Pacific/Fiji</item>
+        <item>Asia/Kamchatka</item>
+        <item>Asia/Kamchatka</item>
+        <item>Pacific/Auckland</item>
+        <item>Pacific/Auckland</item>
+        <item>Pacific/Tongatapu</item>        
+    </string-array>
  
 </resources>

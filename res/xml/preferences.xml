@@ -88,6 +88,13 @@
 			android:entryValues="@array/preferences_time_format_values"
 			/>
 
+		<ListPreference
+			android:title="Timezone"
+			android:key="timezone"
+			android:entries="@array/preferences_timezones"
+			android:entryValues="@array/preferences_timezones_values"
+			/>
+		
 	</PreferenceCategory>
 	
 	<PreferenceCategory
