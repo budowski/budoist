@@ -44,7 +44,7 @@ public class Item extends OrderedModel implements Comparable<Item>, Serializable
 	private static final String KEY__PROJECT_ID = "project_id";
 	private static final String KEY__CONTENT = "content";
 	private static final String KEY__DUE_DATE = "due_date";
-	private static final String KEY__DATE_STRING = "date_string";
+	public static final String KEY__DATE_STRING = "date_string";
 	private static final String KEY__ITEM_ORDER = "item_order";
 	private static final String KEY__INDENT = "indent";
 	private static final String KEY__PRIORITY = "priority";

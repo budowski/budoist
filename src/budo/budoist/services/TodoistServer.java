@@ -490,6 +490,15 @@ public class TodoistServer {
 	public static Item addItem(User user, Item item) throws TodoistServerException {
 		Hashtable<String, Object> params = item.toKeyValue();
 		
+		if (params.containsKey(Item.KEY__DATE_STRING)) {
+		    String dateString = (String) params.get(Item.KEY__DATE_STRING);
+		    
+		    if ((dateString != null) && (dateString.trim().length() == 0)) {
+		        // When adding an item - don't send out an empty date string (returns an error)
+		        params.remove(Item.KEY__DATE_STRING);
+		    }
+		}
+		
 		params.put(KEY__TOKEN, user.apiToken);
 
 		Hashtable<String, Object> ret = (Hashtable<String, Object>)parseReturnValue(
