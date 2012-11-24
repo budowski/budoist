@@ -11,6 +11,10 @@ import budo.budoist.services.TodoistServerException;
 import budo.budoist.services.TodoistClient.ISyncProgress;
 import budo.budoist.services.TodoistServer.ErrorCode;
 import budo.budoist.views.ProjectListView.ProjectViewMode;
+import android.accounts.Account;
+import android.accounts.AccountManager;
+import android.accounts.AccountManagerCallback;
+import android.accounts.AccountManagerFuture;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -32,7 +36,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +60,7 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
     private Button mLoginButton;
     private EditText mEmail;
     private EditText mPassword;
+    private CheckBox mGoogleLogin;
     
 	private final static String SYNC_INITIAL_MESSAGE = "Syncing for the first time. This might take a while...";
 	
@@ -78,6 +87,25 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
         mPassword = (EditText)findViewById(R.id.login_password);
         mPassword.setText(mUser.password);
         mPassword.addTextChangedListener(this);
+        
+        mGoogleLogin = (CheckBox)findViewById(R.id.google_login);
+        mGoogleLogin.setChecked(mUser.googleLogin);
+        
+        if (mUser.googleLogin) {
+            LinearLayout passwordContainer = (LinearLayout) findViewById(R.id.password_container);
+            passwordContainer.setVisibility(View.INVISIBLE);
+        }
+        mGoogleLogin.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                LinearLayout passwordContainer = (LinearLayout) findViewById(R.id.password_container);
+                if (isChecked) {
+                    passwordContainer.setVisibility(View.INVISIBLE);
+                } else {
+                    passwordContainer.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         
         mLoginButton.setEnabled(checkForm());
         
@@ -108,7 +136,7 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 		if (mEmail.getText().toString().trim().length() == 0) {
 			// No email
 			return false;
-		} else if (mPassword.getText().toString().trim().length() == 0) {
+		} else if ((!mGoogleLogin.isChecked()) && (mPassword.getText().toString().trim().length() == 0)) {
 			// No password
 			return false;
 		} else {
@@ -123,10 +151,11 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 	 * @param activity the activity on which to display the GUI notifications
 	 * @param client
 	 * @param email
-	 * @param password
+	 * @param passwordOrOAuth2Token
+	 * @param googleLogin
 	 * @param runOnCompletion a callback function to be run when sync is completed successfully (optional)
 	 */
-    public static void syncNow(final Activity activity, final TodoistClient client, final String email, final String password, final Runnable runOnCompletion) {
+    public static void syncNow(final Activity activity, final TodoistClient client, final String email, final String passwordOrOAuth2Token, final boolean googleLogin, final Runnable runOnCompletion) {
 		if (client.isCurrentlySyncing()) {
 			 Toast.makeText(activity, "Sync is already running...", Toast.LENGTH_SHORT).show();
 			 return;
@@ -159,7 +188,7 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 			@Override
 			public void run() {
 				try {
-					client.login(email, password);
+					client.login(email, passwordOrOAuth2Token, googleLogin);
 				} catch (final TodoistServerException e) {
 					// Login failed
 					activity.runOnUiThread(new Runnable() {
@@ -370,21 +399,52 @@ public class LoginView extends Activity implements TextWatcher, OnClickListener 
 	@Override
 	public void onClick(View arg0) {
 		// Login button has been clicked
-		
-		syncNow(this, mClient, mEmail.getText().toString(), mPassword.getText().toString(), new Runnable() {
-			@Override
-			public void run() {
-				// Syncing is complete
-				
-				// Since this is the first time the user logins, simply switch to filter by project view
-		        Intent intent = new Intent(LoginView.this.getBaseContext(), ProjectListView.class);
-		        intent.putExtra(ProjectListView.KEY__VIEW_MODE, ProjectViewMode.FILTER_BY_PROJECTS.toString());
-		        LoginView.this.startActivity(intent);
-		        
-				LoginView.this.setResult(RESULT_OK);
-		        LoginView.this.finish();
-			}
-		});
+	    
+	    if (mGoogleLogin.isChecked()) {
+	        final AccountManagerCallback<Bundle> cb = new AccountManagerCallback<Bundle>() {
+	            public void run(AccountManagerFuture<Bundle> future) {
+	                try {
+	                    final Bundle result = future.getResult();
+	                    final String accountName = result.getString(AccountManager.KEY_ACCOUNT_NAME);
+	                    final String authToken = result.getString(AccountManager.KEY_AUTHTOKEN);
+	                    final Intent authIntent = result.getParcelable(AccountManager.KEY_INTENT);
+	                    if (accountName != null && authToken != null) {
+	                        Log.e("AAA", String.format("TOKEN: %s", authToken));
+                    	    startLogin(authToken);
+	                    } else if (authIntent != null) {
+	                        LoginView.this.startActivity(authIntent); 
+	                    } else {
+	                        Log.e(TAG, "AccountManager was unable to obtain an authToken.");
+	                    }
+	                } catch (Exception e) {
+	                    Log.e(TAG, "Auth Error", e);
+	                }
+	            }
+	        };
+	        
+	        Account account = new Account(mEmail.getText().toString(), "com.google");
+	        AccountManager.get(this).getAuthToken(account, "oauth2:https://www.googleapis.com/auth/userinfo.email", true, cb, null);
+	        return;
+	    } else {
+    	    startLogin(mPassword.getText().toString());
+	    }
 	}
+	
+    private void startLogin(final String passwordOrOAuth2Token) {
+        syncNow(this, mClient, mEmail.getText().toString(), passwordOrOAuth2Token, mGoogleLogin.isChecked(), new Runnable() {
+            @Override
+            public void run() {
+                // Syncing is complete
+
+                // Since this is the first time the user logins, simply switch to filter by project view
+                Intent intent = new Intent(LoginView.this.getBaseContext(), ProjectListView.class);
+                intent.putExtra(ProjectListView.KEY__VIEW_MODE, ProjectViewMode.FILTER_BY_PROJECTS.toString());
+                LoginView.this.startActivity(intent);
+
+                LoginView.this.setResult(RESULT_OK);
+                LoginView.this.finish();
+            }
+        });
+    }
 	
 }

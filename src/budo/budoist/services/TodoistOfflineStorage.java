@@ -59,6 +59,8 @@ public class TodoistOfflineStorage {
 	private final static String PREFERENCES_USER_TIME_FORMAT = "todoist_user.time_format";
 	private final static String PREFERENCES_USER_DATE_FORMAT = "todoist_user.date_format";
 	private final static String PREFERENCES_USER_PREMIUM_UNTIL = "todoist_user.premium_until";
+	private final static String PREFERENCES_USER_GOOGLE_LOGIN = "todoist_user.google_login";
+	private final static String PREFERENCES_USER_OAUTH2_TOKEN = "todoist_user.oauth2_token";
 	
 	// When set to true, on the next login (which happens on sync), it'll update the online profile
 	private final static String PREFERENCES_USER_PROFILE_MODIFIED = "todoist_user.profile_modified";
@@ -1811,6 +1813,8 @@ public class TodoistOfflineStorage {
 		editor.putString(PREFERENCES_USER_DATE_FORMAT, null);
 		editor.putLong(PREFERENCES_USER_PREMIUM_UNTIL, 0);
 		editor.putBoolean(PREFERENCES_USER_PROFILE_MODIFIED, false);
+		editor.putBoolean(PREFERENCES_USER_GOOGLE_LOGIN, false);
+		editor.putString(PREFERENCES_USER_OAUTH2_TOKEN, null);
 		
 		editor.commit();
 		
@@ -1859,7 +1863,8 @@ public class TodoistOfflineStorage {
 		editor.putString(PREFERENCES_USER_TIME_FORMAT, (user.timeFormat != null ? user.timeFormat.toString() : null));
 		editor.putString(PREFERENCES_USER_DATE_FORMAT, (user.dateFormat != null ? user.dateFormat.toString() : null));
 		editor.putLong(PREFERENCES_USER_PREMIUM_UNTIL, (user.premiumUntil != null ? user.premiumUntil.getTime() : 0));
-		
+		editor.putBoolean(PREFERENCES_USER_GOOGLE_LOGIN, user.googleLogin);
+		editor.putString(PREFERENCES_USER_OAUTH2_TOKEN, user.oauth2Token);
 		
 		editor.commit();
 	}
@@ -1907,6 +1912,8 @@ public class TodoistOfflineStorage {
 		user.timeFormat = TimeFormat.valueOf(preferences.getString(PREFERENCES_USER_TIME_FORMAT, TimeFormat.HH_MM.toString()));
 		user.dateFormat = DateFormat.valueOf(preferences.getString(PREFERENCES_USER_DATE_FORMAT, DateFormat.DD_MM_YYYY.toString()));
 		user.premiumUntil = new Date(preferences.getLong(PREFERENCES_USER_PREMIUM_UNTIL, 0));
+		user.googleLogin = preferences.getBoolean(PREFERENCES_USER_GOOGLE_LOGIN, false);
+		user.oauth2Token = preferences.getString(PREFERENCES_USER_OAUTH2_TOKEN, null);
 		
 		return user;
 	}

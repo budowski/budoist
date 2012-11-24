@@ -280,7 +280,7 @@ public class QueryListView extends Activity implements OnItemClickListener {
         	break;
         	
   		case R.id.sync_now:
-			LoginView.syncNow(QueryListView.this, mClient, mUser.email, mUser.password, null);
+  		    LoginView.syncNow(QueryListView.this, mClient, mUser.email, (mUser.googleLogin ? mUser.oauth2Token : mUser.password), mUser.googleLogin, null);
 			
 			break;
        	

@@ -109,7 +109,7 @@ public class SettingsView extends PreferenceActivity {
 	    mSyncNow.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				LoginView.syncNow(SettingsView.this, mClient, mUser.email, mUser.password,  new Runnable() {
+			    LoginView.syncNow(SettingsView.this, mClient, mUser.email, (mUser.googleLogin ? mUser.oauth2Token : mUser.password), mUser.googleLogin, new Runnable() {
 					@Override
 					public void run() {
 						// Syncing is complete - refresh the last sync time

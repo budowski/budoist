@@ -1691,17 +1691,27 @@ public class TodoistClient {
 	public void login() throws TodoistServerException {
 		Log.d(TAG, String.format("Login with previously used email: %s and password: %s",
 				mUser.email, mUser.password));
-		login(mUser.email, mUser.password);
+		
+		if (mUser.googleLogin) {
+		    login(mUser.email, mUser.oauth2Token, true);
+		} else {
+		    login(mUser.email, mUser.password, false);
+		}
 	}
 	
 	/**
 	 * Logins the user; if successful, saves user information in storage
 	 * @param email
-	 * @param password
+	 * @param passwordOrOAuth2Token
+	 * @param googleLogin
 	 * @throws TodoistServerException
 	 */
-	public void login(String email, String password) throws TodoistServerException {
-		mUser = TodoistServer.login(email, password);
+	public void login(String email, String passwordOrOAuth2Token, boolean googleLogin) throws TodoistServerException {
+	    if (googleLogin) {
+	        mUser = TodoistServer.googleLogin(email, passwordOrOAuth2Token);
+	    } else {
+	        mUser = TodoistServer.login(email, passwordOrOAuth2Token);
+	    }
 		
 		// If we've reached this far, this means login was successful - save user information
 		
@@ -1718,7 +1728,14 @@ public class TodoistClient {
 			
 		} else {
 			// Saved the updated user profile received from server
-			mUser.password = password; // Since password is not returned from server
+		    if (googleLogin) {
+		        mUser.oauth2Token = passwordOrOAuth2Token; // Since OAuth2 token is not returned from server
+		        mUser.googleLogin = true;
+		    } else {
+		        mUser.password = passwordOrOAuth2Token; // Since password is not returned from server
+		        mUser.googleLogin = false;
+		    }
+		    
 			mStorage.saveUser(mUser);
 		}
 		

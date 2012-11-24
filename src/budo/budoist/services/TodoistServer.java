@@ -27,6 +27,7 @@ public class TodoistServer {
 	private final static String TODOIST_BASE_URL = "todoist.com/API/";
 	
 	private final static String URL_LOGIN = "login";
+	private final static String URL_GOOGLE_LOGIN = "loginWithGoogle";
 	private final static String URL_REGISTER = "register";
 	private final static String URL_UPDATE_USER = "updateUser";
 	
@@ -66,6 +67,7 @@ public class TodoistServer {
 	private final static String KEY__TOKEN = "token";
 	private final static String KEY__EMAIL = "email";
 	private final static String KEY__PASSWORD = "password";
+	private final static String KEY__OAUTH2_TOKEN = "oauth2_token";
 	private final static String KEY__FULL_NAME = "full_name";
 	private final static String KEY__TIMEZONE = "timezone";
 	private final static String KEY__PROJECT_ID = "project_id";
@@ -100,6 +102,9 @@ public class TodoistServer {
 		ERROR_NAME_IS_EMPTY,
 		ERROR_WRONG_DATE_SYNTAX,
 		ERROR_ITEM_NOT_FOUND,
+		INTERNAL_ERROR,
+		EMAIL_MISMATCH,
+		ACCOUNT_NOT_CONNECTED_WITH_GOOGLE,
 		UNKNOWN_ERROR,
 		
 		// This is *our* error code (not Todoist's) - in case an invalid HTTP response was received (not a 200 status code)
@@ -110,6 +115,26 @@ public class TodoistServer {
 	/*
 	 * User APIs
 	 */
+	
+	
+	/**
+	 * Google-Logins the user
+	 * @param email
+	 * @param oauth2Token
+	 * @return
+	 * @throws TodoistServerException 
+	 */
+	public static User googleLogin(String email, String oauth2Token) throws TodoistServerException {
+		Hashtable<String, Object> params = new Hashtable<String, Object>();
+		
+		params.put(KEY__EMAIL, email);
+		params.put(KEY__OAUTH2_TOKEN, oauth2Token);
+		
+		Hashtable<String, Object> ret = (Hashtable<String, Object>)parseReturnValue(
+				mServer.sendCommand(URL_GOOGLE_LOGIN, params, true));
+		
+		return (new User(ret));
+	}
 	
 	
 	/**

@@ -39,6 +39,8 @@ public class User {
 	public TimeFormat timeFormat;
 	public DateFormat dateFormat;
 	public Date premiumUntil;
+	public boolean googleLogin;
+	public String oauth2Token;
 	
 	private static final String KEY__ID = "id";
 	private static final String KEY__EMAIL = "email";
@@ -55,8 +57,8 @@ public class User {
 	private static final String PREMIUM_UNTIL_DATE_FORMAT = "EEE dd MMM yyyy HH:mm:ss";
 	
 	public String toString() {
-		return String.format("<User: %d; api token: %s; full name: %s; email: %s; password: %s; premium until: %s>",
-				id, (apiToken != null ? apiToken : ""), (fullName != null ? fullName : ""),
+		return String.format("<User: %d; api token: %s; google login: %s; full name: %s; email: %s; password: %s; premium until: %s>",
+				id, (apiToken != null ? apiToken : ""), googleLogin, (fullName != null ? fullName : ""),
 				(email != null ? email : ""), (password != null ? password: ""),
 				(premiumUntil != null ? premiumUntil.toString() : "<None>"));
 	}

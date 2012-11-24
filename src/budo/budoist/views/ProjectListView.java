@@ -392,7 +392,7 @@ public class ProjectListView extends Activity implements OnItemClickListener {
 			break;
 		
 		case R.id.sync_now:
-			LoginView.syncNow(ProjectListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+		    LoginView.syncNow(ProjectListView.this, mClient, mUser.email, (mUser.googleLogin ? mUser.oauth2Token : mUser.password), mUser.googleLogin, new Runnable() {
 				@Override
 				public void run() {
 					// Refresh visual projects list

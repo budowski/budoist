@@ -248,7 +248,7 @@ public class NoteListView extends Activity implements IOnNoteDelete, IOnNoteEdit
         	break;
         
   		case R.id.sync_now:
-			LoginView.syncNow(NoteListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+  		    LoginView.syncNow(NoteListView.this, mClient, mUser.email, (mUser.googleLogin ? mUser.oauth2Token : mUser.password), mUser.googleLogin, new Runnable() {
 				@Override
 				public void run() {
 					// Refresh note list

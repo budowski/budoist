@@ -366,7 +366,7 @@ public class LabelListView extends Activity implements OnItemClickListener, OnCl
         	break;
         	
   		case R.id.sync_now:
-			LoginView.syncNow(LabelListView.this, mClient, mUser.email, mUser.password, new Runnable() {
+			LoginView.syncNow(LabelListView.this, mClient, mUser.email, (mUser.googleLogin ? mUser.oauth2Token : mUser.password), mUser.googleLogin, new Runnable() {
 				@Override
 				public void run() {
 					// Refresh label list
