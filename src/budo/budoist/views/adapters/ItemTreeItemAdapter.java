@@ -287,9 +287,12 @@ public class ItemTreeItemAdapter extends AbstractTreeViewAdapter<Item> implement
 	    viewLayout.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				if (item.canBeCompleted()) {
-					itemCheckbox.setChecked(!itemCheckbox.isChecked());
-				}
+                if(arg0.getId() == R.id.item_list_item_checkbox) {
+                        // it was the checkbox
+                        if (item.canBeCompleted()) {
+                            itemCheckbox.setChecked(!itemCheckbox.isChecked());
+                        }
+                }
 			}
 		});
 	    viewLayout.setLongClickable(true);
