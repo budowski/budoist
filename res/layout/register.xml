@@ -8,10 +8,10 @@
     <TextView android:text="Name" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
     <EditText android:inputType="textPersonName" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/register_full_name" android:text="" android:layout_marginRight="5dp" />
    
-    <TextView android:text="Email" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView android:text="Email" android:textColor="#555555" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
     <EditText android:inputType="textEmailAddress" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/register_email" android:text="" android:layout_marginRight="5dp" />
     
-    <TextView android:text="Password" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
+    <TextView android:text="Password" android:textColor="#555555" android:paddingLeft="3dp" android:paddingTop="6dp" android:layout_width="wrap_content" android:layout_height="wrap_content" />
     <EditText android:inputType="textPassword" android:layout_height="wrap_content" android:layout_width="fill_parent" android:id="@+id/register_password" android:text="" android:layout_marginRight="5dp" />
     
    <LinearLayout android:layout_height="wrap_content" android:layout_width="fill_parent" android:gravity="center" android:layout_marginTop="20dp">
